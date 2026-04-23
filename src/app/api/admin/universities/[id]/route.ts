@@ -2,10 +2,11 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import University from '@/models/University';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     await connectDB();
-    const doc = await University.findById(params.id);
+    const doc = await University.findById(id);
     if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(doc);
   } catch (error: any) {
@@ -13,11 +14,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
     await connectDB();
     const body = await request.json();
-    const doc = await University.findByIdAndUpdate(params.id, body, { new: true });
+    const doc = await University.findByIdAndUpdate(id, body, { new: true });
     return NextResponse.json(doc);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
