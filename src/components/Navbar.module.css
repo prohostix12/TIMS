@@ -97,6 +97,11 @@
   background: rgba(239, 35, 60, 0.06);
 }
 
+/* Non-navigable label (Services, Students) */
+.navLinkLabel {
+  cursor: default;
+}
+
 .activeLink {
   color: #ef233c !important;
   background: rgba(239, 35, 60, 0.08);

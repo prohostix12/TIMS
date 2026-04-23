@@ -125,7 +125,16 @@ const Navbar = () => {
                 className={`${styles.navItem} ${link.submenu ? styles.hasDropdown : ''}`}
                 role="none"
               >
-                {link.submenu ? (
+                {link.submenu && ['Services', 'Students'].includes(link.name) ? (
+                  <span
+                    className={`${styles.navLink} ${styles.navLinkLabel} ${isActive(link) ? styles.activeLink : ''}`}
+                    role="menuitem"
+                    aria-haspopup="true"
+                  >
+                    {link.name}
+                    <ChevronDown size={14} className={styles.chevron} aria-hidden="true" />
+                  </span>
+                ) : link.submenu ? (
                   <Link
                     href={link.path}
                     className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
