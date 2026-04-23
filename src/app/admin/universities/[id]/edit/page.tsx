@@ -1,4 +1,5 @@
 
+// Fix: Removed duplicate logo property that caused build failure
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from '@/app/admin/admin.module.css';
