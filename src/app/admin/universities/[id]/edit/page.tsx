@@ -1,7 +1,7 @@
 
 'use client';
 import React, { useState, useEffect } from 'react';
-import styles from '../../admin.module.css';
+import styles from '@/app/admin/admin.module.css';
 import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 import { Loader2, Plus, X } from 'lucide-react';

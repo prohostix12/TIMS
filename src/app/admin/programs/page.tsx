@@ -1,7 +1,7 @@
 
 'use client';
 import React, { useEffect, useState } from 'react';
-import styles from '../admin.module.css';
+import styles from '@/app/admin/admin.module.css';
 import Link from 'next/link';
 import { Loader2, Trash2, Edit } from 'lucide-react';
 
