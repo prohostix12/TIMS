@@ -41,12 +41,29 @@
   margin: 0;
 }
 
-body {
+html, body {
   background-color: var(--bg-white);
   color: var(--text-dark);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   line-height: 1.5;
+  width: 100%;
+  position: relative;
+}
+
+/* Hide Vercel/Next.js development toolbar, live feedback, and draft mode elements */
+[data-vercel-toolbar],
+[data-vercel-live-feedback],
+#vercel-live-feedback,
+.vercel-toolbar-container,
+.vercel-toolbar-root,
+iframe[src*="vercel"],
+svg[class*="Vercel"],
+[class*="vercel"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 h1, h2, h3, h4 {

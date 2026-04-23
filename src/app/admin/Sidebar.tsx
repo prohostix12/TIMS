@@ -25,6 +25,7 @@ export default function Sidebar() {
     { name: 'Universities', path: '/admin/universities', icon: <GraduationCap size={20} /> },
     { name: 'Programs', path: '/admin/programs', icon: <BookOpen size={20} /> },
     { name: 'Course Finder', path: '/admin/course-finder', icon: <Search size={20} /> },
+    { name: 'Leads', path: '/admin/leads', icon: <ClipboardList size={20} /> },
     { name: 'Enrollments', path: '/admin/enrollments', icon: <ClipboardList size={20} /> },
     { name: 'Messages', path: '/admin/messages', icon: <Mail size={20} /> },
     { name: 'SEO Settings', path: '/admin/seo', icon: <Globe size={20} /> },

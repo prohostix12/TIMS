@@ -3,206 +3,336 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './Navbar.module.css';
 import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
 
+interface SubItem {
+  name: string;
+  path: string;
+  submenu?: SubItem[];
+}
+
+interface NavLink {
+  name: string;
+  path: string;
+  submenu?: SubItem[];
+}
+
+const navLinks: NavLink[] = [
+  { name: 'Home', path: '/' },
+  {
+    name: 'Services',
+    path: '/services',
+    submenu: [
+      { name: 'Attestation', path: '/services/attestation' },
+      { name: 'Credit Transfer', path: '/services/credit-transfer' },
+    ],
+  },
+  { name: 'Courses', path: '/courses' },
+  {
+    name: 'Universities',
+    path: '/universities',
+    submenu: [
+      { name: 'All Universities', path: '/universities' },
+      { name: 'Study Material', path: '/universities/study-material' },
+      {
+        name: 'Examination',
+        path: '/universities/examination',
+        submenu: [
+          { name: 'Time Table', path: '/universities/examination/timetable' },
+        ],
+      },
+    ],
+  },
+  {
+    name: 'Students',
+    path: '/students',
+    submenu: [{ name: 'Syllabus', path: '/students/syllabus' }],
+  },
+  {
+    name: 'About',
+    path: '/about',
+    submenu: [
+      { name: 'Latest News', path: '/about/news' },
+      { name: 'Academic Blog', path: '/about/blog' },
+    ],
+  },
+  { name: 'Contact', path: '/contact' },
+];
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMobileItem, setOpenMobileItem] = useState<string | null>(null);
+  const [openMobileSubItem, setOpenMobileSubItem] = useState<string | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { 
-      name: 'About', 
-      path: '/about',
-      submenu: [
-        { name: 'Latest News', path: '/about/news' },
-        { name: 'Academic Blog', path: '/about/blog' },
-      ]
-    },
-    { 
-      name: 'Services', 
-      path: '/services',
-      submenu: [
-        { name: 'Attestation', path: '/services/attestation' },
-        { name: 'Credit Transfer', path: '/services/credit-transfer' },
-      ]
-    },
-    { name: 'Courses', path: '/courses' },
-    { 
-      name: 'Universities', 
-      path: '/universities',
-      submenu: [
-        { name: 'All Universities', path: '/universities' },
-        { name: 'Study Material', path: '/universities/study-material' },
-        { 
-          name: 'Examination', 
-          path: '/universities/examination',
-          submenu: [
-            { name: 'Time Table', path: '/universities/examination/timetable' },
-            { name: 'Results', path: '/universities/examination/results' },
-          ]
-        },
-      ]
-    },
-    { 
-      name: 'Students', 
-      path: '/students',
-      submenu: [
-        { name: 'Syllabus', path: '/students/syllabus' },
-      ]
-    },
-    { name: 'Contact', path: '/contact' },
-  ];
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenMobileItem(null);
+    setOpenMobileSubItem(null);
+  }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
+  const toggleMobileItem = (name: string) => {
+    setOpenMobileItem(prev => (prev === name ? null : name));
+    setOpenMobileSubItem(null);
+  };
+
+  const toggleMobileSubItem = (name: string) => {
+    setOpenMobileSubItem(prev => (prev === name ? null : name));
+  };
+
+  const isActive = (link: NavLink) =>
+    pathname === link.path ||
+    (link.path !== '/' && pathname.startsWith(link.path));
 
   return (
-    <div className={`${styles.navWrapper} ${scrolled ? styles.scrolled : ''}`}>
-      <nav className={styles.navbar}>
-        <Link href="/" className={styles.logo}>
-          TIMS<span>.</span>
-        </Link>
+    <>
+      <div className={`${styles.navWrapper} ${scrolled ? styles.scrolled : ''}`}>
+        <nav className={styles.navbar}>
+          {/* Logo */}
+          <Link href="/" className={styles.logo} aria-label="Go to homepage">
+            <Image
+              src="/images/times-online-logo.png"
+              alt="Times Online Logo"
+              width={160}
+              height={48}
+              priority
+              className={styles.logoImage}
+            />
+          </Link>
 
-        {/* Desktop Nav */}
-        <div className={styles.navLinks}>
+          {/* Desktop Links */}
+          <ul className={styles.navLinks} role="menubar">
+            {navLinks.map((link) => (
+              <li
+                key={link.name}
+                className={`${styles.navItem} ${link.submenu ? styles.hasDropdown : ''}`}
+                role="none"
+              >
+                {link.submenu ? (
+                  <span
+                    className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
+                    role="menuitem"
+                    aria-haspopup="true"
+                  >
+                    {link.name}
+                    <ChevronDown size={14} className={styles.chevron} aria-hidden="true" />
+                  </span>
+                ) : (
+                  <Link
+                    href={link.path}
+                    className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
+                    role="menuitem"
+                  >
+                    {link.name}
+                  </Link>
+                )}
+
+                {link.submenu && (
+                  <div className={styles.dropdown} role="menu">
+                    {link.submenu.map((sub) => (
+                      <div key={sub.path} className={styles.dropdownItemWrapper} role="none">
+                        {sub.submenu ? (
+                          <>
+                            <span className={`${styles.dropdownItem} ${styles.hasSubDropdown}`} role="menuitem" aria-haspopup="true">
+                              {sub.name}
+                              <ChevronDown size={13} className={styles.subArrow} aria-hidden="true" />
+                            </span>
+                            <div className={styles.subDropdown} role="menu">
+                              {sub.submenu.map((child) => (
+                                <Link
+                                  key={child.path}
+                                  href={child.path}
+                                  className={styles.dropdownItem}
+                                  role="menuitem"
+                                >
+                                  {child.name}
+                                  <ArrowRight size={13} className={styles.subChevron} aria-hidden="true" />
+                                </Link>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <Link href={sub.path} className={styles.dropdownItem} role="menuitem">
+                            {sub.name}
+                            <ArrowRight size={13} className={styles.subChevron} aria-hidden="true" />
+                          </Link>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Desktop Actions */}
+          <div className={styles.actions}>
+            <button
+              className={styles.secondaryAction}
+              onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
+              aria-label="Open Course Finder"
+            >
+              Course Finder
+            </button>
+            <Link href="/login" className={styles.primaryAction}>
+              Login
+            </Link>
+
+            {/* Hamburger */}
+            <button
+              className={styles.menuToggle}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`${styles.mobileOverlay} ${mobileOpen ? styles.mobileOverlayOpen : ''}`}
+        onClick={() => setMobileOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* Mobile Drawer */}
+      <div
+        className={`${styles.mobileDrawer} ${mobileOpen ? styles.mobileDrawerOpen : ''}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+      >
+        {/* Drawer header */}
+        <div className={styles.drawerHeader}>
+          <Link href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
+            <Image
+              src="/images/times-online-logo.png"
+              alt="Times Online Logo"
+              width={140}
+              height={42}
+              className={styles.logoImage}
+            />
+          </Link>
+          <button
+            className={styles.drawerClose}
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={26} />
+          </button>
+        </div>
+
+        {/* Drawer links */}
+        <nav className={styles.drawerNav}>
           {navLinks.map((link) => (
-            <div key={link.name} className={styles.navItemWrapper}>
-              {link.name === 'Services' || link.name === 'Universities' || link.name === 'Students' ? (
-                <div 
-                  className={`${styles.navLink} ${pathname.startsWith(link.path) ? styles.activeLink : ''}`}
-                  style={{ cursor: 'default' }}
-                >
-                  {link.name}
-                  <ChevronDown size={14} className={styles.chevron} />
-                </div>
+            <div key={link.name} className={styles.drawerItem}>
+              {link.submenu ? (
+                <>
+                  <button
+                    className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
+                    onClick={() => toggleMobileItem(link.name)}
+                    aria-expanded={openMobileItem === link.name}
+                  >
+                    {link.name}
+                    <ChevronDown
+                      size={18}
+                      className={`${styles.drawerChevron} ${openMobileItem === link.name ? styles.drawerChevronOpen : ''}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <div className={`${styles.drawerSub} ${openMobileItem === link.name ? styles.drawerSubOpen : ''}`}>
+                    {link.submenu.map((sub) => (
+                      <div key={sub.path} className={styles.drawerSubItem}>
+                        {sub.submenu ? (
+                          <>
+                            <button
+                              className={styles.drawerSubLink}
+                              onClick={() => toggleMobileSubItem(sub.name)}
+                              aria-expanded={openMobileSubItem === sub.name}
+                            >
+                              {sub.name}
+                              <ChevronDown
+                                size={15}
+                                className={`${styles.drawerChevron} ${openMobileSubItem === sub.name ? styles.drawerChevronOpen : ''}`}
+                                aria-hidden="true"
+                              />
+                            </button>
+                            <div className={`${styles.drawerNested} ${openMobileSubItem === sub.name ? styles.drawerNestedOpen : ''}`}>
+                              {sub.submenu.map((child) => (
+                                <Link
+                                  key={child.path}
+                                  href={child.path}
+                                  className={styles.drawerNestedLink}
+                                  onClick={() => setMobileOpen(false)}
+                                >
+                                  {child.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <Link
+                            href={sub.path}
+                            className={styles.drawerSubLink}
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {sub.name}
+                          </Link>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : (
-                <Link 
-                  href={link.path} 
-                  className={`${styles.navLink} ${pathname === link.path || (link.submenu && pathname.startsWith(link.path)) ? styles.activeLink : ''}`}
+                <Link
+                  href={link.path}
+                  className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
+                  onClick={() => setMobileOpen(false)}
                 >
                   {link.name}
-                  {link.submenu && <ChevronDown size={14} className={styles.chevron} />}
                 </Link>
-              )}
-              
-              {link.submenu && (
-                <div className={styles.dropdown}>
-                  {link.submenu.map((sub) => (
-                    <div key={sub.path} className={styles.dropdownItemWrapper}>
-                      {sub.submenu ? (
-                        <div className={styles.dropdownItem} style={{ cursor: 'default' }}>
-                          {sub.name}
-                          <ChevronDown size={13} style={{ marginLeft: 'auto' }} />
-                        </div>
-                      ) : (
-                        <Link href={sub.path} className={styles.dropdownItem}>
-                          {sub.name}
-                          <ArrowRight size={14} className={styles.subChevron} />
-                        </Link>
-                      )}
-                      {sub.submenu && (
-                        <div className={styles.subDropdown}>
-                          {sub.submenu.map((child) => (
-                            <Link key={child.path} href={child.path} className={styles.dropdownItem}>
-                              {child.name}
-                              <ArrowRight size={14} className={styles.subChevron} />
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
               )}
             </div>
           ))}
-        </div>
+        </nav>
 
-        <div className={styles.actions}>
-          <button 
-            className={styles.secondaryAction}
-            onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
+        {/* Drawer Footer Actions */}
+        <div className={styles.drawerActions}>
+          <button
+            className={styles.drawerActionSecondary}
+            onClick={() => {
+              setMobileOpen(false);
+              window.dispatchEvent(new CustomEvent('open-course-finder'));
+            }}
           >
             Course Finder
           </button>
-          <Link href="/login" className={styles.primaryAction}>
+          <Link href="/login" className={styles.drawerActionPrimary} onClick={() => setMobileOpen(false)}>
             Login
           </Link>
-          <button 
-            className={styles.menuToggle} 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
-        {navLinks.map((link) => (
-          <div key={link.name} className={styles.mobileItem}>
-            {link.name === 'Services' || link.name === 'Universities' || link.name === 'Students' ? (
-              <div className={styles.mobileLink}>
-                {link.name}
-              </div>
-            ) : (
-              <Link 
-                href={link.path} 
-                className={styles.mobileLink}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            )}
-            {link.submenu && (
-              <div className={styles.mobileSub}>
-                {link.submenu.map((sub) => (
-                  <div key={sub.path} className={styles.mobileNestedWrapper}>
-                    {sub.submenu ? (
-                      <div className={styles.mobileSubLink} style={{ cursor: 'default', opacity: 0.8 }}>
-                        {sub.name}
-                      </div>
-                    ) : (
-                      <Link 
-                        href={sub.path} 
-                        className={styles.mobileSubLink}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {sub.name}
-                      </Link>
-                    )}
-                    {sub.submenu && (
-                      <div className={styles.mobileNestedSub}>
-                        {sub.submenu.map((child) => (
-                          <Link 
-                            key={child.path} 
-                            href={child.path} 
-                            className={styles.mobileSubLink}
-                            style={{ paddingLeft: '2.5rem', fontSize: '0.9rem' }}
-                            onClick={() => setMobileMenuOpen(false)}
-                          >
-                            {child.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
       </div>
-    </div>
+    </>
   );
 };
 
