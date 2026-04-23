@@ -37,9 +37,9 @@ export default function SSLCPage() {
       {/* ===== Hero Section ===== */}
       <section className={styles.heroHeader}>
         <div className={styles.heroContent}>
-          <Link href="/courses" className={styles.backLink} style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2rem', fontWeight: 700 }}>
-            <ArrowLeft size={18} /> BACK TO DIRECTORY
-          </Link>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/courses">Courses</Link> / SSLC
+          </p>
           <span className={styles.tag}>Secondary Education</span>
           <h1 className={styles.title}>Secondary School Leaving Certificate (SSLC)</h1>
         </div>

@@ -5,24 +5,52 @@
 
 /* Hero */
 .hero {
-  background: var(--primary);
+  background-color: var(--primary);
+  background-image:
+    linear-gradient(to bottom, rgba(0,18,46,0.72) 0%, rgba(0,18,46,0.88) 100%),
+    url('/images/about-students.png');
+  background-size: cover;
+  background-position: center;
   padding: 8rem 5% 5rem;
   position: relative;
   overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(239,35,60,0.08) 0%, transparent 60%);
-  pointer-events: none;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .heroContent {
   max-width: 700px;
   position: relative;
   z-index: 1;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.heroCrumb {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heroCrumb a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.heroCrumb a:hover {
+  color: var(--accent);
 }
 
 .heroTag {

@@ -187,6 +187,8 @@
   border: 2px solid #ffffff;
   font-size: 0.85rem;
   text-decoration: none;
+  background: transparent;
+  cursor: pointer;
   transition: all 0.3s ease;
 }
 

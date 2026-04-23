@@ -1,0 +1,25 @@
+import { NextResponse } from 'next/server';
+import connectDB from '@/lib/db';
+import Program from '@/models/Program';
+
+export async function GET(request: Request, { params }: { params: { id: string } }) {
+  try {
+    await connectDB();
+    const doc = await Program.findById(params.id);
+    if (!doc) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    return NextResponse.json(doc);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
+  try {
+    await connectDB();
+    const body = await request.json();
+    const doc = await Program.findByIdAndUpdate(params.id, body, { new: true });
+    return NextResponse.json(doc);
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}

@@ -63,7 +63,9 @@ export default function ProgramsPage() {
               <option key={uni._id} value={uni._id}>{uni.name}</option>
             ))}
           </select>
-          <button className={styles.actionBtn}>+ New Program</button>
+          <Link href="/admin/programs/new" className={styles.actionBtn}>
+            + New Program
+          </Link>
         </div>
       </div>
 
@@ -97,9 +99,9 @@ export default function ProgramsPage() {
                   </td>
                   <td>
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                      <button style={{ color: '#00122e', border: 'none', background: 'none', cursor: 'pointer' }} title="Edit">
+                      <Link href={`/admin/programs/${program._id}/edit`} style={{ color: '#00122e', border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }} title="Edit">
                         <Edit size={18} />
-                      </button>
+                      </Link>
                       <button style={{ color: '#ef233c', border: 'none', background: 'none', cursor: 'pointer' }} title="Delete">
                         <Trash2 size={18} />
                       </button>

@@ -67,6 +67,10 @@ export default function BlogPage() {
       {/* ===== Hero Section ===== */}
       <section className={styles.heroHeader}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/about">About</Link> / Academic Blog
+          </p>
+          <span className={styles.heroTag}>Insights</span>
           <h1 className={styles.heroTitle}>Our Blog</h1>
           <p className={styles.heroSubtitle}>
             Expert perspectives, educational news, and student success stories from the heart of TIMS.

@@ -4,9 +4,14 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IProgram extends Document {
   name: string;
   university: mongoose.Types.ObjectId;
-  duration: string;
-  type: 'Degree' | 'Diploma' | 'Certificate';
+  duration?: string;
+  type?: string;
   category: string;
+  level?: string;
+  eligibility?: string;
+  courseType?: string;
+  image?: string;
+  brochure?: string;
   description?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -15,13 +20,14 @@ export interface IProgram extends Document {
 const ProgramSchema: Schema = new Schema({
   name: { type: String, required: true },
   university: { type: Schema.Types.ObjectId, ref: 'University', required: true },
-  duration: { type: String, required: true },
-  type: { 
-    type: String, 
-    enum: ['Degree', 'Diploma', 'Certificate'], 
-    required: true 
-  },
+  duration: { type: String },
+  type: { type: String },
   category: { type: String, required: true },
+  level: { type: String },
+  eligibility: { type: String },
+  courseType: { type: String, enum: ['Commerce', 'Science', 'Arts', 'IT', 'Others', 'Management', 'Medical'] },
+  image: { type: String },
+  brochure: { type: String },
   description: { type: String },
 }, { timestamps: true });
 

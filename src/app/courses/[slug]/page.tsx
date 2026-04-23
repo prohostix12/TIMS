@@ -67,9 +67,9 @@ export default function CourseDetailsPage() {
         style={{ backgroundImage: `linear-gradient(rgba(0, 18, 46, 0.6), rgba(0, 18, 46, 0.8)), url('${courseData.image}')` }}
       >
         <div className={styles.heroContent}>
-          <Link href="/courses" className={styles.backLink}>
-            <ArrowLeft size={18} /> BACK TO DIRECTORY
-          </Link>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/courses">Courses</Link> / {courseData.title}
+          </p>
           <span className={styles.tag}>{courseData.category}</span>
           <h1 className={styles.title}>{courseData.title}</h1>
         </div>

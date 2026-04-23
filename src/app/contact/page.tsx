@@ -1,14 +1,52 @@
 'use client';
+import { useState } from 'react';
 import styles from './contact.module.css';
+import Link from 'next/link';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('submitting');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          subject: formData.phone, // Store phone number in the subject field
+          message: formData.message
+        }),
+      });
+      if (!res.ok) throw new Error('Failed to send message');
+      setStatus('success');
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      setTimeout(() => setStatus(''), 4000);
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+      setTimeout(() => setStatus(''), 4000);
+    }
+  };
+
   return (
     <main className={styles.container}>
       {/* ===== Hero Section ===== */}
       <section className={styles.heroHeader}>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / Contact
+          </p>
+          <span className={styles.heroTag}>Support</span>
           <h1 className={styles.heroTitle}>Get in Touch</h1>
-          <p className={styles.heroSubtitle}>We're here to help you navigate your educational journey</p>
+          <p className={styles.heroSub}>We're here to help you navigate your educational journey</p>
         </div>
       </section>
 
@@ -19,24 +57,28 @@ export default function ContactPage() {
           <h2 style={{ fontSize: '2.5rem', color: '#00122e', marginBottom: '2rem', fontWeight: 800 }}>
             Send Us a Message
           </h2>
-          <form onSubmit={e => e.preventDefault()}>
+          <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <label>Full Name</label>
-              <input type="text" className={styles.formInput} placeholder="Your Name" />
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required className={styles.formInput} placeholder="Your Name" />
             </div>
             <div className={styles.formGroup}>
               <label>Email Address</label>
-              <input type="email" className={styles.formInput} placeholder="your.email@example.com" />
+              <input type="email" name="email" value={formData.email} onChange={handleChange} required className={styles.formInput} placeholder="your.email@example.com" />
             </div>
             <div className={styles.formGroup}>
               <label>Phone Number</label>
-              <input type="tel" className={styles.formInput} placeholder="+91 98765 43210" />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} className={styles.formInput} placeholder="+91 98765 43210" />
             </div>
             <div className={styles.formGroup}>
               <label>Your Message</label>
-              <textarea className={styles.formInput} rows={5} placeholder="How can we help you?"></textarea>
+              <textarea name="message" value={formData.message} onChange={handleChange} required className={styles.formInput} rows={5} placeholder="How can we help you?"></textarea>
             </div>
-            <button type="submit" className={styles.submitBtn}>SEND MESSAGE</button>
+            <button type="submit" disabled={status === 'submitting'} className={styles.submitBtn}>
+              {status === 'submitting' ? 'SENDING...' : 'SEND MESSAGE'}
+            </button>
+            {status === 'success' && <p style={{ color: 'green', marginTop: '1rem', fontWeight: 600, textAlign: 'center' }}>Message sent successfully!</p>}
+            {status === 'error' && <p style={{ color: '#ef233c', marginTop: '1rem', fontWeight: 600, textAlign: 'center' }}>Failed to send message. Please try again.</p>}
           </form>
         </div>
 

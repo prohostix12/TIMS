@@ -35,7 +35,13 @@ const Footer = () => {
         <div className={styles.footerCol}>
           <h3>Student Hub</h3>
           <div className={styles.footerLinks}>
-            <Link href="/course-finder" className={styles.footerLink}>Course Finder</Link>
+            <button 
+              className={styles.footerLink}
+              onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left', font: 'inherit' }}
+            >
+              Course Finder
+            </button>
             <Link href="/services/attestation" className={styles.footerLink}>Attestation</Link>
             <Link href="/services/distance-education" className={styles.footerLink}>Online Degrees</Link>
             <Link href="/login" className={styles.footerLink}>Admin Login</Link>

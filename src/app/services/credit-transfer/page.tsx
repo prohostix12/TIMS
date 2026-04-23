@@ -48,8 +48,12 @@ export default function CreditTransferPage() {
         />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <p className={styles.heroSubtitle}>Professional Academic Mobility & Recognition</p>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="#">Services</Link> / Credit Transfer
+          </p>
+          <span className={styles.heroTag}>Academic Mobility</span>
           <h1 className={styles.heroTitle}>Credit Transfer</h1>
+          <p className={styles.heroSub}>Professional academic mobility and recognition of your prior learning efforts.</p>
         </div>
       </section>
 

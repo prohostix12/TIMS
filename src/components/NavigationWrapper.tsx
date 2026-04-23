@@ -1,9 +1,9 @@
-
 'use client';
 
 import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import CourseFinder from './CourseFinder';
 
 export default function NavigationWrapper({
   children,
@@ -21,6 +21,7 @@ export default function NavigationWrapper({
     <>
       <Navbar />
       {children}
+      <CourseFinder />
       <Footer />
     </>
   );

@@ -52,8 +52,12 @@ export default function AttestationPage() {
         />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
-          <p className={styles.heroSubtitle}>Professional Legalization & Authentication</p>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="#">Services</Link> / Attestation
+          </p>
+          <span className={styles.heroTag}>Document Services</span>
           <h1 className={`${styles.heroTitle} ${styles.revealText}`}>Attestation</h1>
+          <p className={styles.heroSub}>Professional Legalization & Authentication services to ensure your documents are globally recognized.</p>
         </div>
       </section>
 

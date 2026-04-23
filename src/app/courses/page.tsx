@@ -151,7 +151,12 @@ export default function CoursesPage() {
       {/* ===== Hero Section ===== */}
       <section className={styles.heroHeader}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / Courses
+          </p>
+          <span className={styles.heroTag}>Programs</span>
           <h1 className={styles.heroTitle}>Courses</h1>
+          <p className={styles.heroSub}>Discover our comprehensive range of academic and professional programs tailored for your success.</p>
         </div>
       </section>
 

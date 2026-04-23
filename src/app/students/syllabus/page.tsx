@@ -55,9 +55,12 @@ export default function SyllabusPage() {
     <main style={{ minHeight: '100vh', background: 'var(--bg-light)' }}>
 
       {/* Hero */}
-      <section style={{ background: 'var(--primary)', padding: '8rem 5% 5rem', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ backgroundColor: 'var(--primary)', backgroundImage: 'linear-gradient(to bottom, rgba(0,18,46,0.72) 0%, rgba(0,18,46,0.88) 100%), url("https://images.unsplash.com/photo-1456324504439-367cee3b3c32?q=80&w=2000&auto=format&fit=crop")', backgroundSize: 'cover', backgroundPosition: 'center', padding: '8rem 5% 5rem', position: 'relative', overflow: 'hidden', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(239,35,60,0.08) 0%, transparent 60%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: '700px', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '700px', position: 'relative', zIndex: 1, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.7)', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Link href="/" style={{ color: '#ffffff', textDecoration: 'none' }}>Home</Link> / <Link href="#" style={{ color: '#ffffff', textDecoration: 'none', cursor: 'default' }}>Students</Link> / Syllabus
+          </p>
           <span style={{ display: 'inline-block', background: 'rgba(239,35,60,0.15)', border: '1px solid rgba(239,35,60,0.3)', color: '#ff6b7a', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', padding: '0.35rem 1rem', borderRadius: '100px', marginBottom: '1.25rem' }}>Students</span>
           <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, color: 'var(--white)', margin: '0 0 1rem', letterSpacing: '-1px' }}>Syllabus</h1>
           <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.7, margin: 0 }}>Download subject-wise syllabus for your enrolled program.</p>

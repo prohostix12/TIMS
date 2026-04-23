@@ -10,6 +10,13 @@ export interface IUniversity extends Document {
   status: 'active' | 'pending' | 'inactive';
   website?: string;
   image?: string;
+  logo?: string;
+  ranking?: string;
+  accreditations?: string;
+  features?: string[];
+  facilities?: string[];
+  type?: 'public' | 'private' | 'deemed' | 'state';
+  contactEmail?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,6 +34,13 @@ const UniversitySchema: Schema = new Schema({
   },
   website: { type: String },
   image: { type: String },
+  logo: { type: String },
+  ranking: { type: String },
+  accreditations: { type: String },
+  features: [{ type: String }],
+  facilities: [{ type: String }],
+  type: { type: String, enum: ['public', 'private', 'deemed', 'state'], default: 'private' },
+  contactEmail: { type: String },
 }, { timestamps: true });
 
 export default mongoose.models.University || mongoose.model<IUniversity>('University', UniversitySchema);

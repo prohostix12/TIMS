@@ -1,13 +1,16 @@
 
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../admin.module.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Loader2, Plus, X } from 'lucide-react';
 
-export default function NewUniversity() {
+export default function EditUniversity() {
   const router = useRouter();
+  const params = useParams();
+  const { id } = params;
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [facilitiesList, setFacilitiesList] = useState<string[]>(['']);
@@ -29,6 +32,37 @@ export default function NewUniversity() {
     logo: '',
     features: ''
   });
+
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/admin/universities/${id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data.error) {
+            setFormData({
+              name: data.name || '',
+              code: data.code || '',
+              description: data.description || '',
+              location: data.location || '',
+              establishedYear: data.establishedYear || '',
+              status: data.status || 'active',
+              website: data.website || '',
+              ranking: data.ranking || '',
+              accreditations: data.accreditations || '',
+              type: data.type || 'private',
+              contactEmail: data.contactEmail || '',
+              image: data.image || '',
+              logo: data.logo || '',
+              features: Array.isArray(data.features) ? data.features.join(', ') : (data.features || '')
+            });
+            if (data.facilities && data.facilities.length > 0) {
+              setFacilitiesList(data.facilities);
+            }
+          }
+        })
+        .catch(err => console.error(err));
+    }
+  }, [id]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -62,15 +96,15 @@ export default function NewUniversity() {
         facilities: facilitiesList.filter(f => f.trim() !== ''),
       };
 
-      const response = await fetch('/api/admin/universities', {
-        method: 'POST',
+      const response = await fetch(`/api/admin/universities/${id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to create university');
+        throw new Error(data.error || 'Failed to update university');
       }
 
       router.push('/admin/universities');
@@ -87,7 +121,7 @@ export default function NewUniversity() {
       <div className={styles.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <Link href="/admin/universities" style={{ color: '#64748b' }}>← Back</Link>
-          <h2 className={styles.tableTitle}>Add New University</h2>
+          <h2 className={styles.tableTitle}>Edit University</h2>
         </div>
       </div>
 
@@ -316,7 +350,7 @@ export default function NewUniversity() {
               <Loader2 className="animate-spin" size={20} />
               <span>Saving...</span>
             </div>
-          ) : 'Create University Profile'}
+          ) : 'Update University Profile'}
         </button>
       </form>
     </div>

@@ -83,6 +83,9 @@ export default function TimetablePage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/universities">Universities</Link> / Time Table
+          </p>
           <span className={styles.heroTag}>Examination</span>
           <h1 className={styles.heroTitle}>Exam Time Table</h1>
           <p className={styles.heroSub}>

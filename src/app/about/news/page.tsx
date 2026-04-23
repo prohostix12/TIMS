@@ -79,6 +79,10 @@ export default function NewsPage() {
       {/* ===== Hero Section ===== */}
       <section className={styles.heroHeader}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/about">About</Link> / Latest News
+          </p>
+          <span className={styles.heroTag}>Updates</span>
           <h1 className={styles.heroTitle}>Our News</h1>
           <p style={{ color: '#94a3b8', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
             Stay informed with the latest institutional announcements, partnerships, and key academic updates from Kerala.

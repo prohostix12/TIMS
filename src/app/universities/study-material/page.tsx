@@ -101,6 +101,9 @@ export default function StudyMaterialPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/universities">Universities</Link> / Study Material
+          </p>
           <span className={styles.heroTag}>Resources</span>
           <h1 className={styles.heroTitle}>Study Materials</h1>
           <p className={styles.heroSub}>

@@ -23,7 +23,7 @@
 /* ===== Hero Section ===== */
 .heroHeader {
   width: 100%;
-  height: 60vh;
+  height: 100vh;
   min-height: 450px;
   background-color: #00122e;
   background-image: linear-gradient(rgba(0, 18, 46, 0.85), rgba(0, 18, 46, 0.95)), url('/images/news-hero-bg.png');
@@ -40,6 +40,40 @@
   text-align: center;
   z-index: 2;
   color: white;
+}
+
+.heroCrumb {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.heroCrumb a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.heroCrumb a:hover {
+  color: var(--accent);
+}
+
+.heroTag {
+  display: inline-block;
+  background: rgba(239,35,60,0.15);
+  border: 1px solid rgba(239,35,60,0.3);
+  color: #ff6b7a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 0.35rem 1rem;
+  border-radius: 100px;
+  margin-bottom: 1.25rem;
+  animation: fadeUp 0.8s cubic-bezier(0.22,1,0.36,1) both;
 }
 
 .heroTitle {

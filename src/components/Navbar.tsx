@@ -76,7 +76,7 @@ const Navbar = () => {
         <div className={styles.navLinks}>
           {navLinks.map((link) => (
             <div key={link.name} className={styles.navItemWrapper}>
-              {link.name === 'Services' ? (
+              {link.name === 'Services' || link.name === 'Universities' || link.name === 'Students' ? (
                 <div 
                   className={`${styles.navLink} ${pathname.startsWith(link.path) ? styles.activeLink : ''}`}
                   style={{ cursor: 'default' }}
@@ -98,10 +98,17 @@ const Navbar = () => {
                 <div className={styles.dropdown}>
                   {link.submenu.map((sub) => (
                     <div key={sub.path} className={styles.dropdownItemWrapper}>
-                      <Link href={sub.path} className={styles.dropdownItem}>
-                        {sub.name}
-                        {sub.submenu ? <ChevronDown size={13} style={{ marginLeft: 'auto' }} /> : <ArrowRight size={14} className={styles.subChevron} />}
-                      </Link>
+                      {sub.submenu ? (
+                        <div className={styles.dropdownItem} style={{ cursor: 'default' }}>
+                          {sub.name}
+                          <ChevronDown size={13} style={{ marginLeft: 'auto' }} />
+                        </div>
+                      ) : (
+                        <Link href={sub.path} className={styles.dropdownItem}>
+                          {sub.name}
+                          <ArrowRight size={14} className={styles.subChevron} />
+                        </Link>
+                      )}
                       {sub.submenu && (
                         <div className={styles.subDropdown}>
                           {sub.submenu.map((child) => (
@@ -121,9 +128,12 @@ const Navbar = () => {
         </div>
 
         <div className={styles.actions}>
-          <Link href="/course-finder" className={styles.secondaryAction}>
+          <button 
+            className={styles.secondaryAction}
+            onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
+          >
             Course Finder
-          </Link>
+          </button>
           <Link href="/login" className={styles.primaryAction}>
             Login
           </Link>
@@ -140,7 +150,7 @@ const Navbar = () => {
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileOpen : ''}`}>
         {navLinks.map((link) => (
           <div key={link.name} className={styles.mobileItem}>
-            {link.name === 'Services' ? (
+            {link.name === 'Services' || link.name === 'Universities' || link.name === 'Students' ? (
               <div className={styles.mobileLink}>
                 {link.name}
               </div>
@@ -156,14 +166,36 @@ const Navbar = () => {
             {link.submenu && (
               <div className={styles.mobileSub}>
                 {link.submenu.map((sub) => (
-                  <Link 
-                    key={sub.path} 
-                    href={sub.path} 
-                    className={styles.mobileSubLink}
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {sub.name}
-                  </Link>
+                  <div key={sub.path} className={styles.mobileNestedWrapper}>
+                    {sub.submenu ? (
+                      <div className={styles.mobileSubLink} style={{ cursor: 'default', opacity: 0.8 }}>
+                        {sub.name}
+                      </div>
+                    ) : (
+                      <Link 
+                        href={sub.path} 
+                        className={styles.mobileSubLink}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {sub.name}
+                      </Link>
+                    )}
+                    {sub.submenu && (
+                      <div className={styles.mobileNestedSub}>
+                        {sub.submenu.map((child) => (
+                          <Link 
+                            key={child.path} 
+                            href={child.path} 
+                            className={styles.mobileSubLink}
+                            style={{ paddingLeft: '2.5rem', fontSize: '0.9rem' }}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             )}

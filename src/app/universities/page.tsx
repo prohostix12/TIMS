@@ -114,6 +114,9 @@ export default function UniversitiesPage() {
       <section className={styles.hero}>
         <div className={styles.heroBg} />
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / Universities
+          </p>
           <span className={styles.heroTag}>Global Network</span>
           <h1 className={styles.heroTitle}>Our Partner Universities</h1>
           <p className={styles.heroSub}>

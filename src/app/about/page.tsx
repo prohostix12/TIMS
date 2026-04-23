@@ -14,7 +14,9 @@ export default function About() {
           <p className={styles.heroCrumb}>
             <Link href="/">Home</Link> / About
           </p>
+          <span className={styles.heroTag}>Discover TIMS</span>
           <h1 className={styles.heroTitle}>About Us</h1>
+          <p className={styles.heroSub}>Empowering learners through flexible, high-quality, and accessible education since 2009.</p>
         </div>
       </section>
 

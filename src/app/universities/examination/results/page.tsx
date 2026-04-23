@@ -132,6 +132,9 @@ export default function ResultsPage() {
       {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
+          <p className={styles.heroCrumb}>
+            <Link href="/">Home</Link> / <Link href="/universities">Universities</Link> / Results
+          </p>
           <span className={styles.heroTag}>Examination</span>
           <h1 className={styles.heroTitle}>Check Your Results</h1>
           <p className={styles.heroSub}>Enter your NIOS roll number to view your SSLC or Plus Two examination results.</p>
