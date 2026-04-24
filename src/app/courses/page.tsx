@@ -3,54 +3,36 @@
 import React, { useState, useEffect } from 'react';
 import styles from './courses.module.css';
 import Link from 'next/link';
-import { Search, GraduationCap, Clock, BookOpen, ArrowRight, Loader2 } from 'lucide-react';
+import { Search, GraduationCap, Clock, BookOpen, ArrowRight, Loader2, ShieldCheck, Globe, Zap } from 'lucide-react';
 import EnquiryModal from '@/components/EnquiryModal';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const CourseCard = ({ course, i, onEnquire }: { course: any, i: number, onEnquire: (interest: string) => void }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   return (
     <div 
       className={styles.courseCard}
-      style={{ 
-        animationDelay: `${i * 0.1}s`,
-        height: isExpanded ? 'auto' : '550px',
-        minHeight: '550px'
-      }}
+      style={{ animationDelay: `${i * 0.1}s` }}
     >
       <div className={styles.cardImage}>
         <img src={course.image || 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop'} alt={course.title} />
+        <span className={styles.levelBadge}>{course.level}</span>
       </div>
       
       <div className={styles.cardContent}>
-        <div className={styles.courseHeader}>
-          <span className={styles.levelBadge}>{course.level}</span>
-          <GraduationCap size={20} color="var(--accent)" />
-        </div>
-        
         <span className={styles.courseCategory}>{course.category}</span>
         <h3 className={styles.courseTitle}>{course.title}</h3>
-        <p className={`${styles.courseDescription} ${isExpanded ? styles.expanded : ''}`}>
+        <p className={styles.courseDescription}>
           {course.description}
         </p>
-        {course.description?.length > 100 && (
-          <button 
-            className={styles.seeMoreLink}
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded ? 'See Less' : 'See More...'}
-          </button>
-        )}
         
         <div className={styles.courseMeta}>
           <div className={styles.metaItem}>
-            <Clock size={14} />
+            <Clock size={16} color="#ef233c" />
             {course.duration}
           </div>
           <div className={styles.metaItem}>
-            <BookOpen size={14} />
+            <BookOpen size={16} color="#ef233c" />
             {course.eligibility}
           </div>
         </div>
@@ -59,12 +41,11 @@ const CourseCard = ({ course, i, onEnquire }: { course: any, i: number, onEnquir
           <button 
             onClick={() => onEnquire(course.title)}
             className={styles.viewBtn}
-            style={{ border: 'none', cursor: 'pointer', width: '100%', fontFamily: 'inherit' }}
           >
-            ENQUIRE NOW
+            ENQUIRE
           </button>
           <Link href={course.path || `/courses/${course._id || course.title.toLowerCase().replace(/ /g, '-')}`} className={styles.detailsBtn}>
-            VIEW DETAILS
+            DETAILS
           </Link>
         </div>
       </div>
@@ -79,7 +60,6 @@ export default function CoursesPage() {
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   
-  // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedInterest, setSelectedInterest] = useState('');
 
@@ -95,7 +75,7 @@ export default function CoursesPage() {
             title: c.name,
             level: c.level || 'Degree',
             category: c.category || 'General',
-            description: c.description || 'Professional academic program designed for excellence.',
+            description: c.description || 'Professional academic program designed for institutional excellence and professional growth.',
             duration: c.duration || '3 Years',
             eligibility: c.eligibility || 'Plus Two',
             image: c.image
@@ -121,62 +101,44 @@ export default function CoursesPage() {
     <>
       <Navbar />
       <main className={styles.container}>
-        <section className={styles.heroHeader}>
+        <div className={styles.pageGlow} />
+
+        {/* ===== UpGrad Style Hero Section ===== */}
+        <section className={styles.heroWrapper}>
           <div className={styles.heroContent}>
-            <p className={styles.heroCrumb}>
-              <Link href="/">Home</Link> / Courses
-            </p>
-            <span className={styles.heroTag}>Programs</span>
-            <h1 className={styles.heroTitle}>Explore Our Courses</h1>
-            <p className={styles.heroSub}>Discover our comprehensive range of academic and professional programs tailored for your success.</p>
+            <div className={styles.heroLeft}>
+              <nav className={styles.heroBreadcrumb}>
+                <Link href="/">Home</Link> <span>/</span> <span>Programs</span>
+              </nav>
+              <h1 className={styles.heroTitle}>
+                Discover Your <span className={styles.heroTitleDark}>Academic Future</span> & Global Path.
+              </h1>
+              <p className={styles.heroDesc}>
+                Explore our comprehensive directory of recognized academic programs. From SSLC to Post-Graduation, we provide the platform for your global success.
+              </p>
 
-            {/* Quick stats */}
-            <div className={styles.heroStats}>
-              <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>50+</span>
-                <span className={styles.heroStatLabel}>Programs</span>
+              <div className={styles.heroSearch}>
+                <input 
+                  type="text" 
+                  placeholder="Search program directory..." 
+                  className={styles.heroSearchInput}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button className={styles.heroSearchBtn}>
+                  <Search size={20} />
+                </button>
               </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>98%</span>
-                <span className={styles.heroStatLabel}>Success Rate</span>
-              </div>
-              <div className={styles.heroStatDivider} />
-              <div className={styles.heroStat}>
-                <span className={styles.heroStatNum}>24/7</span>
-                <span className={styles.heroStatLabel}>Student Support</span>
-              </div>
-            </div>
 
-            <Link href="/contact" className={styles.heroCta}>
-              Talk to an Advisor <ArrowRight size={16} />
-            </Link>
-          </div>
-        </section>
-
-        {/* ===== Explorer Section ===== */}
-        <section className={styles.explorerSection}>
-          {/* Sticky Filter Bar */}
-          <div className={styles.stickyHeader}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
-              <div className={styles.searchBar}>
-                <div className={styles.searchWrapper}>
-                  <Search className={styles.searchIcon} size={22} />
-                  <input 
-                    type="text" 
-                    placeholder="Search program directory..." 
-                    className={styles.searchInput}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-                
-                <div className={styles.categoryGroup}>
-                  {categories.map(cat => (
+              <div className={styles.goalSection}>
+                <p className={styles.goalLabel}>Or select a category 🎯</p>
+                <div className={styles.goalChips}>
+                  {categories.map((cat, i) => (
                     <button 
-                      key={cat} 
-                      className={`${styles.categoryBtn} ${activeCategory === cat ? styles.active : ''}`}
+                      key={i} 
+                      className={`${styles.goalChip} ${activeCategory === cat ? styles.active : ''}`}
                       onClick={() => setActiveCategory(cat)}
+                      style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
                     >
                       {cat}
                     </button>
@@ -184,14 +146,65 @@ export default function CoursesPage() {
                 </div>
               </div>
             </div>
+
+            <div className={styles.heroRight}>
+              <div className={styles.heroImageCard}>
+                <img 
+                  src="https://images.unsplash.com/photo-1541339907198-e08756ebafe1?q=80&w=800&auto=format&fit=crop" 
+                  alt="Academic Excellence" 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                />
+                <div className={styles.heroImageOverlay}>
+                  <p className={styles.overlayWhite}>Premium Programs</p>
+                  <p className={styles.overlayHighlight}>Recognized Worldwide</p>
+                  <Link href="/contact" className={styles.overlayLink}>
+                    Talk to an Advisor <ArrowRight size={18} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ===== Explorer Section ===== */}
+        <section className={styles.explorerSection}>
+          <div className={styles.stickyHeader}>
+            <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 5%' }}>
+              <div className={styles.filterGlass}>
+                <div className={styles.searchBar}>
+                  <div className={styles.searchWrapper}>
+                    <Search className={styles.searchIcon} size={22} />
+                    <input 
+                      type="text" 
+                      placeholder="Filter results..." 
+                      className={styles.searchInput}
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  
+                  <div className={styles.categoryGroup}>
+                    {categories.map(cat => (
+                      <button 
+                        key={cat} 
+                        className={`${styles.categoryBtn} ${activeCategory === cat ? styles.active : ''}`}
+                        onClick={() => setActiveCategory(cat)}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Courses Grid */}
-          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 5%' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 5%' }}>
             {loading ? (
               <div style={{ textAlign: 'center', padding: '10rem 0', color: '#64748b' }}>
-                 <Loader2 className="animate-spin" size={48} color="var(--accent)" style={{ margin: '0 auto 1rem' }} />
-                 <p>Fetching academic programs...</p>
+                 <Loader2 className="animate-spin" size={48} color="#ef233c" style={{ margin: '0 auto 1rem' }} />
+                 <p style={{ fontWeight: 700, letterSpacing: '1px' }}>SYNCHRONIZING ACADEMIC DIRECTORY...</p>
               </div>
             ) : (
               <>
@@ -202,10 +215,11 @@ export default function CoursesPage() {
                 </div>
 
                 {filteredCourses.length > visibleCount && (
-                  <div style={{ textAlign: 'center', marginTop: '5rem' }}>
+                  <div style={{ textAlign: 'center', marginTop: '6rem' }}>
                     <button 
                       onClick={() => setVisibleCount(prev => prev + 6)}
-                      className={styles.loadMoreBtn}
+                      className={styles.viewBtn}
+                      style={{ width: 'auto', padding: '1.25rem 4rem', fontSize: '1rem' }}
                     >
                       LOAD MORE PROGRAMS
                     </button>
@@ -214,8 +228,8 @@ export default function CoursesPage() {
 
                 {filteredCourses.length === 0 && (
                   <div style={{ textAlign: 'center', padding: '10rem 0' }}>
-                    <h2 style={{ fontSize: '2.5rem', color: '#00122e', fontWeight: 900 }}>No results matched.</h2>
-                    <p style={{ color: '#64748b', marginTop: '1rem', fontSize: '1.2rem' }}>Refine your search or explore a different category.</p>
+                    <h2 style={{ fontSize: '3rem', color: '#00122e', fontWeight: 900, letterSpacing: '-1px' }}>No programs found.</h2>
+                    <p style={{ color: '#64748b', marginTop: '1rem', fontSize: '1.2rem', fontWeight: 500 }}>Try refining your search or selecting another category.</p>
                   </div>
                 )}
               </>
@@ -223,20 +237,21 @@ export default function CoursesPage() {
           </div>
         </section>
 
-        {/* ===== Institutional Footer CTA ===== */}
-        <section style={{ padding: '8rem 0', backgroundColor: '#00122e', color: '#ffffff' }}>
-          <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '0 5%', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '2rem', lineHeight: 1.1 }}>
-              Find Your Path to Excellence
+        {/* ===== Institutional Final CTA ===== */}
+        <section className={styles.institutionalSection}>
+          <div className={styles.instContent}>
+            <h2 className={styles.instTitle}>
+              Your Future Starts With <br /> <span style={{ color: '#ef233c' }}>The Right Choice</span>
             </h2>
-            <p style={{ fontSize: '1.3rem', color: '#94a3b8', lineHeight: 1.8, marginBottom: '4rem', maxWidth: '750px', margin: '0 auto 4rem' }}>
-              Our academic advisors are ready to help you map out a personalized study pathway that aligns with your professional aspirations.
+            <p className={styles.instDesc}>
+              Our academic consultants are here to guide you through the maze of educational options. Get a personalized roadmap for your career today.
             </p>
             <button 
               onClick={() => handleEnquire('General Consultation')}
-              style={{ background: 'var(--accent)', color: 'white', padding: '1.25rem 3.5rem', borderRadius: '50px', fontWeight: 900, fontSize: '1.1rem', letterSpacing: '1px', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '10px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              className={styles.instCta}
+              style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              CONSULT AN ADVISOR <ArrowRight size={20} />
+              FREE CONSULTATION <ArrowRight size={24} />
             </button>
           </div>
         </section>

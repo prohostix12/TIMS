@@ -1,19 +1,20 @@
-
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styles from './attestation.module.css';
 import Link from 'next/link';
+import { Search, ArrowRight, ShieldCheck, Globe, Award } from 'lucide-react';
 
 export default function AttestationPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const steps = [
-    { title: "Document Submission", description: "Submit your original documents and required copies to our authorized TIMS centers." },
-    { title: "Verification", description: "Our experts primary verify the documents and initiate the authentication process." },
-    { title: "HRD/MEA Attestation", description: "We manage the formal attestation from the State HRD and Ministry of External Affairs." },
-    { title: "Embassy Legalization", description: "Final legalization from the respective Embassy/Consulate for your destination country." }
+    { title: "Document Submission", description: "Securely submit original documents and valid identification at our authorized TIMS centers." },
+    { title: "Technical Verification", description: "Our authentication experts conduct rigorous primary validation of all submitted credentials." },
+    { title: "Ministry Legalization", description: "Formal endorsement through State HRD and the Ministry of External Affairs (MEA) hierarchy." },
+    { title: "Embassy Certification", description: "Final jurisdictional legalization from the destination country's Embassy or Consulate." }
   ];
-  const [isListExpanded, setIsListExpanded] = React.useState(false);
-  const [isExpanded, setIsExpanded] = React.useState(false);
 
   const allCerts = [
     "10th Attestation", "AMIE Attestation", "Apprentice ship Attestation",
@@ -33,199 +34,193 @@ export default function AttestationPage() {
     "ME Attestation", "Medical Attestation", "Metric Attestation",
     "Migration Attestation", "MS Attestation", "NTC Attestation",
     "Nursing Diploma Attestation", "PCC Attestation", "PDC Attestation",
-    "Plus Two Attestation", "Powerof Attorney Attestation", "Private Diploma Attestation",
+    "Plus Two Attestation", "Power of Attorney Attestation", "Private Diploma Attestation",
     "PUC Attestation", "SSC Attestation", "SSLC Attestation",
     "Technicians Attestation", "Training Attestation", "Transfer Attestation",
     "Translated Attestation", "TTC Attestation", "VHSE Attestation"
   ].sort();
 
-  const displayedCerts = isListExpanded ? allCerts : allCerts.slice(0, 12);
+  const filteredCerts = useMemo(() => {
+    return allCerts.filter(cert => 
+      cert.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm]);
 
   return (
     <main className={styles.container}>
-      {/* ===== Modern Editorial White Hero Section ===== */}
-      <section className={styles.whiteHeroSection}>
-        <div className={styles.heroLayout}>
-          <div className={styles.textContent}>
-            <div className={styles.breadcrumbBar}>
-              <Link href="/">Home</Link> <span className={styles.sep}>/</span> <Link href="#">Services</Link> <span className={styles.sep}>/</span> Attestation
-            </div>
-            
-            <h1 className={styles.mainTitle}>
-              Document <span className={styles.highlight}>Attestation</span> & <br />
-              Embassy Legalization.
+      <div className={styles.pageGlow} />
+
+      {/* ===== UpGrad Style Hero Section ===== */}
+      <section className={styles.heroWrapper}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroLeft}>
+            <nav className={styles.heroBreadcrumb}>
+              <Link href="/">Home</Link> <span>/</span> <span>Attestation</span>
+            </nav>
+            <h1 className={styles.heroTitle}>
+              Official <span className={styles.heroTitleDark}>Document Attestation</span> <br />
+              & Global Legalization.
             </h1>
-            
-            <p className={styles.subText}>
-              Providing world-class authentication and legalization services for your educational, personal, and commercial documents with 100% security and accuracy.
+            <p className={styles.heroDesc}>
+              Authorized Embassy Legalization & Authentication services for Global Education, Employment, and Migration. Trusted by 15,000+ professionals worldwide.
             </p>
 
-            <div className={styles.ctaWrapper}>
-              <Link href="/contact" className={styles.primaryAction}>
-                Get Free Consultation
-              </Link>
-              <div className={styles.searchPrompt}>
-                <span className={styles.searchIcon}>🔍</span>
-                <input type="text" placeholder="Search document type..." className={styles.ghostInput} />
-              </div>
-            </div>
-
-            <div className={styles.trustBar}>
-              <div className={styles.trustPoint}>
-                <span className={styles.pointIcon}>✓</span>
-                <span className={styles.pointText}>MEA Authorized</span>
-              </div>
-              <div className={styles.trustPoint}>
-                <span className={styles.pointIcon}>✓</span>
-                <span className={styles.pointText}>Fast Track Process</span>
-              </div>
-              <div className={styles.trustPoint}>
-                <span className={styles.pointIcon}>✓</span>
-                <span className={styles.pointText}>Global Acceptance</span>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.visualSide}>
-            <div className={styles.editorialCard}>
-              <img
-                src="/images/hero-attestation.png"
-                alt="Professional Document Attestation"
-                className={styles.editorialImg}
+            <div className={styles.heroSearch}>
+              <input 
+                type="text" 
+                placeholder="What document do you need to attest?" 
+                className={styles.heroSearchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <div className={styles.floatingStats}>
-                <div className={styles.statBox}>
-                  <span className={styles.statVal}>15k+</span>
-                  <span className={styles.statLab}>Trusted Users</span>
-                </div>
+              <button className={styles.heroSearchBtn}>
+                <Search size={20} />
+              </button>
+            </div>
+
+            <div className={styles.goalSection}>
+              <p className={styles.goalLabel}>Or select common services 🎯</p>
+              <div className={styles.goalChips}>
+                {['Degree Attestation', 'Birth Certificate', 'Marriage Certificate', 'HRD Attestation', 'MEA Legalization', 'Embassy Services'].map((g, i) => (
+                  <button 
+                    key={i} 
+                    className={styles.goalChip}
+                    onClick={() => setSearchTerm(g.split(' ')[0])}
+                    style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                  >
+                    {g}
+                  </button>
+                ))}
               </div>
-              <div className={styles.badgeLabel}>
-                Premium Authentication Service
+            </div>
+          </div>
+
+          <div className={styles.heroRight}>
+            <div className={styles.heroImageCard}>
+              <img 
+                src="/images/hero-attestation.png" 
+                alt="Verification Excellence" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+              />
+              <div className={styles.heroImageOverlay}>
+                <p className={styles.overlayWhite}>Authorized By</p>
+                <p className={styles.overlayHighlight}>MEA & Global Embassies</p>
+                <Link href="/contact" className={styles.overlayLink}>
+                  Consult an expert today <ArrowRight size={18} />
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className={styles.contentSection}>
-        <div className={styles.serviceIntro}>
-          <div className={`${styles.textCol} ${styles.textSideEntry}`}>
-            <h2 className={`${styles.sectionTitle} ${styles.revealText}`} style={{ color: '#00122e', fontSize: '2.4rem', fontWeight: 800, marginBottom: '2.5rem' }}>
-              ATTESTATIONS SERVICES
-            </h2>
-            
-            <p className={styles.descriptionText}>
-              If you are planning to go abroad for higher education, employment, business or migration we can take care of your certificate attestation formalities
-            </p>
 
-            <p className={styles.descriptionText}>
-              We provide attestation services for Bahrain, Kuwait, Oman, Qatar, and United Arab Emirates (UAE) from various departments like Notary, GAD, State Home Ministry, SDM, Human Resource Development Department(HRD), Ministry of External Affairs (MEA), Embassy and Consulate for all kind of attestation requirements like business visit visa, employment visa or family visit visa or family resident visa, Driving License, etc…….
-            </p>
-
-            {isExpanded && (
-              <p className={styles.descriptionText}>
-                HRD, MEA, Embassy, Consulate, GAD, RAC, Notary, Home Ministry, SDM, Foreign Ministry, Secretariat, Mantralaya, External Affairs, MOFA, Indian Embassy, Education Ministry, Health Ministry, Ministry of Justice, Chamber of Commerce, University / Collage/ School/Institute Attestation from India, HRD/MEA from Abroad, Notary/Home Ministry/Education Ministry/Health Ministry from Abroad, Embassy/Consulate from Abroad, Chamber of Commerce/Ministry of Justice/Foreign Ministry/MOFA from Abroad, University/School/Collage/Institute Attestation from Abroad, Magistrate’s/Commissioner’s/Resident Commissioner’s Attestation from India, State Notary/Local Notary Attestation from India, Education Officer’s/ Assistant Education Officer’s Attestation from India, Board/Technical Board /Council/CBSE Board Attestation from India, Head Master’s/Head Mistress’s/Principal’s Attestation from India, Home Department/General Administration Department/Human Resource Development Department/:Higher Education Department/District Education Department/Office of the Commissioner – Higher Education/Education Administrator’s Office ‘s Attestation, Government of GOA/ Directorate of Technical Education/Education Department of SACHIVALAYA/ Government of Gujarat’s/ Higher Education Commissioner’s Office’s Attestation, Director Higher Education Office/Director of Public Instruction’s/Board of School Education/State Board of School Education’s Attestation. Passport and Foreigners Department’s Attestation, VIDHANA SOUDHA / Regional Authentication office/Government of MEGHALAYA / Government of MIZORAM Attestation, Higher & Technical Education Department/Secretary Assistant to Special Secretary’s Attestation. Government of ORISSA/ Government of Puducherry Attestation. Department of Non- Resident Indian Affair’s Attestation, Government of Punjab’s Attestation, Mini Secretariat – CHANDIGARH Punjab’s Attestation, Government Secretariat’s Attestation. Joint Directors (Examination) offices/Deputy Directors (Examination) Offices Attestation, Government Public (Foreigners)Department’s Attestation, Government of TAMILNADU Attestation. Government of Uttar Pradesh ‘s Attestation, Home (Foreigner & NRI) Attestation , Immunization Certificate/Vaccination Certificate/Health Certificate Attestation for pet animals etc.
-              </p>
-            )}
-
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              style={{ 
-                alignSelf: 'flex-start',
-                backgroundColor: 'transparent',
-                color: 'var(--accent)',
-                border: 'none',
-                fontWeight: 800,
-                cursor: 'pointer',
-                padding: '0.5rem 0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                fontSize: '0.95rem'
-              }}
-            >
-              {isExpanded ? 'READ LESS ↑' : 'READ MORE ↓'}
-            </button>
+      {/* ===== Services Showcase ===== */}
+      <section className={styles.showcaseSection}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.preTitle}>Our Expertise</span>
+          <h2 className={styles.showcaseTitle}>Comprehensive Legalization Services</h2>
+        </div>
+        
+        <div className={styles.showcaseGrid}>
+          <div className={styles.showcaseCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIconBox}>🎓</div>
+              <div className={styles.cardNumber}>01</div>
+            </div>
+            <h3 className={styles.cardTitle}>Educational Attestation</h3>
+            <p className={styles.cardText}>Legalization of Degree, Diploma, and School certificates for foreign education and employment.</p>
           </div>
-
-          <div className={`${styles.imageCol} ${styles.floating} ${styles.imageSideEntry}`}>
-             <img 
-               src="/images/attestation-premium.jpg" 
-               alt="Award diploma attestation" 
-               className={`${styles.focalImage} ${styles.glowEffect}`}
-             />
+          
+          <div className={styles.showcaseCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIconBox}>👤</div>
+              <div className={styles.cardNumber}>02</div>
+            </div>
+            <h3 className={styles.cardTitle}>Personal Document Attestation</h3>
+            <p className={styles.cardText}>Authentication of Birth, Marriage, and PCC certificates for family visas and migration.</p>
+          </div>
+          
+          <div className={styles.showcaseCard}>
+            <div className={styles.cardHeader}>
+              <div className={styles.cardIconBox}>🏢</div>
+              <div className={styles.cardNumber}>03</div>
+            </div>
+            <h3 className={styles.cardTitle}>Commercial Attestation</h3>
+            <p className={styles.cardText}>Official verification of Power of Attorney and Business documents for global trade.</p>
           </div>
         </div>
       </section>
 
-      {/* ===== Trust Section ===== */}
-      <section style={{ padding: '8rem 2rem', borderTop: '1px solid #e2e8f0', background: 'white' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 className={`${styles.sectionTitle} ${styles.revealText}`} style={{ textAlign: 'center', marginBottom: '4rem' }}>
-            Trusted Attestation Services <br /> 
-            <span style={{ color: 'var(--accent)' }}>for Students and Professionals</span>
-          </h2>
-
-          <div className={styles.trustSplit}>
-            <div className={`${styles.trustSplitText} ${styles.textSideEntry}`}>
-              <p>
-                For a lot of students and professionals, the attestation process is the first thing they have to do before they can go abroad. 
-                It can be a bit tough process, especially if you don’t know which office to go to or what each stamp means. 
-                That’s why we make sure that our attestation services are quick and easy. We help to get things done right, 
-                which helps to avoid all related problems.
-              </p>
-              <p>
-                At <span style={{ color: 'var(--accent)', fontWeight: 700 }}>TIMS Education</span>, we meet a lot of people who need 
-                attestation services for higher studies, job placement, or immigration procedures. Most of them simply want someone trustworthy 
-                to handle the paperwork without delays. We collect the documents, process them through the right departments, and make sure everything is completed properly.
-              </p>
-              <p>
-                If you’re unsure where to begin, our attestation services give you a steady starting point. 
-                With careful handling and clear updates, our attestation services help you move ahead with confidence.
-              </p>
+      {/* ===== Professional Process Timeline ===== */}
+      <section className={styles.timelineSection}>
+        <div className={styles.sectionHeader}>
+          <span className={styles.preTitle}>Workflow</span>
+          <h2 className={styles.showcaseTitle}>Our Authentication Process</h2>
+        </div>
+        
+        <div className={styles.timelineContainer}>
+          <div className={styles.timelineLine} />
+          {steps.map((step, i) => (
+            <div key={i} className={styles.timelineItem}>
+              <div className={styles.timelineDot} />
+              <div className={styles.timelineContent}>
+                <span className={styles.stepNum}>STEP {i + 1}</span>
+                <h3 className={styles.stepTitle}>{step.title}</h3>
+                <p className={styles.stepDesc}>{step.description}</p>
+              </div>
             </div>
-            
-            <div className={`${styles.trustSplitImgBox} ${styles.floating} ${styles.imageSideEntry}`}>
-               <img 
-                 src="/images/attestation-user-final.png" 
-                 alt="Professional guidance for attestation" 
-                 className={`${styles.trustSplitImg} ${styles.glowEffect}`}
-                 style={{ animationDelay: '1s' }}
-               />
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* ===== Comprehensive List Section ===== */}
-      <section className={styles.listSection}>
-        <div className={styles.listContainer}>
-          <h2 className={`${styles.listTitle} ${styles.revealText}`}>ATTESTATION TYPES</h2>
-          <div className={styles.certificatesGrid}>
-            {displayedCerts.map((cert, i) => (
-              <div 
-                key={i} 
-                className={`${styles.certItem} ${styles.staggerFadeIn}`}
-                style={{ animationDelay: `${0.1 + i * 0.05}s` }}
-              >
-                <span className={styles.itemBullet}>•</span> {cert}
+      {/* ===== Categorized Directory ===== */}
+      <section className={styles.directorySection}>
+        <div className={styles.directoryContainer}>
+          <div className={styles.directoryHeader}>
+            <div>
+              <h2 className={styles.directoryTitle}>Service Directory</h2>
+              <p style={{ color: '#64748b', marginTop: '1rem', fontWeight: 500 }}>Search for your specific document type</p>
+            </div>
+            <div className={styles.searchBox}>
+              <span>🔍</span>
+              <input 
+                type="text" 
+                placeholder="Search certificate type..." 
+                className={styles.searchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.directoryGrid}>
+            {filteredCerts.map((cert, i) => (
+              <div key={i} className={styles.directoryItem}>
+                <div className={styles.itemDot} />
+                {cert}
               </div>
             ))}
           </div>
-
-          <div style={{ textAlign: 'center', marginTop: '4rem' }}>
-            <button 
-              className={styles.viewMoreBtn}
-              onClick={() => setIsListExpanded(!isListExpanded)}
-            >
-              {isListExpanded ? 'VIEW LESS ↑' : 'VIEW ALL SERVICES ↓'}
-            </button>
-          </div>
-
-
+          
+          {filteredCerts.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '4rem', color: '#94a3b8', fontWeight: 600 }}>
+              No matching certificates found. Please contact us for custom requirements.
+            </div>
+          )}
         </div>
       </section>
 
+      {/* ===== Premium Final CTA ===== */}
+      <section className={styles.finalCta}>
+        <div className={styles.ctaContent}>
+          <h2 className={styles.ctaHeadline}>Ready to Authenticate Your Documents?</h2>
+          <p className={styles.ctaSub}>Join thousands of successful candidates who trusted TIMS for their global journey. Get a free consultation today.</p>
+          <Link href="/contact" className={styles.ctaButton}>
+            Get Free Consultation
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
