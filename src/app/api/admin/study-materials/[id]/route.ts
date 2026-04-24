@@ -4,12 +4,13 @@ import StudyMaterial from '@/models/StudyMaterial';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await connectDB();
     const body = await request.json();
-    const material = await StudyMaterial.findByIdAndUpdate(params.id, body, { new: true });
+    const material = await StudyMaterial.findByIdAndUpdate(id, body, { new: true });
     if (!material) return NextResponse.json({ error: 'Material not found' }, { status: 404 });
     return NextResponse.json(material);
   } catch (error: any) {
@@ -19,11 +20,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await connectDB();
-    const material = await StudyMaterial.findByIdAndDelete(params.id);
+    const material = await StudyMaterial.findByIdAndDelete(id);
     if (!material) return NextResponse.json({ error: 'Material not found' }, { status: 404 });
     return NextResponse.json({ message: 'Material deleted successfully' });
   } catch (error: any) {

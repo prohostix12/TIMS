@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose';
 import { CourseFinderQuestion } from '@/models/CourseFinderQuestion';
+import connectDB from '@/lib/db';
 
 export async function GET() {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect(process.env.MONGODB_URI as string);
-    }
+    await connectDB();
     const questions = await CourseFinderQuestion.find({ isActive: true }).sort({ order: 1 });
     return NextResponse.json(questions);
   } catch (error: any) {
@@ -16,9 +14,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect(process.env.MONGODB_URI as string);
-    }
+    await connectDB();
     const body = await req.json();
     const newQuestion = new CourseFinderQuestion(body);
     await newQuestion.save();

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import mongoose from 'mongoose';
 import { CourseFinderQuestion } from '@/models/CourseFinderQuestion';
+import connectDB from '@/lib/db';
 
 const FALLBACK_QUESTIONS = [
   {
@@ -36,11 +36,9 @@ const FALLBACK_QUESTIONS = [
   },
 ];
 
-export async function GET() {
+export async function POST(req: Request) {
   try {
-    if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect(process.env.MONGODB_URI as string);
-    }
+    await connectDB();
     
     // Clear existing to avoid duplicates when seeding
     await CourseFinderQuestion.deleteMany({});

@@ -4,12 +4,13 @@ import Syllabus from '@/models/Syllabus';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await connectDB();
     const body = await request.json();
-    const syllabus = await Syllabus.findByIdAndUpdate(params.id, body, { new: true });
+    const syllabus = await Syllabus.findByIdAndUpdate(id, body, { new: true });
     if (!syllabus) return NextResponse.json({ error: 'Syllabus not found' }, { status: 404 });
     return NextResponse.json(syllabus);
   } catch (error: any) {
@@ -19,11 +20,12 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await connectDB();
-    const syllabus = await Syllabus.findByIdAndDelete(params.id);
+    const syllabus = await Syllabus.findByIdAndDelete(id);
     if (!syllabus) return NextResponse.json({ error: 'Syllabus not found' }, { status: 404 });
     return NextResponse.json({ message: 'Syllabus deleted successfully' });
   } catch (error: any) {
