@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Blog from '@/models/Blog';
-import CourseFinderQuestion from '@/models/CourseFinderQuestion';
+import { CourseFinderQuestion } from '@/models/CourseFinderQuestion';
 import Lead from '@/models/Lead';
 import Message from '@/models/Message';
 import News from '@/models/News';
