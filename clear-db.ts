@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import connectDB from './src/lib/db';
 import Blog from './src/models/Blog';
-import CourseFinderQuestion from './src/models/CourseFinderQuestion';
+import { CourseFinderQuestion } from './src/models/CourseFinderQuestion';
 import Lead from './src/models/Lead';
 import Message from './src/models/Message';
 import News from './src/models/News';
