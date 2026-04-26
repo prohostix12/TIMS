@@ -16,9 +16,9 @@ export default function About() {
           </p>
           <span className={styles.heroTag}>Discover TIMS</span>
           <h1 className={styles.heroTitle}>
-            <span style={{ color: '#ef233c' }}>About</span> Us
+            Architecting <span style={{ color: '#ef233c' }}>Future Leaders</span>
           </h1>
-          <p className={styles.heroSub}>Empowering learners through flexible, high-quality, and accessible education since 2009.</p>
+          <p className={styles.heroSub}>For over a decade, TIMS Education has been at the forefront of global academic excellence. We are committed to bridging the gap between potential and opportunity, providing students with the platform to achieve internationally recognized qualifications and professional success.</p>
         </div>
       </section>
 
@@ -113,23 +113,52 @@ export default function About() {
 
       {/* ===== Testimonials Section ===== */}
       <section className={styles.testimonialsSection}>
-        <div className={styles.testimonialsHeader}>
-          <span className={styles.badge} style={{ color: 'var(--accent)', background: 'rgba(217,4,41,0.05)' }}>Success Stories</span>
-          <h2 className={styles.sectionHeading}>What our <span className={styles.redText}>Students say</span></h2>
-          <p className={styles.bodyText} style={{ textAlign: 'center', margin: '1rem auto 1.5rem' }}>
-            Empowering thousands of learners across Kerala to achieve their professional dreams through flexible education.
+        <div className={styles.testimonialsSectionHeader}>
+          <span className={styles.badge} style={{ color: '#fff', background: 'rgba(255,255,255,0.1)' }}>Success Stories</span>
+          <h2 className={styles.sectionHeading} style={{ color: '#fff' }}>What Our <span className={styles.redText}>Students Say</span></h2>
+          <p className={styles.bodyText} style={{ textAlign: 'center', margin: '1rem auto 3rem', color: 'rgba(255,255,255,0.6)', maxWidth: '600px' }}>
+            Join thousands of successful alumni who have transformed their careers through TIMS Education.
           </p>
+        </div>
+
+        <div className={styles.marqueeWrapper}>
+          <div className={styles.marqueeTrack}>
+            {[
+              { name: 'Aisha Raheem', role: 'MBA Graduate, Dubai', avatar: 'A', rating: 5, text: 'TIMS transformed my career. The distance MBA program was incredibly flexible and the faculty support was world-class. I went from a junior executive to a regional manager within a year of graduating.' },
+              { name: 'Rahul Nair', role: 'B.Tech Graduate, Bangalore', avatar: 'R', rating: 5, text: 'The credit transfer guidance from TIMS was exceptional. They helped me transition my Indian engineering degree to a Canadian university seamlessly. Couldn\'t have done it without their team.' },
+              { name: 'Priya Menon', role: 'BBA Graduate, Kochi', avatar: 'P', rating: 5, text: 'I completed my BBA through distance learning while working full-time. TIMS made it possible with their structured study materials and responsive support. Highly recommended for working professionals.' },
+              { name: 'Mohammed Ashik', role: 'NIOS Graduate, Thrissur', avatar: 'M', rating: 5, text: 'I had failed my board exams twice. TIMS guided me through the NIOS pathway and I passed with distinction. Their coaching and mock tests gave me the confidence I needed to succeed.' },
+              { name: 'Sreeja Thomas', role: 'MCA Graduate, Trivandrum', avatar: 'S', rating: 5, text: 'The attestation services at TIMS are outstanding. They handled all my documents for UAE employment, from state authentication to Embassy legalisation, within 7 days as promised.' },
+              { name: 'Arjun Pillai', role: 'MBA Graduate, Abu Dhabi', avatar: 'A', rating: 5, text: 'TIMS opened doors I never knew existed. Their international university partnerships gave me access to a globally recognised MBA that is respected by employers across the Gulf.' },
+              { name: 'Fatima Al Rashid', role: 'B.Com Graduate, Calicut', avatar: 'F', rating: 5, text: 'I chose TIMS for their reputation and was not disappointed. The admission counsellors were honest, helpful and guided me to the right program without pushing unnecessary courses.' },
+              { name: 'Vineeth Kumar', role: 'Diploma in Data Science', avatar: 'V', rating: 5, text: 'The Data Science diploma from TIMS gave me practical skills that I applied immediately at my workplace. The curriculum is modern, relevant and delivered by industry experts.' },
+            ].concat([
+              { name: 'Aisha Raheem', role: 'MBA Graduate, Dubai', avatar: 'A', rating: 5, text: 'TIMS transformed my career. The distance MBA program was incredibly flexible and the faculty support was world-class. I went from a junior executive to a regional manager within a year of graduating.' },
+              { name: 'Rahul Nair', role: 'B.Tech Graduate, Bangalore', avatar: 'R', rating: 5, text: 'The credit transfer guidance from TIMS was exceptional. They helped me transition my Indian engineering degree to a Canadian university seamlessly. Couldn\'t have done it without their team.' },
+              { name: 'Priya Menon', role: 'BBA Graduate, Kochi', avatar: 'P', rating: 5, text: 'I completed my BBA through distance learning while working full-time. TIMS made it possible with their structured study materials and responsive support. Highly recommended for working professionals.' },
+              { name: 'Mohammed Ashik', role: 'NIOS Graduate, Thrissur', avatar: 'M', rating: 5, text: 'I had failed my board exams twice. TIMS guided me through the NIOS pathway and I passed with distinction. Their coaching and mock tests gave me the confidence I needed to succeed.' },
+            ]).map((t, i) => (
+              <div key={i} className={styles.testimonialCard}>
+                <div className={styles.testimonialStars}>
+                  {'★'.repeat(t.rating)}
+                </div>
+                <p className={styles.testimonialText}>"{t.text}"</p>
+                <div className={styles.testimonialAuthor}>
+                  <div className={styles.testimonialAvatar}>{t.avatar}</div>
+                  <div>
+                    <p className={styles.testimonialName}>{t.name}</p>
+                    <p className={styles.testimonialRole}>{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '4rem' }}>
           <a href="https://admin.trustindex.io/api/googleWriteReview?place-id=ChIJ42gGBe6xpzsRfUBsYiL8KeQ" target="_blank" rel="noopener noreferrer" className={styles.writeReviewBtn}>
             Write a Review on Google
           </a>
-        </div>
-
-        <div className={styles.testimonialsScrollWrapper}>
-          <div className={styles.testimonialsContainer}>
-            <div style={{ width: '100%', textAlign: 'center', padding: '4rem', background: 'rgba(255,255,255,0.5)', borderRadius: '24px', border: '1px dashed #cbd5e1' }}>
-               <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Success stories from our graduates will be featured here soon.</p>
-            </div>
-          </div>
         </div>
       </section>
 

@@ -211,11 +211,27 @@ export default function CourseFinder() {
     if (!gateCleared || questions.length) return;
     setQuestionsLoading(true);
     fetch('/api/public/course-finder-questions')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error('Not found');
+        const contentType = r.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) throw new Error('Not JSON');
+        return r.json();
+      })
       .then(data => {
         // Use DB questions if configured, else fall back to built-in set
-        const loaded = Array.isArray(data) && data.length > 0 ? data : FALLBACK_QUESTIONS;
-        setQuestions(loaded);
+        let loaded = Array.isArray(data) && data.length > 0 ? data : FALLBACK_QUESTIONS;
+        
+        // Ensure unique questions by field to prevent duplicates
+        const uniqueQuestions = [];
+        const seenFields = new Set();
+        for (const q of loaded) {
+          if (!seenFields.has(q.field)) {
+            seenFields.add(q.field);
+            uniqueQuestions.push(q);
+          }
+        }
+        
+        setQuestions(uniqueQuestions);
       })
       .catch(() => setQuestions(FALLBACK_QUESTIONS))
       .finally(() => setQuestionsLoading(false));
@@ -262,12 +278,19 @@ export default function CourseFinder() {
          }
       });
 
-      let endpoint = '/api/public/programs';
+      let endpoint = '/api/admin/programs';
       if (selectedFieldValue === 'skill') endpoint = '/api/skills';
       else if (selectedFieldValue === 'openschool') endpoint = '/api/open-school';
 
-      const res = await fetch(endpoint);
-      const data = await res.json();
+      const res = await fetch(endpoint).catch(() => null);
+      
+      let data = [];
+      if (res && res.ok) {
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          data = await res.json();
+        }
+      }
       let allPrograms: any[] = [];
       
       if (selectedFieldValue === 'skill') {
@@ -535,7 +558,7 @@ export default function CourseFinder() {
           email: userData.email,
           phone: userData.phone || 'N/A',
           source: 'Course Finder Click',
-          course: `${program.name} at ${program.university || program.universityId?.name || 'Unknown'}`,
+          course: `${program.name} at ${program.university?.name || program.university || program.universityId?.name || 'Unknown'}`,
         }),
       });
     } catch (e) {
@@ -636,7 +659,7 @@ export default function CourseFinder() {
                     <Link key={program._id} href="/programs" className="cf-result-card" onClick={() => { trackCourseClick(program); setIsOpen(false); }}>
                       <div className="cf-result-info">
                         <h4 className="cf-result-name">{program.name}</h4>
-                        <p className="cf-result-university"><IconBuilding /> {program.university || program.universityId?.name || 'University'}</p>
+                        <p className="cf-result-university"><IconBuilding /> {program.university?.name || program.university || program.universityId?.name || 'University'}</p>
                         <div className="cf-result-meta">
                           <span className="cf-result-badge"><IconClock /> {program.duration}</span>
                           <span className="cf-result-badge"><IconMonitor /> {program.mode}</span>

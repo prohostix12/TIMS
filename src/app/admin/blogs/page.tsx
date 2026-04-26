@@ -67,6 +67,17 @@ export default function BlogsAdminPage() {
     });
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, image: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -328,15 +339,19 @@ export default function BlogsAdminPage() {
                   </div>
 
                   <div>
-                    <label className={styles.label}><ImageIcon size={16} /> Main Article Image URL</label>
+                    <label className={styles.label}><ImageIcon size={16} /> Article Cover Image</label>
                     <input 
-                      type="text" 
-                      name="image"
+                      type="file" 
+                      accept="image/*"
                       className={styles.input}
-                      placeholder="https://images.unsplash.com/photo-..."
-                      value={formData.image}
-                      onChange={handleInputChange}
+                      onChange={handleImageUpload}
                     />
+                    {formData.image && (
+                      <div style={{ marginTop: '10px' }}>
+                        <img src={formData.image} alt="Preview" style={{ width: '100px', height: '60px', borderRadius: '8px', objectFit: 'cover', border: '2px solid #e2e8f0' }} />
+                        <p style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600, marginTop: '4px' }}>✓ Image uploaded</p>
+                      </div>
+                    )}
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>

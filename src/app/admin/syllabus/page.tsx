@@ -52,6 +52,17 @@ export default function SyllabusAdminPage() {
     }
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, fileUrl: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -187,12 +198,12 @@ export default function SyllabusAdminPage() {
                     </a>
                   </td>
                   <td>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <button className={styles.iconBtn} onClick={() => handleEdit(item)} title="Edit">
-                        <Edit size={18} />
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                      <button className={styles.iconBtn} onClick={() => handleEdit(item)} title="Edit" style={{ display: 'flex', alignItems: 'center', gap: '5px', color: '#00122e', fontWeight: 600 }}>
+                        <Edit size={16} /> Edit
                       </button>
-                      <button className={styles.iconBtn} style={{ color: '#ef233c' }} onClick={() => setDeleteModal({ isOpen: true, id: item._id })} title="Delete">
-                        <Trash2 size={18} />
+                      <button className={styles.iconBtn} style={{ color: '#ef233c', display: 'flex', alignItems: 'center', gap: '5px', fontWeight: 600 }} onClick={() => setDeleteModal({ isOpen: true, id: item._id })} title="Delete">
+                        <Trash2 size={16} /> Delete
                       </button>
                     </div>
                   </td>
@@ -251,15 +262,21 @@ export default function SyllabusAdminPage() {
                   </div>
 
                   <div>
-                    <label className={styles.label}><FileText size={16} /> Syllabus PDF URL</label>
+                    <label className={styles.label}><FileText size={16} /> Syllabus Document (PDF)</label>
                     <input 
-                      type="text" 
+                      type="file" 
+                      accept=".pdf,application/pdf"
                       className={styles.input}
-                      placeholder="https://example.com/syllabus.pdf"
-                      value={formData.fileUrl}
-                      onChange={(e) => setFormData({...formData, fileUrl: e.target.value})}
-                      required
+                      onChange={handleFileUpload}
                     />
+                    {formData.fileUrl && (
+                      <p style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '6px', fontWeight: 600 }}>
+                        ✓ File attached successfully
+                      </p>
+                    )}
+                    <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
+                      Upload the official curriculum PDF.
+                    </p>
                   </div>
                 </div>
               </div>

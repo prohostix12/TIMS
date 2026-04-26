@@ -7,10 +7,10 @@ import { Users, Book, School, MessageSquare, TrendingUp, TrendingDown, Loader2 }
 
 export default function AdminDashboard() {
   const [statsData, setStatsData] = useState({
-    universities: 0,
-    pendingMessages: 0,
-    students: 0,
-    programs: 0
+    programs: 0,
+    leads: 0,
+    enrollments: 0,
+    universities: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -34,10 +34,10 @@ export default function AdminDashboard() {
   };
 
   const stats = [
-    { label: 'Total Students', value: statsData.students, trend: '0%', isUp: true, icon: <Users size={24} color="#1e293b" /> },
-    { label: 'Active Programs', value: statsData.programs, trend: '0%', isUp: true, icon: <Book size={24} color="#1e293b" /> },
-    { label: 'Universities', value: statsData.universities, trend: '0%', isUp: true, icon: <School size={24} color="#1e293b" /> },
-    { label: 'Pending Inquiry', value: statsData.pendingMessages, trend: '0%', isUp: true, icon: <MessageSquare size={24} color="#1e293b" /> },
+    { label: 'Total Programs', value: statsData.programs, trend: 'Active', isUp: true, icon: <Book size={24} color="#ef233c" /> },
+    { label: 'Student Leads', value: statsData.leads, trend: 'New', isUp: true, icon: <Users size={24} color="#00122e" /> },
+    { label: 'Enrollments', value: statsData.enrollments, trend: 'Confirmed', isUp: true, icon: <TrendingUp size={24} color="#10b981" /> },
+    { label: 'Partner Universities', value: statsData.universities, trend: 'Global', isUp: true, icon: <School size={24} color="#00122e" /> },
   ];
 
   const quickActions = [

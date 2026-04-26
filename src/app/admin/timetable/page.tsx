@@ -75,6 +75,17 @@ export default function TimetableAdminPage() {
     setFormData({ ...formData, entries: newEntries });
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, fileUrl: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -335,18 +346,21 @@ export default function TimetableAdminPage() {
                 ) : (
                   <div style={{ background: '#f8fafc', padding: '3rem 2rem', borderRadius: '16px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
                     <UploadCloud size={48} style={{ color: '#cbd5e1', marginBottom: '1rem' }} />
-                    <label className={styles.label} style={{ justifyContent: 'center' }}>Timetable PDF Link</label>
+                    <label className={styles.label} style={{ justifyContent: 'center' }}>Timetable Document (PDF)</label>
                     <input 
-                      type="text" 
+                      type="file" 
+                      accept=".pdf,application/pdf"
                       className={styles.input}
-                      placeholder="https://example.com/official-timetable.pdf"
-                      value={formData.fileUrl}
-                      onChange={(e) => setFormData({...formData, fileUrl: e.target.value})}
-                      required={formType === 'file'}
+                      onChange={handleFileUpload}
                       style={{ maxWidth: '600px', margin: '0 auto' }}
                     />
+                    {formData.fileUrl && (
+                      <p style={{ fontSize: '0.85rem', color: '#10b981', marginTop: '10px', fontWeight: 600 }}>
+                        ✓ Timetable PDF attached successfully
+                      </p>
+                    )}
                     <p style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '10px' }}>
-                      Paste the direct URL to the PDF timetable document hosted on a server or drive.
+                      Upload the official examination schedule PDF.
                     </p>
                   </div>
                 )}

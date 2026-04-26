@@ -20,6 +20,15 @@ export async function POST(request: Request) {
     const university = await University.create(body);
     return NextResponse.json(university, { status: 201 });
   } catch (error: any) {
+    console.error('University Creation API Error:', error);
+    
+    // Check for MongoDB authentication errors
+    if (error.message.includes('auth') || error.message.includes('Authentication') || error.message.includes('bad auth')) {
+      return NextResponse.json({ 
+        error: 'Database Authentication Failed. Please check your MONGODB_URI in environment variables.' 
+      }, { status: 401 });
+    }
+    
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -38,6 +38,34 @@ export default function TimetablePage() {
     fetchTimetables();
   }, []);
 
+  const downloadCSV = (tt: Timetable) => {
+    if (!tt.entries) return;
+    
+    // CSV Headers
+    const headers = ['Date', 'Time', 'Subject', 'Code'];
+    const rows = tt.entries.map(row => [
+      new Date(row.date).toLocaleDateString(),
+      `"${row.time}"`, // Wrap in quotes to handle commas
+      `"${row.subject}"`,
+      row.code
+    ]);
+    
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(r => r.join(','))
+    ].join('\n');
+    
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${tt.examName.replace(/\s+/g, '_')}_timetable.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <Navbar />
@@ -50,11 +78,11 @@ export default function TimetablePage() {
             </p>
             <span className={styles.heroTag}>Official Schedule</span>
             <h1 className={styles.heroTitle}>
-              <span style={{ color: '#ef233c' }}>Examination</span> Time Table
-            </h1>
-            <p className={styles.heroSub}>
-              Stay updated with the latest board and university examination schedules for all our programs.
-            </p>
+            Examination <span style={{ color: '#ef233c' }}>Timetables</span>
+          </h1>
+          <p className={styles.heroDesc}>
+            Stay ahead of your academic schedule. Access the official examination timetables for all our partner universities and boards. We ensure you have the most accurate and up-to-date information to help you plan your studies and achieve your best results.
+          </p>
           </div>
         </section>
 
@@ -76,10 +104,14 @@ export default function TimetablePage() {
                   <div key={tt._id} style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '3rem' }}>
                     <div className={styles.tableHeader}>
                       <h2 className={styles.tableTitle}>{tt.examName}</h2>
-                      {tt.type === 'file' && (
+                      {tt.type === 'file' ? (
                         <a href={tt.fileUrl} target="_blank" rel="noopener noreferrer" className={styles.downloadBtn}>
                           <Download size={15} /> Download PDF
                         </a>
+                      ) : (
+                        <button onClick={() => downloadCSV(tt)} className={styles.downloadBtn}>
+                          <Download size={15} /> Download CSV
+                        </button>
                       )}
                     </div>
 

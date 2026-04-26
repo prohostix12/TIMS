@@ -13,6 +13,7 @@ export interface IProgram extends Document {
   image?: string;
   brochure?: string;
   description?: string;
+  fee?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -29,6 +30,7 @@ const ProgramSchema: Schema = new Schema({
   image: { type: String },
   brochure: { type: String },
   description: { type: String },
+  fee: { type: Number, default: 0 },
 }, { timestamps: true });
 
 export default mongoose.models.Program || mongoose.model<IProgram>('Program', ProgramSchema);

@@ -1,23 +1,26 @@
-
 import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import University from '@/models/University';
-import Message from '@/models/Message';
+import Program from '@/models/Program';
+import Lead from '@/models/Lead';
+import Enrollment from '@/models/Enrollment';
 
 export async function GET() {
   try {
     await connectDB();
     
-    const [universityCount, messageCount] = await Promise.all([
+    const [universityCount, programCount, leadCount, enrollmentCount] = await Promise.all([
       University.countDocuments(),
-      Message.countDocuments({ read: false })
+      Program.countDocuments(),
+      Lead.countDocuments(),
+      Enrollment.countDocuments()
     ]);
 
     return NextResponse.json({
       universities: universityCount,
-      pendingMessages: messageCount,
-      students: 0, // Placeholder until Student model is created
-      programs: 0  // Placeholder until Program model is created
+      programs: programCount,
+      leads: leadCount,
+      enrollments: enrollmentCount
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

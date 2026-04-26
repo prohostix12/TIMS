@@ -25,7 +25,8 @@ export default function EditProgram() {
     courseType: '',
     image: '',
     brochure: '',
-    description: ''
+    description: '',
+    fee: ''
   });
 
   useEffect(() => {
@@ -58,7 +59,8 @@ export default function EditProgram() {
               courseType: data.courseType || '',
               image: data.image || '',
               brochure: data.brochure || '',
-              description: data.description || ''
+              description: data.description || '',
+              fee: data.fee || ''
             });
           }
         })
@@ -285,6 +287,21 @@ export default function EditProgram() {
                   onChange={(e) => handleFileUpload(e, 'brochure')}
                 />
                 {formData.brochure && <p style={{fontSize: '12px', color: '#10b981', marginTop: '5px', fontWeight: 600}}>✓ Brochure attached successfully</p>}
+              </div>
+            </div>
+
+            <div className={styles.formGrid} style={{ padding: 0 }}>
+              <div>
+                <label className={styles.label}>Estimated Fee (₹)</label>
+                <input 
+                  name="fee"
+                  type="number" 
+                  placeholder="e.g. 45000" 
+                  className={styles.input}
+                  value={formData.fee}
+                  onChange={handleChange}
+                />
+                <p style={{fontSize: '12px', color: '#64748b', marginTop: '5px'}}>This will be used for filtering in Course Finder.</p>
               </div>
             </div>
           </div>

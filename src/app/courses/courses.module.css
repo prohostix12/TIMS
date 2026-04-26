@@ -454,11 +454,12 @@
 
 /* ===== Institutional Final CTA ===== */
 .institutionalSection {
-  padding: 10rem 0;
-  background: #ef233c;
+  padding: 8rem 5%;
+  background: #000000;
   color: white;
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
 .institutionalSection::before {
@@ -482,11 +483,12 @@
 }
 
 .instTitle {
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: 900;
   margin-bottom: 2rem;
   line-height: 1;
   letter-spacing: -2px;
+  color: white;
 }
 
 .instDesc {
@@ -503,8 +505,8 @@
   display: inline-flex;
   align-items: center;
   gap: 1.5rem;
-  background: white;
-  color: #ef233c;
+  background: #ef233c;
+  color: #ffffff;
   padding: 1.5rem 5rem;
   border-radius: 100px;
   font-weight: 900;

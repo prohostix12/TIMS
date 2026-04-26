@@ -12,7 +12,8 @@ import {
   Loader2,
   AlertCircle,
   Download,
-  Book
+  Book,
+  Edit
 } from 'lucide-react';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -21,6 +22,7 @@ export default function StudyMaterialsAdminPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     subject: '',
     fileUrl: '',
@@ -48,19 +50,45 @@ export default function StudyMaterialsAdminPage() {
     }
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, fileUrl: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleEdit = (item: any) => {
+    setEditingId(item._id);
+    setFormData({
+      subject: item.subject,
+      fileUrl: item.fileUrl,
+      category: item.category || 'General',
+      fileType: item.fileType || 'PDF'
+    });
+    setIsFormOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetch('/api/admin/study-materials', {
-        method: 'POST',
+      const url = editingId ? `/api/admin/study-materials/${editingId}` : '/api/admin/study-materials';
+      const method = editingId ? 'PUT' : 'POST';
+      
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
 
       if (res.ok) {
-        setToast({ msg: 'Study material uploaded successfully!', type: 'success' });
+        setToast({ msg: `Material ${editingId ? 'updated' : 'uploaded'} successfully!`, type: 'success' });
         setIsFormOpen(false);
+        setEditingId(null);
         setFormData({
           subject: '',
           fileUrl: '',
@@ -174,6 +202,9 @@ export default function StudyMaterialsAdminPage() {
                       <a href={item.fileUrl} target="_blank" rel="noopener noreferrer" className={styles.iconBtn} title="Download">
                         <Download size={18} />
                       </a>
+                      <button className={styles.iconBtn} onClick={() => handleEdit(item)} title="Edit">
+                        <Edit size={18} />
+                      </button>
                       <button className={styles.iconBtn} style={{ color: '#ef233c' }} onClick={() => setDeleteModal({ isOpen: true, id: item._id })} title="Delete">
                         <Trash2 size={18} />
                       </button>
@@ -198,10 +229,10 @@ export default function StudyMaterialsAdminPage() {
           <div className={styles.modalContent} style={{ maxWidth: '500px' }}>
             <div className={styles.modalHeader}>
               <div>
-                <h2 style={{ margin: 0 }}>Upload Study Material</h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>Add educational resources for student download.</p>
+                <h2 style={{ margin: 0 }}>{editingId ? 'Edit Study Material' : 'Upload Study Material'}</h2>
+                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>{editingId ? 'Update the resource details below.' : 'Add educational resources for student download.'}</p>
               </div>
-              <button className={styles.closeBtn} onClick={() => setIsFormOpen(false)}>
+              <button className={styles.closeBtn} onClick={() => { setIsFormOpen(false); setEditingId(null); }}>
                 <X size={24} />
               </button>
             </div>
@@ -237,28 +268,31 @@ export default function StudyMaterialsAdminPage() {
                   </div>
 
                   <div>
-                    <label className={styles.label}><FileText size={16} /> File / Document URL</label>
+                    <label className={styles.label}><FileText size={16} /> Study Resource (PDF/Doc)</label>
                     <input 
-                      type="text" 
+                      type="file" 
+                      accept=".pdf,.doc,.docx,application/pdf"
                       className={styles.input}
-                      placeholder="https://example.com/material.pdf"
-                      value={formData.fileUrl}
-                      onChange={(e) => setFormData({...formData, fileUrl: e.target.value})}
-                      required
+                      onChange={handleFileUpload}
                     />
+                    {formData.fileUrl && (
+                      <p style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '6px', fontWeight: 600 }}>
+                        ✓ Resource attached successfully
+                      </p>
+                    )}
                     <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                      Provide a direct link to the PDF document.
+                      Upload the study guide or reference material.
                     </p>
                   </div>
                 </div>
               </div>
 
               <div className={styles.modalFooter}>
-                <button type="button" className={styles.cancelBtn} onClick={() => setIsFormOpen(false)}>
+                <button type="button" className={styles.cancelBtn} onClick={() => { setIsFormOpen(false); setEditingId(null); }}>
                   Cancel
                 </button>
                 <button type="submit" className={styles.saveBtn} disabled={saving} style={{ padding: '0.8rem 2.5rem' }}>
-                  {saving ? <><Loader2 className="animate-spin" size={20} /> Uploading...</> : 'Upload Resource'}
+                  {saving ? <><Loader2 className="animate-spin" size={20} /> Saving...</> : editingId ? 'Update Resource' : 'Upload Resource'}
                 </button>
               </div>
             </form>

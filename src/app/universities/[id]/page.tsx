@@ -18,8 +18,6 @@ import {
   ArrowRight,
   BookOpen
 } from 'lucide-react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import EnquiryModal from '@/components/EnquiryModal';
 
 export default function UniversityDetailPage() {
@@ -27,6 +25,7 @@ export default function UniversityDetailPage() {
   const [uni, setUni] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -61,21 +60,27 @@ export default function UniversityDetailPage() {
 
   return (
     <>
-      <Navbar />
       <main style={{ minHeight: '100vh', background: '#ffffff', paddingBottom: '100px' }}>
         {/* Hero Section */}
-        <div style={{ position: 'relative', height: '500px', width: '100%', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', minHeight: '550px', width: '100%', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '80px' }}>
           <Image 
             src={uni.image || 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1200&auto=format&fit=crop'} 
             alt={uni.name} 
             fill 
             style={{ objectFit: 'cover' }} 
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,18,46,0.3), rgba(0,18,46,0.9))' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,18,46,0.4), rgba(0,18,46,0.85))' }} />
           
-          <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '60px 20px', color: 'white' }}>
-            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1.5rem' }}>
+          <div style={{ position: 'relative', width: '100%', padding: '40px 20px', color: 'white', zIndex: 1 }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              
+              {uni.logo && (
+                <div style={{ width: '100px', height: '100px', background: 'white', borderRadius: '20px', padding: '15px', marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }}>
+                  <img src={uni.logo} alt={`${uni.name} Logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(uni.name)}&background=random&size=128`; }} />
+                </div>
+              )}
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', marginBottom: '1.5rem' }}>
                 <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
                 <ChevronRight size={14} />
                 <Link href="/universities" style={{ color: 'inherit', textDecoration: 'none' }}>Universities</Link>
@@ -83,22 +88,20 @@ export default function UniversityDetailPage() {
                 <span style={{ color: 'white', fontWeight: 700 }}>{uni.name}</span>
               </div>
               
-              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: '30px' }}>
-                <div style={{ flex: 1, minWidth: '300px' }}>
-                  <span style={{ display: 'inline-block', background: '#ef233c', color: 'white', padding: '4px 16px', borderRadius: '50px', fontSize: '0.8rem', fontWeight: 800, marginBottom: '1rem' }}>{uni.type?.toUpperCase() || 'INSTITUTION'}</span>
-                  <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, margin: 0, lineHeight: 1.1 }}>{uni.name}</h1>
-                  <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginTop: '1rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <MapPin size={20} style={{ color: '#ef233c' }} /> {uni.location}
-                  </p>
-                </div>
-                
-                <button 
-                  onClick={() => setIsModalOpen(true)}
-                  style={{ background: 'white', color: '#00122e', border: 'none', padding: '1.2rem 2.5rem', borderRadius: '12px', fontWeight: 800, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', transition: 'all 0.2s ease', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
-                >
-                  Quick Enquiry <ArrowRight size={20} />
-                </button>
-              </div>
+              <span style={{ display: 'inline-block', background: '#ef233c', color: 'white', padding: '4px 16px', borderRadius: '50px', fontSize: '0.8rem', fontWeight: 800, marginBottom: '1rem' }}>{uni.type?.toUpperCase() || 'INSTITUTION'}</span>
+              <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, margin: 0, lineHeight: 1.1, color: 'white' }}>{uni.name}</h1>
+              <p style={{ fontSize: '1.2rem', color: 'rgba(255,255,255,0.8)', marginTop: '1rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <MapPin size={20} style={{ color: '#ef233c' }} /> {uni.location}
+              </p>
+              
+              <button 
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                onClick={() => setIsModalOpen(true)}
+                style={{ background: isHovered ? '#002060' : '#ef233c', color: 'white', border: 'none', padding: '1.2rem 2.5rem', borderRadius: '12px', fontWeight: 800, fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', transition: 'all 0.3s ease', boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
+              >
+                Quick Enquiry <ArrowRight size={20} />
+              </button>
             </div>
           </div>
         </div>
@@ -188,7 +191,7 @@ export default function UniversityDetailPage() {
             {/* Right Column: Sidebar info */}
             <div>
               <div style={{ padding: '40px', background: '#00122e', borderRadius: '32px', color: 'white', position: 'sticky', top: '100px' }}>
-                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem' }}>Contact Information</h3>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '2rem', color: 'white' }}>Contact Information</h3>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '15px' }}>
@@ -231,7 +234,6 @@ export default function UniversityDetailPage() {
           </div>
         </div>
       </main>
-      <Footer />
 
       <EnquiryModal 
         isOpen={isModalOpen} 

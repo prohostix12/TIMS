@@ -324,3 +324,56 @@
 
   .codeCell { display: none; }
 }
+
+@media print {
+  :global(nav), :global(footer), .hero, .cta, .downloadBtn, .heroCrumb, .pageGlow {
+    display: none !important;
+  }
+  
+  .container {
+    background: white !important;
+    padding: 0 !important;
+  }
+  
+  .tableSection {
+    padding: 2rem 0 !important;
+  }
+  
+  .tableWrap {
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .tableHeader {
+    background: transparent !important;
+    border-bottom: 2px solid #000 !important;
+    padding: 1rem 0 !important;
+  }
+  
+  .tableTitle {
+    font-size: 1.5rem !important;
+    color: black !important;
+  }
+  
+  .tableHeadRow {
+    background: #f1f5f9 !important;
+    color: black !important;
+    border-bottom: 1px solid #000 !important;
+  }
+  
+  .tableRow {
+    border-bottom: 1px solid #e2e8f0 !important;
+    page-break-inside: avoid;
+  }
+  
+  .tableRowAlt {
+    background: transparent !important;
+  }
+  
+  .codeCell {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #ef233c !important;
+    -webkit-print-color-adjust: exact;
+  }
+}

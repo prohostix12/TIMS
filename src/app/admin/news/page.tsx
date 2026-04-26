@@ -64,6 +64,17 @@ export default function NewsAdminPage() {
     });
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, field: 'image' | 'pdfUrl') => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, [field]: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -314,27 +325,34 @@ export default function NewsAdminPage() {
                   </div>
 
                   <div>
-                    <label className={styles.label}><ImageIcon size={16} /> Main Cover Image URL</label>
+                    <label className={styles.label}><ImageIcon size={16} /> Cover Image</label>
                     <input 
-                      type="text" 
-                      name="image"
+                      type="file" 
+                      accept="image/*"
                       className={styles.input}
-                      placeholder="https://example.com/image.jpg"
-                      value={formData.image}
-                      onChange={handleInputChange}
+                      onChange={(e) => handleFileUpload(e, 'image')}
                     />
+                    {formData.image && (
+                      <div style={{ marginTop: '10px' }}>
+                        <img src={formData.image} alt="Preview" style={{ width: '80px', height: '50px', borderRadius: '4px', objectFit: 'cover' }} />
+                        <p style={{ fontSize: '0.7rem', color: '#10b981', fontWeight: 600 }}>✓ Image ready</p>
+                      </div>
+                    )}
                   </div>
 
                   <div>
-                    <label className={styles.label}><FileText size={16} /> PDF / Document URL</label>
+                    <label className={styles.label}><FileText size={16} /> News Document (PDF)</label>
                     <input 
-                      type="text" 
-                      name="pdfUrl"
+                      type="file" 
+                      accept=".pdf,application/pdf"
                       className={styles.input}
-                      placeholder="https://example.com/document.pdf"
-                      value={formData.pdfUrl}
-                      onChange={handleInputChange}
+                      onChange={(e) => handleFileUpload(e, 'pdfUrl')}
                     />
+                    {formData.pdfUrl && (
+                      <p style={{ fontSize: '0.75rem', color: '#10b981', fontWeight: 600, marginTop: '8px' }}>
+                        ✓ PDF attached
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

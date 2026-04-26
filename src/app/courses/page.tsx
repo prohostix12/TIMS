@@ -112,11 +112,11 @@ export default function CoursesPage() {
                 Programs Directory
               </div>
               <h1 className={styles.heroTitle}>
-                Discover Your <br />
-                <span className={styles.heroTitleAccent}>Academic Future</span>
+                Explore Our <br />
+                <span className={styles.heroTitleAccent}>Global Program Directory</span>
               </h1>
               <p className={styles.heroDesc}>
-                Explore our comprehensive directory of recognized academic programs. From SSLC to Post-Graduation, we provide the platform for your global success.
+                Unlock your potential with our extensive catalog of globally recognized academic programs. From NIOS/SSLC to specialized Post-Graduate degrees, we offer path-breaking education designed to fast-track your career in today's competitive landscape.
               </p>
               <div className={styles.heroActions}>
                 <Link href="/contact" className={styles.heroPrimaryBtn}>
@@ -205,7 +205,7 @@ export default function CoursesPage() {
         <section className={styles.institutionalSection}>
           <div className={styles.instContent}>
             <h2 className={styles.instTitle}>
-              Your Future Starts With <br /> <span style={{ color: '#ef233c' }}>The Right Choice</span>
+              Your Future Starts With <br /> <span>The Right Choice</span>
             </h2>
             <p className={styles.instDesc}>
               Our academic consultants are here to guide you through the maze of educational options. Get a personalized roadmap for your career today.

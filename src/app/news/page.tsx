@@ -43,22 +43,32 @@ export default function AllNewsPage() {
   const otherNews = newsItems.slice(1);
 
   return (
-    <>
-      <Navbar />
-      <main className={styles.container}>
-        {/* Editorial Hero */}
-        <section className={styles.hero}>
-          <div className={styles.heroContent}>
-            <div className={styles.heroLeft}>
-              <div className={styles.heroTag}>Latest Updates</div>
-              <h1 className={styles.heroTitle}>
-                Institutional <span style={{ color: '#ef233c' }}>Journal</span>
-              </h1>
-              <p className={styles.heroDesc}>
-                Stay connected with the pulse of TIMS — from academic breakthroughs to global institutional updates.
-              </p>
+    <main className={styles.container}>
+      {/* Editorial Hero */}
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <div className={styles.heroLeft}>
+            <div className={styles.heroTag}>Latest Updates</div>
+            <h1 className={styles.heroTitle}>
+              TIMS <span style={{ color: '#ef233c' }}>Institutional Journal</span>
+            </h1>
+            <p className={styles.heroDesc}>
+              Stay connected with the pulse of TIMS — from groundbreaking academic achievements and university breakthroughs to the latest global institutional updates and community announcements.
+            </p>
+            <div className={styles.heroStats}>
+              <div className={styles.stat}>
+                <span className={styles.statVal}>50k+</span>
+                <span className={styles.statLab}>Monthly Readers</span>
+              </div>
+              <div className={styles.statDivider} />
+              <div className={styles.stat}>
+                <span className={styles.statVal}>24/7</span>
+                <span className={styles.statLab}>Academic Updates</span>
+              </div>
             </div>
-            <div className={styles.heroRight}>
+          </div>
+          <div className={styles.heroRight}>
+            <div className={styles.mainImageWrap}>
               <Image
                 src="/images/news-hero-bg.png"
                 alt="Institutional News"
@@ -68,55 +78,54 @@ export default function AllNewsPage() {
               />
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Magazine Grid */}
-        <section className={styles.newsSection}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.headerLeft}>
-              <h2><span style={{ color: '#ef233c' }}>Editor's</span> Choice</h2>
-              <p>Handpicked stories from our community.</p>
+      {/* Magazine Grid */}
+      <section className={styles.newsSection}>
+        <div className={styles.sectionHeader}>
+          <div className={styles.headerLeft}>
+            <h2><span style={{ color: '#ef233c' }}>Editor's</span> Choice</h2>
+            <p>Handpicked stories from our community.</p>
+          </div>
+        </div>
+
+        <div className={styles.newsGrid}>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '10rem 0' }}>
+              <Loader2 className="animate-spin" size={48} style={{ color: '#ef233c', marginBottom: '1rem' }} />
+              <p style={{ fontWeight: 700, color: '#002060' }}>Curating latest stories...</p>
             </div>
-          </div>
-
-          <div className={styles.newsGrid}>
-            {loading ? (
-              <div style={{ textAlign: 'center', padding: '10rem 0' }}>
-                <Loader2 className="animate-spin" size={48} style={{ color: '#ef233c', marginBottom: '1rem' }} />
-                <p style={{ fontWeight: 700, color: '#002060' }}>Curating latest stories...</p>
-              </div>
-            ) : newsItems.length > 0 ? (
-              newsItems.map((item, i) => (
-                <article key={item._id} className={styles.newsArticle}>
-                  <div className={styles.imageBox}>
-                    <Image
-                      src={item.image || '/images/news-hero-bg.png'}
-                      alt={item.title}
-                      className={styles.articleImage}
-                      fill
-                    />
-                  </div>
-                  <div className={styles.articleContent}>
-                    <span className={styles.articleCategory}>{item.category || 'ACADEMIC'}</span>
-                    <h3 className={styles.articleTitle}>{item.title}</h3>
-                    <p className={styles.articleExcerpt}>{item.excerpt}</p>
-                    <Link href={`/news/${item._id}`} className={styles.readMore}>
-                      READ STORY <ArrowRight size={20} />
-                    </Link>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <div className={styles.emptyState}>
-                <Newspaper size={64} style={{ color: '#e2e8f0', marginBottom: '2rem' }} />
-                <h2>No articles published yet</h2>
-                <p>Check back soon for the latest institutional updates.</p>
-              </div>
-            )}
-          </div>
-        </section>
-      </main>
-      <Footer />
-    </>
+          ) : newsItems.length > 0 ? (
+            newsItems.map((item, i) => (
+              <article key={item._id} className={styles.newsArticle}>
+                <div className={styles.imageBox}>
+                  <Image
+                    src={item.image || '/images/news-hero-bg.png'}
+                    alt={item.title}
+                    className={styles.articleImage}
+                    fill
+                  />
+                </div>
+                <div className={styles.articleContent}>
+                  <span className={styles.articleCategory}>{item.category || 'ACADEMIC'}</span>
+                  <h3 className={styles.articleTitle}>{item.title}</h3>
+                  <p className={styles.articleExcerpt}>{item.excerpt}</p>
+                  <Link href={`/news/${item._id}`} className={styles.readMore}>
+                    READ STORY <ArrowRight size={20} />
+                  </Link>
+                </div>
+              </article>
+            ))
+          ) : (
+            <div className={styles.emptyState}>
+              <Newspaper size={64} style={{ color: '#e2e8f0', marginBottom: '2rem' }} />
+              <h2>No articles published yet</h2>
+              <p>Check back soon for the latest institutional updates.</p>
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
   );
 }

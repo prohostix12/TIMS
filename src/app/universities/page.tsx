@@ -72,10 +72,10 @@ export default function UniversitiesPage() {
             <Link href="/">Home</Link> <span>/</span> <span>Universities</span>
           </nav>
           <h1 className={styles.heroTitle}>
-            <span style={{ color: '#ef233c' }}>Partner</span> Universities
+            <span style={{ color: '#ef233c' }}>Global</span> Academic Partners
           </h1>
           <p className={styles.heroSub}>
-            Discover your future at one of our globally recognized partner institutions.
+            TIMS Education connects you with the world's most prestigious universities. Explore our network of top-ranked institutions across India and abroad, each handpicked for their academic excellence, global accreditation, and career placement records.
           </p>
           
           <div className={styles.heroSearchWrapper}>
@@ -146,6 +146,11 @@ export default function UniversitiesPage() {
                         style={{ objectFit: 'cover' }}
                       />
                       <span className={styles.cardRegion}>{uni.type || 'Institutional'}</span>
+                      {uni.logo && (
+                        <div style={{ position: 'absolute', top: '15px', left: '15px', width: '45px', height: '45px', borderRadius: '8px', overflow: 'hidden', border: '2px solid white', background: 'white', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', zIndex: 10 }}>
+                          <img src={uni.logo} alt={`${uni.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(uni.name)}&background=random&size=128`; }} />
+                        </div>
+                      )}
                     </div>
                     <div className={styles.cardBody}>
                       <p className={styles.cardLocation}>

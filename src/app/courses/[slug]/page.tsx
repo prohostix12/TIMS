@@ -14,50 +14,65 @@ import {
   Award,
   Users
 } from 'lucide-react';
+import EnquiryModal from '@/components/EnquiryModal';
 
 export default function CourseDetailsPage() {
   const params = useParams();
   const slug = params.slug as string;
-  
-  // Format slug back to title for display
-  const title = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  const [courseData, setCourseData] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(true);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  // Mock course data lookup
-  // Mock course data lookup (simplified for demonstration)
-  const courseImages: { [key: string]: string } = {
-    'master-of-business-administration-(mba)': "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'b.tech-in-computer-science': "https://images.pexels.com/photos/1181244/pexels-photo-1181244.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'plus-two-science-/-commerce': "https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'secondary-school-leaving-certificate': "https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'executive-diploma-in-marketing': "https://images.pexels.com/photos/590022/pexels-photo-590022.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'm.sc-in-information-technology': "https://images.pexels.com/photos/256381/pexels-photo-256381.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    'bachelor-of-business-administration-(bba)': "https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg?auto=compress&cs=tinysrgb&w=1200"
-  };
+  React.useEffect(() => {
+    if (slug) {
+      fetch(`/api/admin/programs/${slug}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data.error) {
+            setCourseData({
+              title: data.name,
+              image: data.image || "https://images.unsplash.com/photo-1523050853063-bd8012fec046?q=80&w=1200",
+              category: data.category || 'Program',
+              duration: data.duration || "24 Months",
+              eligibility: data.eligibility || "Bachelor's Degree in relevant field",
+              level: data.level || "Advanced Professional",
+              description: data.description || `The ${data.name} is a premier academic program designed to equip students with the advanced skills and strategic mindset required in today's competitive global landscape.`,
+              highlights: [
+                "Industry-aligned curriculum",
+                "Expert faculty mentorship",
+                "Global networking opportunities",
+                "Practical project-based learning"
+              ],
+              curriculum: [
+                "Strategic Management & Leadership",
+                "Advanced Analytical Techniques",
+                "Organizational Behavior",
+                "Global Market Dynamics"
+              ]
+            });
+          }
+        })
+        .catch(err => console.error(err))
+        .finally(() => setLoading(false));
+    }
+  }, [slug]);
 
-  const courseData = {
-    title: title,
-    image: courseImages[slug] || "https://images.unsplash.com/photo-1523050853063-bd8012fec046?q=80&w=1200",
-    category: title.includes('MBA') || title.includes('M.Sc') ? 'Post Graduate' : 'Undergraduate',
-    duration: "24 Months",
-    eligibility: "Bachelor's Degree in relevant field",
-    level: "Advanced Professional",
-    description: `The ${title} is a premier academic program designed to equip students with the advanced skills and strategic mindset required in today's competitive global landscape. This curriculum blends theoretical foundations with practical, industry-aligned case studies to ensure graduates are ready for high-impact leadership roles.`,
-    highlights: [
-      "Industry-aligned curriculum",
-      "Expert faculty mentorship",
-      "Global networking opportunities",
-      "Practical project-based learning",
-      "Comprehensive career support",
-      "Accredited certification"
-    ],
-    curriculum: [
-      "Strategic Management & Leadership",
-      "Advanced Analytical Techniques",
-      "Organizational Behavior",
-      "Global Market Dynamics",
-      "Digital Transformation Strategies"
-    ]
-  };
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ fontSize: '1.2rem', color: '#64748b', fontWeight: 600 }}>Loading course details...</p>
+      </div>
+    );
+  }
+
+  if (!courseData) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <h2>Course not found</h2>
+        <Link href="/courses" style={{ marginTop: '1rem', color: '#ef233c', textDecoration: 'underline' }}>Back to Courses</Link>
+      </div>
+    );
+  }
 
   return (
     <main className={styles.container}>
@@ -137,9 +152,13 @@ export default function CourseDetailsPage() {
                   <div className={styles.infoValue}>Rolling Enrollment</div>
                 </div>
 
-                <Link href="/contact" className={styles.enquireBtn}>
+                <button 
+                  onClick={() => setIsModalOpen(true)}
+                  className={styles.enquireBtn}
+                  style={{ width: '100%', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                >
                   ENQUIRE NOW
-                </Link>
+                </button>
                 
                 <p style={{ textAlign: 'center', marginTop: '2rem', fontSize: '0.9rem', color: '#64748b', fontWeight: 600 }}>
                   * Academic scholarships available
@@ -152,22 +171,32 @@ export default function CourseDetailsPage() {
       </section>
 
       {/* ===== Institutional Footer CTA ===== */}
-      <section style={{ padding: '8rem 0', backgroundColor: '#f8fafc', textAlign: 'center' }}>
+      <section style={{ padding: '8rem 0', backgroundColor: '#000000', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 5%' }}>
-          <h2 style={{ fontSize: '2.5rem', color: '#00122e', fontWeight: 900, marginBottom: '1.5rem' }}>Ready to Take the Next Step?</h2>
-          <p style={{ fontSize: '1.1rem', color: '#64748b', marginBottom: '3rem', lineHeight: 1.6 }}>
+          <h2 style={{ fontSize: '2.5rem', color: '#ffffff', fontWeight: 900, marginBottom: '1.5rem' }}>Ready to Take the Next Step?</h2>
+          <p style={{ fontSize: '1.1rem', color: 'rgba(255, 255, 255, 0.7)', marginBottom: '3rem', lineHeight: 1.6 }}>
             Our admissions team is here to guide you through the enrollment process and answer any questions about the {courseData.title} program.
           </p>
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
-            <Link href="/contact" style={{ background: '#00122e', color: 'white', padding: '1.25rem 3rem', borderRadius: '50px', fontWeight: 900, textDecoration: 'none' }}>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              style={{ background: '#ef233c', color: 'white', padding: '1.25rem 3rem', borderRadius: '50px', fontWeight: 900, textDecoration: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.3s ease' }}>
               CONTACT ADMISSIONS
-            </Link>
-            <Link href="/universities" style={{ border: '2px solid #00122e', color: '#00122e', padding: '1.25rem 3rem', borderRadius: '50px', fontWeight: 900, textDecoration: 'none' }}>
+            </button>
+            <Link href="/universities" style={{ border: '2px solid #ffffff', color: '#ffffff', padding: '1.25rem 3rem', borderRadius: '50px', fontWeight: 900, textDecoration: 'none', transition: 'all 0.3s ease' }}>
               BROWSE UNIVERSITIES
             </Link>
           </div>
         </div>
       </section>
+
+      <EnquiryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title={`Enquire about ${courseData.title}`}
+        interest={courseData.title}
+        source="Course Details Page"
+      />
     </main>
   );
 }

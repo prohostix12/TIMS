@@ -63,10 +63,10 @@ export default function ContactPage() {
           </p>
           <span className={styles.heroTag}>Support Center</span>
           <h1 className={styles.heroTitle}>
-            Get in <span style={{ color: '#ef233c' }}>Touch</span>
+            Dedicated <span style={{ color: '#ef233c' }}>Academic Support</span>
           </h1>
           <p className={styles.heroSub}>
-            Have questions? Our academic counselors are here to help you navigate your educational journey with clarity and confidence.
+            Your future is our priority. Whether you have questions about specific programs, university admissions, or need personalized career counseling, our dedicated support team is ready to guide you every step of the way. Reach out today and let's shape your success together.
           </p>
         </div>
       </section>

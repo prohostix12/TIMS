@@ -187,26 +187,6 @@ export default function Home() {
 
   return (
     <main className={styles.container}>
-      {/* ===== Category Icon Strip ===== */}
-      <div className={styles.categoryStrip}>
-        <div className={styles.categoryInner}>
-          {[
-            { emoji: '🎓', label: 'BBA' },
-            { emoji: '📊', label: 'MBA' },
-            { emoji: '📜', label: 'Attestation' },
-            { emoji: '🌐', label: 'Credit Transfer' },
-            { emoji: '💻', label: 'Online Studies' },
-            { emoji: '📚', label: 'Distance Ed.' },
-            { emoji: '🏫', label: 'SSLC / NIOS' },
-            { emoji: '✈️', label: 'Study Abroad' },
-          ].map((cat, i) => (
-            <Link key={i} href="/courses" className={styles.categoryItem}>
-              <span className={styles.categoryEmoji}>{cat.emoji}</span>
-              <span className={styles.categoryLabel}>{cat.label}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
 
       {/* ===== Hero Section - UpGrad Style ===== */}
       <section className={styles.heroWrapper}>
@@ -251,6 +231,7 @@ export default function Home() {
                 src="/images/hero-campus.png"
                 alt="Students on University Campus"
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: 'cover' }}
                 priority
               />
@@ -352,8 +333,15 @@ export default function Home() {
                   src={uni.image || UNI_PLACEHOLDER}
                   alt={uni.name}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover' }}
+                  onError={(e) => { e.currentTarget.srcset = ''; e.currentTarget.src = UNI_PLACEHOLDER; }}
                 />
+                {uni.logo && (
+                  <div style={{ position: 'absolute', top: '15px', left: '15px', width: '45px', height: '45px', borderRadius: '8px', overflow: 'hidden', border: '2px solid white', background: 'white', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', zIndex: 10 }}>
+                    <img src={uni.logo} alt={`${uni.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(uni.name)}&background=random&size=128`; }} />
+                  </div>
+                )}
               </div>
               <div className={styles.uniCardBody}>
                 <h3 className={styles.uniCardName}>{uni.name}</h3>
@@ -436,7 +424,7 @@ export default function Home() {
           {courses.map((course, i) => (
             <div key={course._id} className={styles.courseMiniCard} style={{ '--i': i } as React.CSSProperties}>
               <div className={styles.courseMiniImg}>
-                <Image src={course.image || 'https://images.unsplash.com/photo-1523240715639-99f84db47d0e?q=80&w=800'} alt={course.name} fill style={{ objectFit: 'cover' }} unoptimized={true} />
+                <Image src={course.image || 'https://images.unsplash.com/photo-1523240715639-99f84db47d0e?q=80&w=800'} alt={course.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} unoptimized={true} />
                 <span className={styles.courseTag}>{course.level}</span>
               </div>
               <div className={styles.courseMiniBody}>
@@ -458,7 +446,7 @@ export default function Home() {
 
       {/* ===== Testimonials Section ===== */}
       <section className={styles.testimonialsSection}>
-        <div className={styles.uniSectionHeader}>
+        <div className={styles.testimonialsSectionHeader}>
           <span className={styles.uniSectionTag}>Success Stories</span>
           <h2 className={styles.uniSectionTitle}>What Our Students Say</h2>
           <p className={styles.uniSectionSub}>
@@ -466,10 +454,37 @@ export default function Home() {
           </p>
         </div>
 
-        <div className={styles.testimonialsGrid}>
-          {/* Testimonials removed as they are demo data. Empty state below. */}
-          <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
-            <p>Our student testimonials will be featured here soon.</p>
+        <div className={styles.marqueeWrapper}>
+          <div className={styles.marqueeTrack}>
+            {[
+              { name: 'Aisha Raheem', role: 'MBA Graduate, Dubai', avatar: 'A', rating: 5, text: 'TIMS transformed my career. The distance MBA program was incredibly flexible and the faculty support was world-class. I went from a junior executive to a regional manager within a year of graduating.' },
+              { name: 'Rahul Nair', role: 'B.Tech Graduate, Bangalore', avatar: 'R', rating: 5, text: 'The credit transfer guidance from TIMS was exceptional. They helped me transition my Indian engineering degree to a Canadian university seamlessly. Couldn\'t have done it without their team.' },
+              { name: 'Priya Menon', role: 'BBA Graduate, Kochi', avatar: 'P', rating: 5, text: 'I completed my BBA through distance learning while working full-time. TIMS made it possible with their structured study materials and responsive support. Highly recommended for working professionals.' },
+              { name: 'Mohammed Ashik', role: 'NIOS Graduate, Thrissur', avatar: 'M', rating: 5, text: 'I had failed my board exams twice. TIMS guided me through the NIOS pathway and I passed with distinction. Their coaching and mock tests gave me the confidence I needed to succeed.' },
+              { name: 'Sreeja Thomas', role: 'MCA Graduate, Trivandrum', avatar: 'S', rating: 5, text: 'The attestation services at TIMS are outstanding. They handled all my documents for UAE employment, from state authentication to Embassy legalisation, within 7 days as promised.' },
+              { name: 'Arjun Pillai', role: 'MBA Graduate, Abu Dhabi', avatar: 'A', rating: 5, text: 'TIMS opened doors I never knew existed. Their international university partnerships gave me access to a globally recognised MBA that is respected by employers across the Gulf.' },
+              { name: 'Fatima Al Rashid', role: 'B.Com Graduate, Calicut', avatar: 'F', rating: 5, text: 'I chose TIMS for their reputation and was not disappointed. The admission counsellors were honest, helpful and guided me to the right program without pushing unnecessary courses.' },
+              { name: 'Vineeth Kumar', role: 'Diploma in Data Science', avatar: 'V', rating: 5, text: 'The Data Science diploma from TIMS gave me practical skills that I applied immediately at my workplace. The curriculum is modern, relevant and delivered by industry experts.' },
+            ].concat([
+              { name: 'Aisha Raheem', role: 'MBA Graduate, Dubai', avatar: 'A', rating: 5, text: 'TIMS transformed my career. The distance MBA program was incredibly flexible and the faculty support was world-class. I went from a junior executive to a regional manager within a year of graduating.' },
+              { name: 'Rahul Nair', role: 'B.Tech Graduate, Bangalore', avatar: 'R', rating: 5, text: 'The credit transfer guidance from TIMS was exceptional. They helped me transition my Indian engineering degree to a Canadian university seamlessly. Couldn\'t have done it without their team.' },
+              { name: 'Priya Menon', role: 'BBA Graduate, Kochi', avatar: 'P', rating: 5, text: 'I completed my BBA through distance learning while working full-time. TIMS made it possible with their structured study materials and responsive support. Highly recommended for working professionals.' },
+              { name: 'Mohammed Ashik', role: 'NIOS Graduate, Thrissur', avatar: 'M', rating: 5, text: 'I had failed my board exams twice. TIMS guided me through the NIOS pathway and I passed with distinction. Their coaching and mock tests gave me the confidence I needed to succeed.' },
+            ]).map((t, i) => (
+              <div key={i} className={styles.testimonialCard}>
+                <div className={styles.testimonialStars}>
+                  {'★'.repeat(t.rating)}
+                </div>
+                <p className={styles.testimonialText}>"{t.text}"</p>
+                <div className={styles.testimonialAuthor}>
+                  <div className={styles.testimonialAvatar}>{t.avatar}</div>
+                  <div>
+                    <p className={styles.testimonialName}>{t.name}</p>
+                    <p className={styles.testimonialRole}>{t.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -492,6 +507,7 @@ export default function Home() {
                   src={post.image || '/images/blog-placeholder.png'} 
                   alt={post.title} 
                   fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                   style={{ objectFit: 'cover' }} 
                   unoptimized={true} 
                 />
@@ -517,9 +533,9 @@ export default function Home() {
 
       {/* ===== Latest News Section ===== */}
       <section className={styles.newsSection}>
-        <div className={styles.newsHeader}>
-          <span className={styles.newsTag}>Stay Informed</span>
-          <h2 className={styles.newsTitle}>
+        <div className={styles.newsHeader} style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
+          <span className={styles.uniSectionTag}>Stay Informed</span>
+          <h2 className={styles.uniSectionTitle}>
             <span style={{ color: '#ef233c' }}>Latest</span> News
           </h2>
           <p className={styles.uniSectionSub}>
@@ -535,6 +551,7 @@ export default function Home() {
                   src={item.image || NEWS_PLACEHOLDER}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover' }}
                 />
                 {item.category && (

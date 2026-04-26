@@ -54,10 +54,10 @@ export default function StudyMaterialPage() {
             </p>
             <span className={styles.heroTag}>Academic Support</span>
             <h1 className={styles.heroTitle}>
-              <span style={{ color: '#ef233c' }}>Study</span> Materials
+              <span style={{ color: '#ef233c' }}>Premium</span> Study Resources
             </h1>
             <p className={styles.heroSub}>
-              Access a comprehensive library of academic resources, subject notes, and guides designed to help you excel in your studies.
+              Empower your learning with our comprehensive digital library. Access high-quality subject notes, academic guides, and success-oriented resources meticulously curated by our expert faculty to help you master your curriculum and excel in your examinations.
             </p>
           </div>
         </section>

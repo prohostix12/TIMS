@@ -23,7 +23,8 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.1rem 2rem;
+  padding: 0 2rem;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,16 +32,18 @@
 }
 
 .scrolled .navbar {
-  padding: 0.2rem 2rem;
+  padding: 0 2rem;
 }
 
 /* ---- Logo ---- */
 .logo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-shrink: 0;
   text-decoration: none;
   line-height: 0;
+  align-self: flex-start;
+  margin-top: -25px;
 }
 
 .logoBadge {
@@ -59,7 +62,7 @@
 }
 
 .logoImage {
-  height: 100px;
+  height: 120px;
   width: auto;
   object-fit: contain;
   display: block;
