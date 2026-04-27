@@ -440,11 +440,16 @@
 .drawerSub {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
+  transition: all 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
 }
 
 .drawerSubOpen {
   grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
 }
 
 .drawerSub > * {
@@ -482,12 +487,17 @@
 .drawerNested {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
+  transition: all 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
   padding-left: 1rem;
 }
 
 .drawerNestedOpen {
   grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
 }
 
 .drawerNested > * {
