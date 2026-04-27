@@ -114,8 +114,8 @@ const Navbar = () => {
               <Image
                 src="/images/tims-logo-admin.png"
                 alt="Times Online Logo"
-                width={170}
-                height={50}
+                width={140}
+                height={42}
                 priority
                 className={styles.logoImage}
               />
@@ -243,8 +243,8 @@ const Navbar = () => {
             <Image
               src="/images/tims-logo-admin.png"
               alt="Times Online Logo"
-              width={130}
-              height={39}
+              width={110}
+              height={33}
               className={styles.logoImage}
             />
           </Link>
