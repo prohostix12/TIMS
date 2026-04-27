@@ -16,21 +16,24 @@ import {
   FileText,
   UploadCloud,
   ExternalLink,
-  GraduationCap
+  GraduationCap,
+  Layers
 } from 'lucide-react';
 import ConfirmModal from '@/components/ConfirmModal';
 
 export default function ResultsAdminPage() {
   const [results, setResults] = useState<any[]>([]);
   const [universities, setUniversities] = useState<any[]>([]);
+  const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    course: '',
     university: '',
+    course: '',
+    semester: '',
     marksheetUrl: '',
     type: 'file' as 'file' | 'link'
   });
@@ -43,6 +46,15 @@ export default function ResultsAdminPage() {
     fetchResults();
     fetchUniversities();
   }, []);
+
+  // Fetch courses whenever university selection changes
+  useEffect(() => {
+    if (formData.university) {
+      fetchCourses(formData.university);
+    } else {
+      setCourses([]);
+    }
+  }, [formData.university]);
 
   const fetchResults = async () => {
     try {
@@ -64,6 +76,16 @@ export default function ResultsAdminPage() {
       if (Array.isArray(data)) setUniversities(data);
     } catch (err) {
       console.error('Failed to fetch universities', err);
+    }
+  };
+
+  const fetchCourses = async (uniId: string) => {
+    try {
+      const res = await fetch(`/api/admin/programs?universityId=${uniId}`);
+      const data = await res.json();
+      if (Array.isArray(data)) setCourses(data);
+    } catch (err) {
+      console.error('Failed to fetch courses', err);
     }
   };
 
@@ -96,8 +118,9 @@ export default function ResultsAdminPage() {
         setIsFormOpen(false);
         setEditingId(null);
         setFormData({
-          course: '',
           university: '',
+          course: '',
+          semester: '',
           marksheetUrl: '',
           type: 'file'
         });
@@ -116,8 +139,9 @@ export default function ResultsAdminPage() {
   const handleEdit = (item: any) => {
     setEditingId(item._id);
     setFormData({
-      course: item.course,
       university: item.university?._id || item.university,
+      course: item.course?._id || item.course,
+      semester: item.semester || '',
       marksheetUrl: item.marksheetUrl,
       type: item.marksheetUrl?.startsWith('data:') ? 'file' : 'link'
     });
@@ -140,16 +164,17 @@ export default function ResultsAdminPage() {
   };
 
   const filteredResults = results.filter(r => 
-    r.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (r.university?.name && r.university.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    (r.course?.name && r.course.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (r.university?.name && r.university.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (r.semester && r.semester.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
     <div className={styles.pageContainer}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Manage Examination Results</h1>
-          <p style={{ color: '#64748b' }}>Upload course-wise examination results or digital marksheet links.</p>
+          <h1 className={styles.title}>Examination Results</h1>
+          <p style={{ color: '#64748b' }}>Publish results organized by University, Course, and Semester.</p>
         </div>
         <button className={styles.addBtn} onClick={() => setIsFormOpen(true)}>
           <Plus size={20} /> Upload New Result
@@ -171,7 +196,7 @@ export default function ResultsAdminPage() {
             <Search size={18} />
             <input 
               type="text" 
-              placeholder="Search by course or university..." 
+              placeholder="Search results..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -187,8 +212,8 @@ export default function ResultsAdminPage() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Course Name</th>
-                <th>University</th>
+                <th>Course & University</th>
+                <th>Semester</th>
                 <th>Entry Type</th>
                 <th>Created At</th>
                 <th>Actions</th>
@@ -202,13 +227,16 @@ export default function ResultsAdminPage() {
                       <div style={{ width: '40px', height: '40px', background: '#fef2f2', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef233c' }}>
                         <BookOpen size={20} />
                       </div>
-                      <span style={{ fontWeight: 600, color: '#0f172a' }}>{item.course}</span>
+                      <div>
+                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{item.course?.name || 'N/A'}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{item.university?.name || 'N/A'}</div>
+                      </div>
                     </div>
                   </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <GraduationCap size={16} style={{ color: '#64748b' }} />
-                      <span style={{ fontSize: '0.9rem', color: '#334155' }}>{item.university?.name || 'N/A'}</span>
+                      <Layers size={16} style={{ color: '#64748b' }} />
+                      <span style={{ fontSize: '0.9rem', color: '#334155', fontWeight: 600 }}>{item.semester}</span>
                     </div>
                   </td>
                   <td>
@@ -261,7 +289,7 @@ export default function ResultsAdminPage() {
                 <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800, color: '#00122e' }}>
                   {editingId ? 'Edit Result' : 'Upload Result'}
                 </h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>Fill in the details to publish the examination results.</p>
+                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>Organize result uploads by academic criteria.</p>
               </div>
               <button className={styles.closeBtn} onClick={() => { setIsFormOpen(false); setEditingId(null); }}>
                 <X size={24} />
@@ -270,12 +298,13 @@ export default function ResultsAdminPage() {
 
             <form onSubmit={handleSubmit}>
               <div className={styles.modalBody} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {/* 1. University Dropdown */}
                 <div>
-                  <label className={styles.label}>University</label>
+                  <label className={styles.label}>1. Select University</label>
                   <select 
                     className={styles.input}
                     value={formData.university}
-                    onChange={(e) => setFormData({...formData, university: e.target.value})}
+                    onChange={(e) => setFormData({...formData, university: e.target.value, course: ''})}
                     required
                   >
                     <option value="">Select University</option>
@@ -285,20 +314,48 @@ export default function ResultsAdminPage() {
                   </select>
                 </div>
 
+                {/* 2. Course Dropdown (Dynamic) */}
                 <div>
-                  <label className={styles.label}>Course / Program Name</label>
-                  <input 
-                    type="text" 
+                  <label className={styles.label}>2. Select Course / Program</label>
+                  <select 
                     className={styles.input}
-                    placeholder="e.g. MBA International Business - Sem 2"
                     value={formData.course}
                     onChange={(e) => setFormData({...formData, course: e.target.value})}
                     required
-                  />
+                    disabled={!formData.university}
+                  >
+                    <option value="">{formData.university ? 'Select Course' : 'Please select university first'}</option>
+                    {courses.map(c => (
+                      <option key={c._id} value={c._id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 3. Semester Dropdown */}
+                <div>
+                  <label className={styles.label}>3. Select Semester</label>
+                  <select 
+                    className={styles.input}
+                    value={formData.semester}
+                    onChange={(e) => setFormData({...formData, semester: e.target.value})}
+                    required
+                  >
+                    <option value="">Select Semester</option>
+                    <option value="1st Semester">1st Semester</option>
+                    <option value="2nd Semester">2nd Semester</option>
+                    <option value="3rd Semester">3rd Semester</option>
+                    <option value="4th Semester">4th Semester</option>
+                    <option value="5th Semester">5th Semester</option>
+                    <option value="6th Semester">6th Semester</option>
+                    <option value="7th Semester">7th Semester</option>
+                    <option value="8th Semester">8th Semester</option>
+                    <option value="Annual System">Annual System</option>
+                    <option value="Final Results">Final Results</option>
+                  </select>
                 </div>
 
                 <div>
-                  <label className={styles.label}>Entry Method</label>
+                  <label className={styles.label}>4. Entry Method</label>
                   <div style={{ display: 'flex', gap: '1rem', background: '#f8fafc', padding: '0.5rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                     <button 
                       type="button" 
@@ -318,7 +375,7 @@ export default function ResultsAdminPage() {
                 </div>
 
                 <div>
-                  <label className={styles.label}>{formData.type === 'file' ? 'Result Document (PDF)' : 'Result URL Link'}</label>
+                  <label className={styles.label}>{formData.type === 'file' ? '5. Result Document (PDF)' : '5. Result URL Link'}</label>
                   {formData.type === 'file' ? (
                     <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
                       <input 
