@@ -51,9 +51,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ''}`}>
       <div className={styles.sidebarHeader}>
-        <div className={styles.logoBadge}>
+        <div className={styles.logo}>
           <Image 
-            src="/images/logo4.jpeg" 
+            src="/images/tims-logo.png" 
             alt="TIMS Logo" 
             width={300} 
             height={120} 
