@@ -35,7 +35,8 @@ export default function ResultsAdminPage() {
     course: '',
     university: '',
     status: 'PASSED',
-    marksheetUrl: ''
+    marksheetUrl: '',
+    type: 'file' as 'file' | 'link'
   });
 
   const [saving, setSaving] = useState(false);
@@ -105,7 +106,8 @@ export default function ResultsAdminPage() {
           course: '',
           university: '',
           status: 'PASSED',
-          marksheetUrl: ''
+          marksheetUrl: '',
+          type: 'file'
         });
         fetchResults();
       } else {
@@ -128,7 +130,8 @@ export default function ResultsAdminPage() {
       course: item.course,
       university: item.university?._id || item.university,
       status: item.status,
-      marksheetUrl: item.marksheetUrl
+      marksheetUrl: item.marksheetUrl,
+      type: item.type || (item.marksheetUrl?.startsWith('http') ? 'link' : 'file')
     });
     setIsFormOpen(true);
   };
@@ -359,21 +362,52 @@ export default function ResultsAdminPage() {
                   </select>
                 </div>
 
-                <div style={{ gridColumn: 'span 2' }}>
-                  <label className={styles.label}>Digital Marksheet (PDF/Image)</label>
-                  <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
-                    <input 
-                      type="file" 
-                      accept=".pdf,image/*"
-                      className={styles.input}
-                      onChange={handleFileUpload}
-                    />
-                    {formData.marksheetUrl && (
-                      <p style={{ fontSize: '0.8rem', color: '#10b981', marginTop: '10px', fontWeight: 600 }}>
-                        ✓ File attached successfully
-                      </p>
-                    )}
+                <div>
+                  <label className={styles.label}>Entry Method</label>
+                  <div style={{ display: 'flex', gap: '1rem', background: '#f8fafc', padding: '0.5rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                    <button 
+                      type="button" 
+                      onClick={() => setFormData({...formData, type: 'file'})}
+                      style={{ flex: 1, padding: '0.8rem', borderRadius: '8px', border: 'none', background: formData.type === 'file' ? '#ffffff' : 'transparent', boxShadow: formData.type === 'file' ? '0 4px 12px rgba(0,0,0,0.08)' : 'none', color: formData.type === 'file' ? '#ef233c' : '#64748b', fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      File Upload
+                    </button>
+                    <button 
+                      type="button" 
+                      onClick={() => setFormData({...formData, type: 'link'})}
+                      style={{ flex: 1, padding: '0.8rem', borderRadius: '8px', border: 'none', background: formData.type === 'link' ? '#ffffff' : 'transparent', boxShadow: formData.type === 'link' ? '0 4px 12px rgba(0,0,0,0.08)' : 'none', color: formData.type === 'link' ? '#ef233c' : '#64748b', fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      External Link
+                    </button>
                   </div>
+                </div>
+
+                <div style={{ gridColumn: 'span 2' }}>
+                  <label className={styles.label}>{formData.type === 'file' ? 'Digital Marksheet (PDF/Image)' : 'Marksheet URL Link'}</label>
+                  {formData.type === 'file' ? (
+                    <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                      <input 
+                        type="file" 
+                        accept=".pdf,image/*"
+                        className={styles.input}
+                        onChange={handleFileUpload}
+                      />
+                      {formData.marksheetUrl && formData.type === 'file' && (
+                        <p style={{ fontSize: '0.8rem', color: '#10b981', marginTop: '10px', fontWeight: 600 }}>
+                          ✓ File attached successfully
+                        </p>
+                      )}
+                    </div>
+                  ) : (
+                    <input 
+                      type="url" 
+                      className={styles.input}
+                      placeholder="https://example.com/marksheet.pdf"
+                      value={formData.marksheetUrl}
+                      onChange={(e) => setFormData({...formData, marksheetUrl: e.target.value})}
+                      required
+                    />
+                  )}
                 </div>
               </div>
 
