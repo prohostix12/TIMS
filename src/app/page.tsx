@@ -257,7 +257,7 @@ export default function Home() {
             <span className={styles.statLabel}>Global Alumni</span>
           </div>
           <div className={styles.statCard}>
-            <span className={styles.statNumber}>25+</span>
+            <span className={styles.statNumber}>13+</span>
             <span className={styles.statLabel}>Partner Universities</span>
           </div>
           <div className={styles.statCard}>

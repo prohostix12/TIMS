@@ -55,7 +55,7 @@ export default function About() {
         <div className={styles.statsGrid}>
           {[
             { number: "15+", label: "Years of Excellence" },
-            { number: "25+", label: "University Partners" },
+            { number: "13+", label: "University Partners" },
             { number: "98%", label: "Success Rate" },
             { number: "100%", label: "Recognized Degrees" },
           ].map((stat, idx) => (
