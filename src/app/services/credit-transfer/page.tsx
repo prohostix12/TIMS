@@ -61,9 +61,6 @@ export default function CreditTransferPage() {
               <Link href="/contact" className={styles.heroPrimaryBtn}>
                 Get Started
               </Link>
-              <button className={styles.heroSecondaryBtn}>
-                Credit Evaluation
-              </button>
             </div>
             <div className={styles.heroStats}>
               <div className={styles.statItem}>
