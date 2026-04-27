@@ -294,7 +294,10 @@ export default function StudyMaterialsAdminPage() {
                         disabled={!formData.university}
                       >
                         <option value="">Select Course</option>
-                        {programs.filter(p => (p.university?._id || p.university) === formData.university).map(p => (
+                        {programs.filter(p => {
+                          const uniId = p.university?._id || p.university;
+                          return String(uniId) === String(formData.university);
+                        }).map(p => (
                           <option key={p._id} value={p._id}>{p.name}</option>
                         ))}
                       </select>
