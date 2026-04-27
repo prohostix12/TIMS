@@ -18,7 +18,10 @@
 
 /* Hero Section */
 .heroWrapper {
-  padding: 12rem 5% 10rem;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 5% 4rem;
   background-image: url('/results_hero_bg_1777279494699.png');
   background-size: cover;
   background-position: center;
@@ -171,9 +174,10 @@
 }
 
 .submitBtn:hover {
-  background: #ef233c;
+  background: rgba(255, 255, 255, 0.95);
+  color: #ef233c;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(239, 35, 60, 0.2);
+  box-shadow: inset 0 0 0 2px #ef233c, 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Result Display Area */
