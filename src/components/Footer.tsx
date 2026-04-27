@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './Footer.module.css';
 import { Mail, Facebook, Instagram, Twitter, Phone, MapPin } from 'lucide-react';
 
@@ -11,6 +12,15 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
+          <div style={{ marginBottom: '1.5rem', background: '#fff', display: 'inline-block', padding: '0.5rem 1rem', borderRadius: '8px' }}>
+            <Image 
+              src="/images/tims-logo-3.png" 
+              alt="TIMS Logo" 
+              width={160} 
+              height={45} 
+              style={{ objectFit: 'contain', display: 'block' }}
+            />
+          </div>
           <h3>Company</h3>
           <p>
             TIMS ( Tirur Institute of Management Studies) is an 

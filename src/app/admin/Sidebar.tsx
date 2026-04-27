@@ -3,6 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import styles from './admin.module.css';
 import { 
@@ -43,8 +44,14 @@ export default function Sidebar() {
 
   return (
     <aside className={styles.sidebar}>
-      <div className={styles.logo}>
-        TIMS <span>ADMIN</span>
+      <div className={styles.logo} style={{ padding: '1rem', display: 'flex', justifyContent: 'center' }}>
+        <Image 
+          src="/images/tims-logo-3.png" 
+          alt="TIMS Logo" 
+          width={180} 
+          height={50} 
+          style={{ objectFit: 'contain' }}
+        />
       </div>
       
       <nav className={styles.nav}>
