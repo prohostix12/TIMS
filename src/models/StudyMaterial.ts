@@ -1,6 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IStudyMaterial extends Document {
+  university: mongoose.Types.ObjectId;
+  course: mongoose.Types.ObjectId;
   subject: string;
   fileUrl: string;
   category?: string;
@@ -11,6 +13,8 @@ export interface IStudyMaterial extends Document {
 }
 
 const StudyMaterialSchema: Schema = new Schema({
+  university: { type: Schema.Types.ObjectId, ref: 'University', required: true },
+  course: { type: Schema.Types.ObjectId, ref: 'Program', required: true },
   subject: { type: String, required: true },
   fileUrl: { type: String, required: true },
   category: { type: String, default: 'General' },

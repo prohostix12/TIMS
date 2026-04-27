@@ -24,6 +24,8 @@ export default function StudyMaterialsAdminPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
+    university: '',
+    course: '',
     subject: '',
     fileUrl: '',
     category: 'General',
@@ -32,10 +34,28 @@ export default function StudyMaterialsAdminPage() {
   const [saving, setSaving] = useState(false);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: '' });
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [programs, setPrograms] = useState<any[]>([]);
 
   useEffect(() => {
     fetchMaterials();
+    fetchUniversitiesAndPrograms();
   }, []);
+
+  const fetchUniversitiesAndPrograms = async () => {
+    try {
+      const [uniRes, progRes] = await Promise.all([
+        fetch('/api/admin/universities'),
+        fetch('/api/admin/programs')
+      ]);
+      const uniData = await uniRes.json();
+      const progData = await progRes.json();
+      if (Array.isArray(uniData)) setUniversities(uniData);
+      if (Array.isArray(progData)) setPrograms(progData);
+    } catch (err) {
+      console.error('Failed to fetch dependencies', err);
+    }
+  };
 
   const fetchMaterials = async () => {
     try {
@@ -64,6 +84,8 @@ export default function StudyMaterialsAdminPage() {
   const handleEdit = (item: any) => {
     setEditingId(item._id);
     setFormData({
+      university: item.university?._id || item.university || '',
+      course: item.course?._id || item.course || '',
       subject: item.subject,
       fileUrl: item.fileUrl,
       category: item.category || 'General',
@@ -90,6 +112,8 @@ export default function StudyMaterialsAdminPage() {
         setIsFormOpen(false);
         setEditingId(null);
         setFormData({
+          university: '',
+          course: '',
           subject: '',
           fileUrl: '',
           category: 'General',
@@ -171,6 +195,8 @@ export default function StudyMaterialsAdminPage() {
             <thead>
               <tr>
                 <th>Subject Name</th>
+                <th>University</th>
+                <th>Course</th>
                 <th>Category</th>
                 <th>Format</th>
                 <th>Upload Date</th>
@@ -188,6 +214,8 @@ export default function StudyMaterialsAdminPage() {
                       <span style={{ fontWeight: 600, color: '#0f172a' }}>{item.subject}</span>
                     </div>
                   </td>
+                  <td>{item.university?.name || '-'}</td>
+                  <td>{item.course?.name || '-'}</td>
                   <td>{item.category}</td>
                   <td>
                     <span style={{ fontSize: '0.75rem', fontWeight: 700, background: '#f1f5f9', color: '#64748b', padding: '4px 8px', borderRadius: '4px' }}>
@@ -240,6 +268,39 @@ export default function StudyMaterialsAdminPage() {
             <form onSubmit={handleSubmit}>
               <div className={styles.modalBody}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                    <div>
+                      <label className={styles.label}>University</label>
+                      <select 
+                        className={styles.input} 
+                        value={formData.university} 
+                        onChange={(e) => setFormData({...formData, university: e.target.value, course: ''})}
+                        required
+                      >
+                        <option value="">Select University</option>
+                        {universities.map(u => (
+                          <option key={u._id} value={u._id}>{u.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className={styles.label}>Course</label>
+                      <select 
+                        className={styles.input} 
+                        value={formData.course} 
+                        onChange={(e) => setFormData({...formData, course: e.target.value})}
+                        required
+                        disabled={!formData.university}
+                      >
+                        <option value="">Select Course</option>
+                        {programs.filter(p => (p.university?._id || p.university) === formData.university).map(p => (
+                          <option key={p._id} value={p._id}>{p.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     <label className={styles.label}>Subject Name</label>
                     <input 
@@ -268,10 +329,23 @@ export default function StudyMaterialsAdminPage() {
                   </div>
 
                   <div>
-                    <label className={styles.label}><FileText size={16} /> Study Resource (PDF/Doc)</label>
+                    <label className={styles.label}>Format / File Type</label>
+                    <select 
+                      className={styles.input} 
+                      value={formData.fileType} 
+                      onChange={(e) => setFormData({...formData, fileType: e.target.value})}
+                    >
+                      <option value="PDF">PDF</option>
+                      <option value="Video">Video</option>
+                      <option value="Document">Document</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className={styles.label}><FileText size={16} /> Study Resource (PDF/Doc/Video)</label>
                     <input 
                       type="file" 
-                      accept=".pdf,.doc,.docx,application/pdf"
+                      accept=".pdf,.doc,.docx,application/pdf,video/*"
                       className={styles.input}
                       onChange={handleFileUpload}
                     />
@@ -281,7 +355,7 @@ export default function StudyMaterialsAdminPage() {
                       </p>
                     )}
                     <p style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '4px' }}>
-                      Upload the study guide or reference material.
+                      Upload the study guide, video, or reference material.
                     </p>
                   </div>
                 </div>

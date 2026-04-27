@@ -5,7 +5,10 @@ import StudyMaterial from '@/models/StudyMaterial';
 export async function GET() {
   try {
     await connectDB();
-    const materials = await StudyMaterial.find({}).sort({ createdAt: -1 });
+    const materials = await StudyMaterial.find({})
+      .populate('university', 'name')
+      .populate('course', 'name')
+      .sort({ createdAt: -1 });
     return NextResponse.json(materials);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
