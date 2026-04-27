@@ -52,11 +52,6 @@ export default function ResultsPage() {
         {/* ===== Results Retrieval Section ===== */}
         <section className={styles.resultsSection}>
           <div className={styles.searchCard}>
-            <div className={styles.cardHeader}>
-              <h2>Check Your Result</h2>
-              <p>Enter your credentials below to view your performance summary</p>
-            </div>
-
             <form className={styles.searchForm} onSubmit={handleSearch}>
               <div className={styles.inputGroup}>
                 <label className={styles.inputLabel}>Register Number</label>
