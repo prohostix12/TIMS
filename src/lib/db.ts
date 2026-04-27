@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import dns from 'node:dns';
-import { setDefaultResultOrder } from 'node:dns';
 
-// Force Google DNS — local DNS blocks SRV queries on this network
-dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
-setDefaultResultOrder('ipv4first');
-
+// Force Google DNS ONLY in development — local DNS blocks SRV queries on this network
+// In production, this causes crashes on serverless platforms.
+if (process.env.NODE_ENV === 'development') {
+  const dns = require('node:dns');
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+  dns.setDefaultResultOrder('ipv4first');
+}
 const MONGODB_URI = process.env.MONGODB_URI;
 
 declare global {
