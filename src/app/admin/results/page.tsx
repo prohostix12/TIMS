@@ -11,12 +11,12 @@ import {
   Loader2,
   AlertCircle,
   Award,
-  User,
-  Hash,
   BookOpen,
   Calendar,
   FileText,
-  UploadCloud
+  UploadCloud,
+  ExternalLink,
+  GraduationCap
 } from 'lucide-react';
 import ConfirmModal from '@/components/ConfirmModal';
 
@@ -29,12 +29,8 @@ export default function ResultsAdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    studentName: '',
-    registerNumber: '',
-    dob: '',
     course: '',
     university: '',
-    status: 'PASSED',
     marksheetUrl: '',
     type: 'file' as 'file' | 'link'
   });
@@ -100,12 +96,8 @@ export default function ResultsAdminPage() {
         setIsFormOpen(false);
         setEditingId(null);
         setFormData({
-          studentName: '',
-          registerNumber: '',
-          dob: '',
           course: '',
           university: '',
-          status: 'PASSED',
           marksheetUrl: '',
           type: 'file'
         });
@@ -124,14 +116,10 @@ export default function ResultsAdminPage() {
   const handleEdit = (item: any) => {
     setEditingId(item._id);
     setFormData({
-      studentName: item.studentName,
-      registerNumber: item.registerNumber,
-      dob: item.dob,
       course: item.course,
       university: item.university?._id || item.university,
-      status: item.status,
       marksheetUrl: item.marksheetUrl,
-      type: item.type || (item.marksheetUrl?.startsWith('http') ? 'link' : 'file')
+      type: item.marksheetUrl?.startsWith('data:') ? 'file' : 'link'
     });
     setIsFormOpen(true);
   };
@@ -152,19 +140,19 @@ export default function ResultsAdminPage() {
   };
 
   const filteredResults = results.filter(r => 
-    r.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.registerNumber.toLowerCase().includes(searchTerm.toLowerCase())
+    r.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (r.university?.name && r.university.name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
     <div className={styles.pageContainer}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Student Results</h1>
-          <p style={{ color: '#64748b' }}>Upload and manage examination results and digital marksheets.</p>
+          <h1 className={styles.title}>Manage Examination Results</h1>
+          <p style={{ color: '#64748b' }}>Upload course-wise examination results or digital marksheet links.</p>
         </div>
         <button className={styles.addBtn} onClick={() => setIsFormOpen(true)}>
-          <Plus size={20} /> Upload Result
+          <Plus size={20} /> Upload New Result
         </button>
       </header>
 
@@ -183,7 +171,7 @@ export default function ResultsAdminPage() {
             <Search size={18} />
             <input 
               type="text" 
-              placeholder="Search by name or register number..." 
+              placeholder="Search by course or university..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -199,10 +187,10 @@ export default function ResultsAdminPage() {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Student</th>
-                <th>Register No</th>
-                <th>Course / University</th>
-                <th>Status</th>
+                <th>Course Name</th>
+                <th>University</th>
+                <th>Entry Type</th>
+                <th>Created At</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -212,39 +200,36 @@ export default function ResultsAdminPage() {
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <div style={{ width: '40px', height: '40px', background: '#fef2f2', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef233c' }}>
-                        <User size={20} />
+                        <BookOpen size={20} />
                       </div>
-                      <div>
-                        <div style={{ fontWeight: 600, color: '#0f172a' }}>{item.studentName}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#64748b' }}>DOB: {item.dob}</div>
-                      </div>
+                      <span style={{ fontWeight: 600, color: '#0f172a' }}>{item.course}</span>
                     </div>
                   </td>
                   <td>
-                    <code style={{ background: '#f1f5f9', padding: '4px 8px', borderRadius: '4px', fontWeight: 700 }}>{item.registerNumber}</code>
-                  </td>
-                  <td>
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{item.course}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{item.university?.name || 'N/A'}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <GraduationCap size={16} style={{ color: '#64748b' }} />
+                      <span style={{ fontSize: '0.9rem', color: '#334155' }}>{item.university?.name || 'N/A'}</span>
                     </div>
                   </td>
                   <td>
                     <span style={{ 
                       fontSize: '0.75rem', 
                       fontWeight: 700, 
-                      background: item.status === 'PASSED' ? '#f0fdf4' : item.status === 'FAILED' ? '#fef2f2' : '#fff7ed', 
-                      color: item.status === 'PASSED' ? '#16a34a' : item.status === 'FAILED' ? '#dc2626' : '#ea580c', 
+                      background: item.marksheetUrl?.startsWith('data:') ? '#f0fdf4' : '#eff6ff', 
+                      color: item.marksheetUrl?.startsWith('data:') ? '#16a34a' : '#2563eb', 
                       padding: '4px 8px', 
                       borderRadius: '4px' 
                     }}>
-                      {item.status}
+                      {item.marksheetUrl?.startsWith('data:') ? 'PDF FILE' : 'URL LINK'}
                     </span>
+                  </td>
+                  <td style={{ fontSize: '0.85rem', color: '#64748b' }}>
+                    {new Date(item.createdAt).toLocaleDateString()}
                   </td>
                   <td>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <a href={item.marksheetUrl} target="_blank" rel="noopener noreferrer" className={styles.iconBtn} title="View Marksheet">
-                        <FileText size={18} />
+                      <a href={item.marksheetUrl} target="_blank" rel="noopener noreferrer" className={styles.iconBtn} title="View Result">
+                        {item.marksheetUrl?.startsWith('data:') ? <FileText size={18} /> : <ExternalLink size={18} />}
                       </a>
                       <button className={styles.iconBtn} onClick={() => handleEdit(item)} title="Edit">
                         <Plus size={18} style={{ transform: 'rotate(45deg)' }} />
@@ -258,7 +243,7 @@ export default function ResultsAdminPage() {
               )) : (
                 <tr>
                   <td colSpan={5} style={{ textAlign: 'center', padding: '4rem', color: '#64748b' }}>
-                    No results found. Click "Upload Result" to add one.
+                    No results found. Click "Upload New Result" to add one.
                   </td>
                 </tr>
               )}
@@ -270,13 +255,13 @@ export default function ResultsAdminPage() {
       {/* Upload/Edit Modal */}
       {isFormOpen && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent} style={{ maxWidth: '700px', width: '95%' }}>
+          <div className={styles.modalContent} style={{ maxWidth: '600px', width: '95%' }}>
             <div className={styles.modalHeader}>
               <div>
                 <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: 800, color: '#00122e' }}>
                   {editingId ? 'Edit Result' : 'Upload Result'}
                 </h2>
-                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>Enter student details and attach the digital marksheet.</p>
+                <p style={{ margin: '4px 0 0', color: '#64748b', fontSize: '0.9rem' }}>Fill in the details to publish the examination results.</p>
               </div>
               <button className={styles.closeBtn} onClick={() => { setIsFormOpen(false); setEditingId(null); }}>
                 <X size={24} />
@@ -284,48 +269,13 @@ export default function ResultsAdminPage() {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className={styles.modalBody} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                <div style={{ gridColumn: 'span 2' }}>
-                  <label className={styles.label}>Student Full Name</label>
+              <div className={styles.modalBody} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div>
+                  <label className={styles.label}>Course / Program Name</label>
                   <input 
                     type="text" 
                     className={styles.input}
-                    placeholder="e.g. Sivaprasad K"
-                    value={formData.studentName}
-                    onChange={(e) => setFormData({...formData, studentName: e.target.value})}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className={styles.label}>Register Number</label>
-                  <input 
-                    type="text" 
-                    className={styles.input}
-                    placeholder="e.g. TIMS2024001"
-                    value={formData.registerNumber}
-                    onChange={(e) => setFormData({...formData, registerNumber: e.target.value})}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className={styles.label}>Date of Birth</label>
-                  <input 
-                    type="date" 
-                    className={styles.input}
-                    value={formData.dob}
-                    onChange={(e) => setFormData({...formData, dob: e.target.value})}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className={styles.label}>Course Name</label>
-                  <input 
-                    type="text" 
-                    className={styles.input}
-                    placeholder="e.g. MBA International Business"
+                    placeholder="e.g. MBA International Business - Sem 2"
                     value={formData.course}
                     onChange={(e) => setFormData({...formData, course: e.target.value})}
                     required
@@ -344,21 +294,6 @@ export default function ResultsAdminPage() {
                     {universities.map(u => (
                       <option key={u._id} value={u._id}>{u.name}</option>
                     ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className={styles.label}>Result Status</label>
-                  <select 
-                    className={styles.input}
-                    value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
-                    required
-                  >
-                    <option value="PASSED">PASSED</option>
-                    <option value="FAILED">FAILED</option>
-                    <option value="WITHHELD">WITHHELD</option>
-                    <option value="PENDING">PENDING</option>
                   </select>
                 </div>
 
@@ -382,19 +317,19 @@ export default function ResultsAdminPage() {
                   </div>
                 </div>
 
-                <div style={{ gridColumn: 'span 2' }}>
-                  <label className={styles.label}>{formData.type === 'file' ? 'Digital Marksheet (PDF/Image)' : 'Marksheet URL Link'}</label>
+                <div>
+                  <label className={styles.label}>{formData.type === 'file' ? 'Result Document (PDF)' : 'Result URL Link'}</label>
                   {formData.type === 'file' ? (
-                    <div style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                    <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '12px', border: '1px dashed #cbd5e1', textAlign: 'center' }}>
                       <input 
                         type="file" 
-                        accept=".pdf,image/*"
+                        accept=".pdf"
                         className={styles.input}
                         onChange={handleFileUpload}
                       />
                       {formData.marksheetUrl && formData.type === 'file' && (
                         <p style={{ fontSize: '0.8rem', color: '#10b981', marginTop: '10px', fontWeight: 600 }}>
-                          ✓ File attached successfully
+                          ✓ PDF File attached
                         </p>
                       )}
                     </div>
@@ -402,7 +337,7 @@ export default function ResultsAdminPage() {
                     <input 
                       type="url" 
                       className={styles.input}
-                      placeholder="https://example.com/marksheet.pdf"
+                      placeholder="https://university.edu/results/mba-sem2.pdf"
                       value={formData.marksheetUrl}
                       onChange={(e) => setFormData({...formData, marksheetUrl: e.target.value})}
                       required
