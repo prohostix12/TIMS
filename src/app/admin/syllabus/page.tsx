@@ -26,18 +26,36 @@ export default function SyllabusAdminPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    courseName: '',
-    universityName: '',
+    university: '',
+    course: '',
     fileUrl: ''
   });
 
   const [saving, setSaving] = useState(false);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: '' });
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [programs, setPrograms] = useState<any[]>([]);
 
   useEffect(() => {
     fetchSyllabi();
+    fetchUniversitiesAndPrograms();
   }, []);
+
+  const fetchUniversitiesAndPrograms = async () => {
+    try {
+      const [uniRes, progRes] = await Promise.all([
+        fetch('/api/admin/universities'),
+        fetch('/api/admin/programs')
+      ]);
+      const uniData = await uniRes.json();
+      const progData = await progRes.json();
+      if (Array.isArray(uniData)) setUniversities(uniData);
+      if (Array.isArray(progData)) setPrograms(progData);
+    } catch (err) {
+      console.error('Failed to fetch dependencies', err);
+    }
+  };
 
   const fetchSyllabi = async () => {
     try {
@@ -81,8 +99,8 @@ export default function SyllabusAdminPage() {
         setIsFormOpen(false);
         setEditingId(null);
         setFormData({
-          courseName: '',
-          universityName: '',
+          university: '',
+          course: '',
           fileUrl: ''
         });
         fetchSyllabi();
@@ -100,8 +118,8 @@ export default function SyllabusAdminPage() {
   const handleEdit = (item: any) => {
     setEditingId(item._id);
     setFormData({
-      courseName: item.courseName,
-      universityName: item.universityName,
+      university: item.university?._id || item.university || '',
+      course: item.course?._id || item.course || '',
       fileUrl: item.fileUrl
     });
     setIsFormOpen(true);
@@ -123,15 +141,15 @@ export default function SyllabusAdminPage() {
   };
 
   const filteredSyllabi = syllabi.filter(s => 
-    s.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    s.universityName.toLowerCase().includes(searchTerm.toLowerCase())
+    s.course?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.university?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className={styles.pageContainer}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.title}>Course Syllabi</h1>
+          <h1 className={styles.title}>Course Syllabus</h1>
           <p style={{ color: '#64748b' }}>Upload and manage official curriculum documents for all programs.</p>
         </div>
         <button className={styles.addBtn} onClick={() => { setIsFormOpen(true); setEditingId(null); }}>
@@ -184,12 +202,12 @@ export default function SyllabusAdminPage() {
                       <div style={{ width: '40px', height: '40px', background: '#fff1f2', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef233c' }}>
                         <BookOpen size={20} />
                       </div>
-                      <span style={{ fontWeight: 600, color: '#0f172a' }}>{item.courseName}</span>
+                      <span style={{ fontWeight: 600, color: '#0f172a' }}>{item.course?.name || '-'}</span>
                     </div>
                   </td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#64748b' }}>
-                      <GraduationCap size={16} /> {item.universityName}
+                      <GraduationCap size={16} /> {item.university?.name || '-'}
                     </div>
                   </td>
                   <td>
@@ -238,27 +256,37 @@ export default function SyllabusAdminPage() {
               <div className={styles.modalBody}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <div>
-                    <label className={styles.label}>Course Name</label>
-                    <input 
-                      type="text" 
-                      className={styles.input}
-                      placeholder="e.g. Bachelor of Commerce (B.Com)"
-                      value={formData.courseName}
-                      onChange={(e) => setFormData({...formData, courseName: e.target.value})}
+                    <label className={styles.label}>University</label>
+                    <select 
+                      className={styles.input} 
+                      value={formData.university} 
+                      onChange={(e) => setFormData({...formData, university: e.target.value, course: ''})}
                       required
-                    />
+                    >
+                      <option value="">Select University</option>
+                      {universities.map(u => (
+                        <option key={u._id} value={u._id}>{u.name}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
-                    <label className={styles.label}>University Name</label>
-                    <input 
-                      type="text" 
-                      className={styles.input}
-                      placeholder="e.g. Mahatma Gandhi University"
-                      value={formData.universityName}
-                      onChange={(e) => setFormData({...formData, universityName: e.target.value})}
+                    <label className={styles.label}>Course</label>
+                    <select 
+                      className={styles.input} 
+                      value={formData.course} 
+                      onChange={(e) => setFormData({...formData, course: e.target.value})}
                       required
-                    />
+                      disabled={!formData.university}
+                    >
+                      <option value="">Select Course</option>
+                      {programs.filter(p => {
+                        const uniId = p.university?._id || p.university;
+                        return String(uniId) === String(formData.university);
+                      }).map(p => (
+                        <option key={p._id} value={p._id}>{p.name}</option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>

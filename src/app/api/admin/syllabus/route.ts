@@ -5,7 +5,10 @@ import Syllabus from '@/models/Syllabus';
 export async function GET() {
   try {
     await connectDB();
-    const syllabi = await Syllabus.find({}).sort({ createdAt: -1 });
+    const syllabi = await Syllabus.find({})
+      .populate('university', 'name')
+      .populate('course', 'name')
+      .sort({ createdAt: -1 });
     return NextResponse.json(syllabi);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
