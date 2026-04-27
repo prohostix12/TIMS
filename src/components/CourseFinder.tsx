@@ -656,7 +656,7 @@ export default function CourseFinder() {
                 </div>
                 <div className="cf-results-list">
                   {(results.length > 0 ? results : fallbackResults).length > 0 ? (results.length > 0 ? results : fallbackResults).map(program => (
-                    <Link key={program._id} href="/programs" className="cf-result-card" onClick={() => { trackCourseClick(program); setIsOpen(false); }}>
+                    <Link key={program._id} href="/courses" className="cf-result-card" onClick={() => { trackCourseClick(program); setIsOpen(false); }}>
                       <div className="cf-result-info">
                         <h4 className="cf-result-name">{program.name}</h4>
                         <p className="cf-result-university"><IconBuilding /> {program.university?.name || program.university || program.universityId?.name || 'University'}</p>
@@ -676,13 +676,13 @@ export default function CourseFinder() {
                     <div className="cf-no-results">
                       <span className="cf-no-results-icon"><IconFrown /></span>
                       <p>No programs match your criteria.</p>
-                      <Link href="/programs" className="cf-browse-all-btn" onClick={() => setIsOpen(false)}>Browse All Programs</Link>
+                      <Link href="/courses" className="cf-browse-all-btn" onClick={() => setIsOpen(false)}>Browse All Programs</Link>
                     </div>
                   )}
                 </div>
                 <div className="cf-results-actions">
                   <button className="cf-restart-btn" onClick={reset}><IconRefresh /> Start Over</button>
-                  <Link href="/programs" className="cf-view-all-btn" onClick={() => setIsOpen(false)}>View All Programs <IconChevronRight /></Link>
+                  <Link href="/courses" className="cf-view-all-btn" onClick={() => setIsOpen(false)}>View All Programs <IconChevronRight /></Link>
                 </div>
               </>
             )}
