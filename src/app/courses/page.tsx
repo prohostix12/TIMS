@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './courses.module.css';
 import Link from 'next/link';
-import { Search, GraduationCap, Clock, BookOpen, ArrowRight, Loader2, ShieldCheck, Globe, Zap } from 'lucide-react';
+import { Search, GraduationCap, Clock, BookOpen, ArrowRight, Loader2, ShieldCheck, Globe, Zap, Check, FileText } from 'lucide-react';
 import EnquiryModal from '@/components/EnquiryModal';
 
 const CourseCard = ({ course, i, onEnquire }: { course: any, i: number, onEnquire: (interest: string) => void }) => {
@@ -101,26 +101,54 @@ export default function CoursesPage() {
         <div className={styles.pageGlow} />
 
         {/* ===== UpGrad Style Hero Section ===== */}
-        {/* ===== Red & White Centered Hero ===== */}
+        {/* ===== Skillhub Inspired Hero - Courses ===== */}
         <section className={styles.heroWrapper}>
           <div className={styles.heroContent}>
+            
             <div className={styles.heroLeft}>
-              <div className={styles.heroBreadcrumb}>
-                Programs Directory
-              </div>
+              <span className={styles.heroBadge}>Academic Directory</span>
+              
               <h1 className={styles.heroTitle}>
-                Explore Our <br />
-                <span className={styles.heroTitleAccent}>Global Program Directory</span>
+                Explore Our Global <br />
+                Program Directory
               </h1>
-              <p className={styles.heroDesc}>
+              
+              <p className={styles.heroSubtext}>
                 Unlock your potential with our extensive catalog of globally recognized academic programs. From NIOS/SSLC to specialized Post-Graduate degrees, we offer path-breaking education designed to fast-track your career in today's competitive landscape.
               </p>
-              <div className={styles.heroActions}>
-                <Link href="/contact" className={styles.heroPrimaryBtn}>
-                  ENROLL NOW
-                </Link>
+
+              <div className={styles.heroSearch}>
+                <div className={styles.searchIconWrapper}>
+                  <Search size={20} />
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search course title" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button onClick={() => {
+                  const explorer = document.getElementById('explorer-section');
+                  if(explorer) explorer.scrollIntoView({behavior: 'smooth'});
+                }}>Search</button>
               </div>
             </div>
+
+            <div className={styles.heroRight}>
+              <div className={styles.bgLines} />
+              <div className={styles.dotGrid} />
+              
+              <div className={styles.imageWrapper}>
+                <img src="/images/courses-hero-new.png" alt="Student" className={styles.studentImg} />
+                
+                <div className={styles.orangeBadge}>
+                  <FileText size={24} style={{ marginBottom: '4px' }} />
+                  <h3>2M+</h3>
+                  <p>Students</p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 

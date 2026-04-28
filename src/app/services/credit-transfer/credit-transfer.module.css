@@ -6,21 +6,24 @@
   overflow-x: hidden;
 }
 
-/* ===== Standard Hero Section (Like Home Page) ===== */
+/* ===== Dribbble Reference Design - Credit Transfer Hero ===== */
 .heroWrapper {
   position: relative;
   width: 100%;
-  background: #ffffff;
-  padding: 8rem 5% 5rem;
+  background: #f0f7ff;
+  padding: 110px 5% 80px;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .heroContent {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
-  gap: 4rem;
+  gap: 5rem;
   align-items: center;
   margin: 0 auto;
 }
@@ -28,154 +31,150 @@
 .heroLeft {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
-.heroBreadcrumb {
-  font-size: 0.85rem;
+.heroBadge {
+  background: #e0f2fe;
+  color: #3a5a8c;
+  padding: 6px 12px;
+  border-radius: 50px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #64748b;
-  margin-bottom: -1rem;
-}
-
-.heroBreadcrumb a {
-  color: #ef233c;
-  text-decoration: none;
+  font-size: 0.75rem;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
   color: #002060;
-  line-height: 1.15;
-  letter-spacing: -1px;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
   margin: 0;
 }
 
-.heroTitleAccent {
-  color: #ef233c;
+.heroTitle span {
+  color: #3a5a8c;
 }
 
-.heroDesc {
+.heroSubtext {
   font-size: 1.1rem;
-  line-height: 1.6;
-  color: #475569;
-  max-width: 580px;
-  margin: 0;
+  line-height: 1.7;
+  color: #002060;
+  opacity: 0.85;
+  max-width: 540px;
+  margin-top: 0.5rem;
 }
 
-.heroActions {
+.heroCTAGroup {
   display: flex;
-  align-items: center;
   gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.heroPrimaryBtn {
-  background: #ef233c;
-  color: #ffffff;
-  padding: 0.9rem 2rem;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.heroPrimaryBtn:hover {
-  background: #d90429;
-  transform: translateY(-2px);
+  margin-top: 1rem;
 }
 
 .heroSecondaryBtn {
-  background: transparent;
-  color: #002060;
-  padding: 0.9rem 2rem;
+  background: #002060;
+  color: #ffffff;
+  padding: 14px 28px;
   border-radius: 8px;
   font-weight: 700;
+  text-decoration: none;
   font-size: 0.95rem;
-  border: 2px solid #e2e8f0;
-  cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .heroSecondaryBtn:hover {
-  border-color: #ef233c;
-  color: #ef233c;
+  background: #3a5a8c;
+  transform: translateY(-2px);
 }
 
-.heroStats {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #f1f5f9;
-}
-
-.statItem {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.statNum {
-  font-size: 1rem;
-  font-weight: 800;
-  color: #002060;
-}
-
-.statLabel {
-  font-size: 0.8rem;
-  color: #94a3b8;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.statDivider {
-  width: 1px;
-  height: 36px;
-  background: #e2e8f0;
-}
-
+/* Right Side Image Card */
 .heroRight {
-  display: flex;
-  justify-content: center;
+  position: relative;
 }
 
-.heroImageCard {
+.imageCard {
+  background: #e2e8f0;
+  border-radius: 40px;
   width: 100%;
-  border-radius: 24px;
-  overflow: hidden;
-  aspect-ratio: 1/1;
   max-width: 440px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1/1.05;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.05);
 }
 
-.heroImage {
+.imageCard img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
+}
+
+/* Floating Elements */
+.courseBadge {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #002060;
+  z-index: 5;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  background: #3a5a8c;
+  border-radius: 50%;
+}
+
+/* ===== Dynamic "Not Bore" Icons ===== */
+.glassIcon {
+  position: absolute;
+  z-index: 10;
+  animation: floating 4s ease-in-out infinite;
+}
+
+.iconCircle {
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.icon1 { top: 10%; left: -10%; animation-delay: 0s; }
+.icon2 { top: 60%; right: -5%; animation-delay: 1s; }
+.icon3 { bottom: 10%; left: 0%; animation-delay: 0.5s; }
+
+@keyframes floating {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
 }
 
 @media (max-width: 1024px) {
-  .heroContent {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    text-align: center;
-  }
+  .heroContent { grid-template-columns: 1fr; text-align: center; gap: 4rem; }
   .heroLeft { align-items: center; }
-  .heroDesc { margin: 0 auto; }
-  .heroActions { justify-content: center; }
-  .heroStats { justify-content: center; }
-  .heroImageCard { border-radius: 24px; }
+  .heroSubtext { margin: 0 auto; }
+  .heroCTAGroup { flex-direction: column; width: 100%; }
+  .imageCard { aspect-ratio: 1/1; margin: 0 auto; }
+  .glassIcon { display: none; }
 }
-
-
-
 
 /* ===== Partner Section ===== */
 .partnerSection {

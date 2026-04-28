@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './credit-transfer.module.css';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Repeat, GraduationCap, ShieldCheck } from 'lucide-react';
 
 export default function CreditTransferPage() {
   const benefits = [
@@ -39,48 +39,55 @@ export default function CreditTransferPage() {
 
   return (
     <main className={styles.container}>
-      {/* ===== Standard Hero Section (Like Attestation Page) ===== */}
+      <div className={styles.pageGlow} />
+
+      {/* ===== Dribbble Reference Hero - Credit Transfer ===== */}
       <section className={styles.heroWrapper}>
         <div className={styles.heroContent}>
           <div className={styles.heroLeft}>
-            <nav className={styles.heroBreadcrumb}>
-              <Link href="/">Home</Link>
-              <span>/</span>
-              <Link href="#">Services</Link>
-              <span>/</span>
-              <span>Credit Transfer</span>
-            </nav>
+            <div className={styles.heroBadge}>
+              <div className={styles.badgeDot} />
+              Fast-Track Your Degree
+            </div>
+            
             <h1 className={styles.heroTitle}>
-              Fast-Track Your <br />
-              <span className={styles.heroTitleAccent}>Credit Transfer</span>
+              Seamless <span>Credit Transfer</span> <br /> 
+              for Academic Growth
             </h1>
-            <p className={styles.heroDesc}>
+            
+            <p className={styles.heroSubtext}>
               Leverage your previous academic accomplishments to accelerate your progress toward a degree with our professional credit evaluation and transfer services.
             </p>
-            <div className={styles.heroActions}>
-              <Link href="/contact" className={styles.heroPrimaryBtn}>
-                Get Started
+
+            <div className={styles.heroCTAGroup}>
+              <Link href="#potential" className={styles.heroSecondaryBtn}>
+                Explore Benefits
               </Link>
             </div>
-            <div className={styles.heroStats}>
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>Save up to</span>
-                <span className={styles.statLabel}>2 Years of Study</span>
-              </div>
-              <div className={styles.statDivider} />
-              <div className={styles.statItem}>
-                <span className={styles.statNum}>UGC/AIU</span>
-                <span className={styles.statLabel}>Approved Programs</span>
+          </div>
+
+          <div className={styles.heroRight}>
+            <div className={styles.imageCard}>
+              <img
+                src="/images/credit-transfer-hero-new.png"
+                alt="Credit Transfer Success"
+              />
+              
+              <div className={styles.courseBadge}>
+                <div className={styles.badgeDot} />
+                UGC/AIU Approved
               </div>
             </div>
-          </div>
-          <div className={styles.heroRight}>
-            <div className={styles.heroImageCard}>
-              <img
-                src="/images/hero-credit-transfer.png"
-                alt="Credit Transfer"
-                className={styles.heroImage}
-              />
+
+            {/* Dynamic Icons */}
+            <div className={`${styles.glassIcon} ${styles.icon1}`}>
+               <div className={styles.iconCircle}><Repeat size={24} color="#3a5a8c" /></div>
+            </div>
+            <div className={`${styles.glassIcon} ${styles.icon2}`}>
+               <div className={styles.iconCircle}><GraduationCap size={20} color="#002060" /></div>
+            </div>
+            <div className={`${styles.glassIcon} ${styles.icon3}`}>
+               <div className={styles.iconCircle}><ShieldCheck size={22} color="#ef233c" /></div>
             </div>
           </div>
         </div>
@@ -180,11 +187,11 @@ export default function CreditTransferPage() {
                   </ul>
                 </div>
 
-                <div className={styles.stepItem}>
-                  <h4>2. Credit Approval and Mapping:</h4>
-                  <ul>
-                    <li>Once evaluated, we'll approve the transferable credits and map them to equivalent courses in your chosen program.</li>
-                  </ul>
+                <div style={{ paddingLeft: '3rem', position: 'relative' }}>
+                   <h4 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#002060', marginBottom: '1rem' }}>2. Credit Approval and Mapping:</h4>
+                   <ul style={{ listStyle: 'none', padding: 0 }}>
+                     <li style={{ color: '#64748b', lineHeight: 1.7, fontSize: '1rem' }}>Once evaluated, we'll approve the transferable credits and map them to equivalent courses in your chosen program.</li>
+                   </ul>
                 </div>
 
                 <div className={styles.stepItem}>

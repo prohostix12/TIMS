@@ -53,66 +53,54 @@ export default function AttestationPage() {
     <main className={styles.container}>
       <div className={styles.pageGlow} />
 
-      {/* ===== Standard Hero Section (Like Home Page) ===== */}
+      {/* ===== Dribbble Reference Hero - Attestation ===== */}
       <section className={styles.heroWrapper}>
         <div className={styles.heroContent}>
           <div className={styles.heroLeft}>
-            <nav className={styles.heroBreadcrumb}>
-              <Link href="/">Home</Link> <span>/</span> <span>Attestation</span>
-            </nav>
+            <div className={styles.heroBadge}>
+              <div className={styles.badgeDot} />
+              Official Document Legalization
+            </div>
+            
             <h1 className={styles.heroTitle}>
-              Official <span className={styles.heroTitleDark}>Document Attestation</span> <br />
-              & Global Legalization.
+              Official <span>Attestation</span> <br /> 
+              for Global Success 
             </h1>
-            <p className={styles.heroDesc}>
-              Authorized Embassy Legalization & Authentication services for Global Education, Employment, and Migration. Trusted by 15,000+ professionals worldwide.
+            
+            <p className={styles.heroSubtext}>
+              Authorized Embassy Legalization & Authentication services for Global Education, Employment, and Migration. Trusted by professionals worldwide.
             </p>
 
-            <div className={styles.heroSearch}>
-              <input 
-                type="text" 
-                placeholder="What document do you need to attest?" 
-                className={styles.heroSearchInput}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <button className={styles.heroSearchBtn}>
-                <Search size={20} />
-              </button>
-            </div>
-
-            <div className={styles.goalSection}>
-              <p className={styles.goalLabel}>Popular Services:</p>
-              <div className={styles.goalChips}>
-                {['Degree Attestation', 'Birth Certificate', 'Marriage Certificate', 'HRD Attestation', 'MEA Legalization'].map((g, i) => (
-                  <button 
-                    key={i} 
-                    className={styles.goalChip}
-                    onClick={() => setSearchTerm(g.split(' ')[0])}
-                    style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                  >
-                    {g}
-                  </button>
-                ))}
-              </div>
+            <div className={styles.heroCTAGroup}>
+              <Link href="#directory" className={styles.heroSecondaryBtn}>
+                Explore Services
+              </Link>
             </div>
           </div>
 
           <div className={styles.heroRight}>
-            <div className={styles.heroImageCard}>
-              <img 
-                src="/images/hero-attestation.png" 
-                alt="Verification Excellence" 
+            <div className={styles.imageCard}>
+              <img
+                src="/images/attestation-hero-new.png"
+                alt="Document Verification"
               />
-              <div className={styles.heroImageOverlay}>
-                <div className={styles.overlayIconBox}>
-                  <ShieldCheck size={28} color="#ef233c" />
-                </div>
-                <div>
-                  <p className={styles.overlayWhite}>Authorized By</p>
-                  <p className={styles.overlayHighlight}>MEA & Global Embassies</p>
-                </div>
+              
+              {/* Floating Badge (Text only) */}
+              <div className={styles.courseBadge}>
+                <div className={styles.badgeDot} />
+                Online Legalization
               </div>
+            </div>
+
+            {/* Dynamic "Not Bore" Icons */}
+            <div className={`${styles.glassIcon} ${styles.icon1}`}>
+               <div className={styles.iconCircle}><ShieldCheck size={24} color="#3a5a8c" /></div>
+            </div>
+            <div className={`${styles.glassIcon} ${styles.icon2}`}>
+               <div className={styles.iconCircle}><Search size={20} color="#002060" /></div>
+            </div>
+            <div className={`${styles.glassIcon} ${styles.icon3}`}>
+               <div className={styles.iconCircle}><Award size={22} color="#ef233c" /></div>
             </div>
           </div>
         </div>

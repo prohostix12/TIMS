@@ -191,58 +191,82 @@ export default function Home() {
   return (
     <main className={styles.container}>
 
-      {/* ===== Hero Section - UpGrad Style ===== */}
+      {/* ===== Hero Section - DevSkill eLearning Style ===== */}
       <section className={styles.heroWrapper}>
+
         <div className={styles.heroContent}>
           <div className={styles.heroLeft}>
+            <span className={styles.heroBadge}>🎓 Education Platform</span>
+
             <h1 className={styles.heroTitle}>
               Shaping Global Careers <br />
-              <span className={styles.heroTitleDark}>Through Excellence.</span>
+              <span className={styles.heroTitleAccent}>Through Excellence.</span>
             </h1>
 
-            <form onSubmit={handleSearch} className={styles.heroSearch}>
-              <input
-                type="text"
-                placeholder="Tell us what you're looking for..."
-                className={styles.heroSearchInput}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                autoComplete="off"
-              />
-              <button type="submit" className={styles.heroSearchBtn}>
-                <Search size={18} />
-              </button>
-            </form>
-
-            <div className={styles.goalSection}>
-              <p className={styles.goalLabel}>Or select your goal 🎯</p>
-              <div className={styles.goalChips}>
-                {['Embassy Attestation', 'Online Degree', 'Credit Transfer', 'SSLC / NIOS', 'BBA / MBA', 'Study Abroad', 'Distance Education', 'Free Counselling'].map((g, i) => (
-                  <Link key={i} href="/courses" className={styles.goalChip}>{g}</Link>
-                ))}
-              </div>
-            </div>
-
-            <p className={styles.communityCount}>
-              Join the community of <span>15,000+</span> learners.
+            <p className={styles.heroSubtext}>
+              Providing accessible, high-quality education and guidance — accredited online degrees, attestation services, and career-oriented programs for learners worldwide.
             </p>
+
+            <div className={styles.heroCTAGroup}>
+              <Link href="/courses" className={styles.heroCTABtn}>
+                Explore Courses <ArrowRight size={16} />
+              </Link>
+              <Link href="/about" className={styles.heroPlayBtn}>
+                <span className={styles.playCircle}>▶</span>
+                <span>How it Works</span>
+              </Link>
+            </div>
           </div>
 
           <div className={styles.heroRight}>
-            <div className={styles.heroImageCard}>
+            {/* Large arrow/chevron shapes — behind student */}
+            <div className={styles.heroArrow1} />
+            <div className={styles.heroArrow2} />
+
+            {/* Decorative ring */}
+            <div className={styles.heroRing} />
+
+            {/* Watermark text */}
+            <span className={styles.heroWatermark}>eLearn</span>
+
+            {/* Student cutout */}
+            <div className={styles.heroStudentWrap}>
               <Image
-                src="/images/hero-campus.png"
-                alt="Students on University Campus"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                src="/images/hero-student-v3.png"
+                alt="Student ready for success"
+                width={480}
+                height={580}
+                className={styles.heroCutoutImg}
                 priority
               />
-              <div className={styles.heroImageOverlay}>
-                <p className={styles.overlayWhite}>Study in</p>
-                <p className={styles.overlayHighlight}>Top Universities</p>
-                <Link href="/universities" className={styles.overlayLink}>Explore programs →</Link>
+            </div>
+
+            {/* Floating checkmark badge */}
+            <div className={styles.heroCheckBadge}>
+              <div className={styles.checkBadgeCircle}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </div>
+            </div>
+
+            {/* Floating accredited card — top right */}
+            <div className={styles.heroFloatingBadge}>
+              <div className={styles.floatingBadgeIcon}>
+                <Award size={18} />
+              </div>
+              <div>
+                <p className={styles.floatingBadgeTitle}>Accredited</p>
+                <p className={styles.floatingBadgeSub}>UGC & AICTE</p>
+              </div>
+            </div>
+
+            {/* Small floating dot */}
+            <div className={styles.heroDot} />
+
+            {/* Floating card — bottom left */}
+            <div className={styles.heroFloatingCard}>
+              <p className={styles.floatingCardLabel}>Study in</p>
+              <p className={styles.floatingCardValue}>Top Universities</p>
+              <Link href="/universities" className={styles.floatingCardLink}>Explore programs →</Link>
             </div>
           </div>
         </div>
