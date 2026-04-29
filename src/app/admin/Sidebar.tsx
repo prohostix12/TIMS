@@ -53,11 +53,11 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       <div className={styles.sidebarHeader}>
         <div className={styles.logo}>
           <Image 
-            src="/images/tims-logo-3-3.png" 
-            alt="TIMS Logo" 
-            width={300} 
-            height={120} 
-            style={{ width: '100%', height: 'auto', objectFit: 'contain', maxHeight: '110px' }}
+            src="/images/demo logo5.png" 
+            alt="Logo" 
+            width={240} 
+            height={80} 
+            style={{ objectFit: 'contain' }}
             priority
           />
         </div>

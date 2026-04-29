@@ -111,13 +111,14 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/" className={styles.logo} aria-label="Go to homepage">
             <div className={styles.logoBadge}>
-              <Image
-                src="/images/tims-logo-3-3.png"
-                alt="Times Online Logo"
-                width={120}
-                height={36}
+              <Image 
+                src="/images/demo logo5.png"
+                alt="Logo"
+                width={350}
+                height={110}
                 priority
                 className={styles.logoImage}
+                style={{ objectFit: 'contain' }}
               />
             </div>
           </Link>
@@ -240,12 +241,13 @@ const Navbar = () => {
         {/* Drawer header */}
         <div className={styles.drawerHeader}>
           <Link href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
-            <Image
-              src="/images/tims-logo-3-3.png"
-              alt="Times Online Logo"
-              width={90}
-              height={27}
+            <Image 
+              src="/images/demo logo5.png"
+              alt="Logo"
+              width={250}
+              height={80}
               className={styles.logoImage}
+              style={{ objectFit: 'contain' }}
             />
           </Link>
           <button

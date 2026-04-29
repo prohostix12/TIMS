@@ -12,13 +12,13 @@ const Footer = () => {
     <footer className={styles.footer}>
       <div className={styles.footerGrid}>
         <div className={styles.footerCol}>
-          <div style={{ marginBottom: '2rem', marginLeft: '-15px' }}>
+          <div style={{ marginBottom: '1rem' }}>
             <Image 
-              src="/images/tims-logo-3-3.png" 
-              alt="TIMS Logo" 
-              width={220} 
-              height={65} 
-              style={{ objectFit: 'contain', display: 'block' }}
+              src="/images/demo logo5.png" 
+              alt="Logo" 
+              width={280} 
+              height={90} 
+              style={{ objectFit: 'contain', display: 'block', marginLeft: '-60px' }}
             />
           </div>
           <h3>Company</h3>
