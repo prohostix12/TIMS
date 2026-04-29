@@ -631,9 +631,12 @@ export default function Home() {
               <p>
                 With experienced mentors and reliable university tie-ups, we continue to be the <strong>best distance education centre in Kerala</strong> for learners who want steady progress. If you&apos;re planning your next step, you&apos;ll understand why so many consider us the <strong>best distance education centre in Kerala</strong>.
               </p>
-              <div style={{ marginTop: '2rem' }}>
-                <Link href="/services" className={styles.uniViewAllBtn}>
-                  Explore Our Services <ArrowRight size={18} />
+              <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <Link href="/services/attestation" className={styles.uniViewAllBtn}>
+                  Embassy Attestation <ArrowRight size={18} />
+                </Link>
+                <Link href="/services/credit-transfer" className={styles.uniViewAllBtn} style={{ background: 'transparent', border: '2px solid #002060', color: '#002060' }}>
+                  Credit Transfer <ArrowRight size={18} />
                 </Link>
               </div>
             </div>
