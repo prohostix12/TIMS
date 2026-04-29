@@ -139,18 +139,24 @@ const Navbar = () => {
             ))}
 
             {/* Added Course Finder in the center */}
-            <li className={styles.navItem} role="none">
+            <li className={styles.navItem} role="none" style={{ display: 'flex', alignItems: 'center' }}>
               <button
                 className={styles.navLink}
                 onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
                 role="menuitem"
                 style={{ 
-                  background: 'none', 
+                  background: '#002060', 
                   border: 'none', 
                   cursor: 'pointer', 
                   fontFamily: 'inherit',
-                  color: '#ef233c',
-                  fontWeight: '700'
+                  color: '#ffffff',
+                  fontWeight: '700',
+                  padding: '0.6rem 1.2rem',
+                  borderRadius: '100px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  transition: 'all 0.3s ease',
+                  fontSize: '0.85rem'
                 }}
               >
                 Course Finder
@@ -241,10 +247,19 @@ const Navbar = () => {
           ))}
 
           {/* Render Course Finder for Mobile */}
-          <div className={styles.drawerItem}>
+          <div className={styles.drawerItem} style={{ padding: '0.5rem 1rem' }}>
             <button
               className={styles.drawerLink}
-              style={{ color: '#ef233c', fontWeight: '700' }}
+              style={{ 
+                background: '#002060', 
+                color: '#ffffff', 
+                fontWeight: '700',
+                padding: '0.8rem 1.5rem',
+                borderRadius: '12px',
+                width: '100%',
+                textAlign: 'center',
+                justifyContent: 'center'
+              }}
               onClick={() => {
                 setMobileOpen(false);
                 window.dispatchEvent(new CustomEvent('open-course-finder'));
