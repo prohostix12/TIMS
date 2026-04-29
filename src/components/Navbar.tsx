@@ -125,88 +125,54 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <ul className={styles.navLinks} role="menubar">
-            {navLinks.map((link) => (
-              <li
-                key={link.name}
-                className={`${styles.navItem} ${link.submenu ? styles.hasDropdown : ''}`}
-                role="none"
-              >
-                {link.submenu && ['Services', 'Students'].includes(link.name) ? (
-                  <span
-                    className={`${styles.navLink} ${styles.navLinkLabel} ${isActive(link) ? styles.activeLink : ''}`}
-                    role="menuitem"
-                    aria-haspopup="true"
-                  >
-                    {link.name}
-                    <ChevronDown size={14} className={styles.chevron} aria-hidden="true" />
-                  </span>
-                ) : link.submenu ? (
-                  <Link
-                    href={link.path}
-                    className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
-                    role="menuitem"
-                    aria-haspopup="true"
-                  >
-                    {link.name}
-                    <ChevronDown size={14} className={styles.chevron} aria-hidden="true" />
-                  </Link>
-                ) : (
-                  <Link
-                    href={link.path}
-                    className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
-                    role="menuitem"
-                  >
-                    {link.name}
-                  </Link>
-                )}
+            {/* Render Home */}
+            {navLinks.filter(link => link.name === 'Home').map((link) => (
+              <li key={link.name} className={styles.navItem} role="none">
+                <Link
+                  href={link.path}
+                  className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
+                  role="menuitem"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
 
-                {link.submenu && (
-                  <div className={styles.dropdown} role="menu">
-                    {link.submenu.map((sub) => (
-                      <div key={sub.path} className={styles.dropdownItemWrapper} role="none">
-                        {sub.submenu ? (
-                          <>
-                            <span className={`${styles.dropdownItem} ${styles.hasSubDropdown}`} role="menuitem" aria-haspopup="true">
-                              {sub.name}
-                              <ChevronDown size={13} className={styles.subArrow} aria-hidden="true" />
-                            </span>
-                            <div className={styles.subDropdown} role="menu">
-                              {sub.submenu.map((child) => (
-                                <Link
-                                  key={child.path}
-                                  href={child.path}
-                                  className={styles.dropdownItem}
-                                  role="menuitem"
-                                >
-                                  {child.name}
-                                  <ArrowRight size={13} className={styles.subChevron} aria-hidden="true" />
-                                </Link>
-                              ))}
-                            </div>
-                          </>
-                        ) : (
-                          <Link href={sub.path} className={styles.dropdownItem} role="menuitem">
-                            {sub.name}
-                            <ArrowRight size={13} className={styles.subChevron} aria-hidden="true" />
-                          </Link>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+            {/* Added Course Finder in the center */}
+            <li className={styles.navItem} role="none">
+              <button
+                className={styles.navLink}
+                onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
+                role="menuitem"
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  cursor: 'pointer', 
+                  fontFamily: 'inherit',
+                  color: '#ef233c',
+                  fontWeight: '700'
+                }}
+              >
+                Course Finder
+              </button>
+            </li>
+
+            {/* Render About */}
+            {navLinks.filter(link => link.name === 'About').map((link) => (
+              <li key={link.name} className={styles.navItem} role="none">
+                <Link
+                  href={link.path}
+                  className={`${styles.navLink} ${isActive(link) ? styles.activeLink : ''}`}
+                  role="menuitem"
+                >
+                  {link.name}
+                </Link>
               </li>
             ))}
           </ul>
 
           {/* Desktop Actions */}
           <div className={styles.actions}>
-            <button
-              className={styles.secondaryAction}
-              onClick={() => window.dispatchEvent(new CustomEvent('open-course-finder'))}
-              aria-label="Open Course Finder"
-            >
-              Course Finder
-            </button>
             <Link href="/login" className={styles.primaryAction}>
               Login
             </Link>
@@ -261,74 +227,43 @@ const Navbar = () => {
 
         {/* Drawer links */}
         <nav className={styles.drawerNav}>
-          {navLinks.map((link) => (
+          {/* Render Home for Mobile */}
+          {navLinks.filter(link => link.name === 'Home').map((link) => (
             <div key={link.name} className={styles.drawerItem}>
-              {link.submenu ? (
-                <>
-                  <button
-                    className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
-                    onClick={() => toggleMobileItem(link.name)}
-                    aria-expanded={openMobileItem === link.name}
-                  >
-                    {link.name}
-                    <ChevronDown
-                      size={18}
-                      className={`${styles.drawerChevron} ${openMobileItem === link.name ? styles.drawerChevronOpen : ''}`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                  <div className={`${styles.drawerSub} ${openMobileItem === link.name ? styles.drawerSubOpen : ''}`}>
-                    {link.submenu.map((sub) => (
-                      <div key={sub.path} className={styles.drawerSubItem}>
-                        {sub.submenu ? (
-                          <>
-                            <button
-                              className={styles.drawerSubLink}
-                              onClick={() => toggleMobileSubItem(sub.name)}
-                              aria-expanded={openMobileSubItem === sub.name}
-                            >
-                              {sub.name}
-                              <ChevronDown
-                                size={15}
-                                className={`${styles.drawerChevron} ${openMobileSubItem === sub.name ? styles.drawerChevronOpen : ''}`}
-                                aria-hidden="true"
-                              />
-                            </button>
-                            <div className={`${styles.drawerNested} ${openMobileSubItem === sub.name ? styles.drawerNestedOpen : ''}`}>
-                              {sub.submenu.map((child) => (
-                                <Link
-                                  key={child.path}
-                                  href={child.path}
-                                  className={styles.drawerNestedLink}
-                                  onClick={() => setMobileOpen(false)}
-                                >
-                                  {child.name}
-                                </Link>
-                              ))}
-                            </div>
-                          </>
-                        ) : (
-                          <Link
-                            href={sub.path}
-                            className={styles.drawerSubLink}
-                            onClick={() => setMobileOpen(false)}
-                          >
-                            {sub.name}
-                          </Link>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <Link
-                  href={link.path}
-                  className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              )}
+              <Link
+                href={link.path}
+                className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.name}
+              </Link>
+            </div>
+          ))}
+
+          {/* Render Course Finder for Mobile */}
+          <div className={styles.drawerItem}>
+            <button
+              className={styles.drawerLink}
+              style={{ color: '#ef233c', fontWeight: '700' }}
+              onClick={() => {
+                setMobileOpen(false);
+                window.dispatchEvent(new CustomEvent('open-course-finder'));
+              }}
+            >
+              Course Finder
+            </button>
+          </div>
+
+          {/* Render About for Mobile */}
+          {navLinks.filter(link => link.name === 'About').map((link) => (
+            <div key={link.name} className={styles.drawerItem}>
+              <Link
+                href={link.path}
+                className={`${styles.drawerLink} ${isActive(link) ? styles.drawerLinkActive : ''}`}
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.name}
+              </Link>
             </div>
           ))}
         </nav>

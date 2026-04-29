@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
-import { 
+import {
   ArrowRight,
-  Award, 
-  BookOpen, 
+  Award,
+  BookOpen,
   Globe,
   Star,
   Lightbulb,
@@ -75,7 +75,7 @@ export default function Home() {
           fetch('/api/admin/blogs', { cache: 'no-store' }),
           fetch('/api/admin/programs', { cache: 'no-store' })
         ]);
-        
+
         const uniData = await uniRes.json();
         const newsData = await newsRes.json();
         const blogData = await blogRes.json();
@@ -167,7 +167,7 @@ export default function Home() {
     );
 
     cards.forEach((c) => observer.observe(c));
-    if (imageCol)  observer.observe(imageCol);
+    if (imageCol) observer.observe(imageCol);
     if (contentCol) observer.observe(contentCol);
 
     // University cards
@@ -310,7 +310,7 @@ export default function Home() {
           </div>
           <div className={styles.getKnowContentCol}>
             <span className={styles.getKnowSub}>GET TO KNOW US</span>
-            <h2 className={styles.getKnowTitle}>Learning Anytime,<br/>Anywhere for Success</h2>
+            <h2 className={styles.getKnowTitle}>Learning Anytime,<br />Anywhere for Success</h2>
             <p className={styles.getKnowText}>
               Providing accessible, high-quality education and guidance, Tirur Institute of Management Studies fosters academic excellence, professional growth, and societal impact for every learner.
             </p>
@@ -385,9 +385,9 @@ export default function Home() {
             </div>
           ))}
           {universities.length === 0 && !loading && (
-             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
-                <p>Stay tuned! Our partner universities will be listed here soon.</p>
-             </div>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
+              <p>Stay tuned! Our partner universities will be listed here soon.</p>
+            </div>
           )}
         </div>
 
@@ -475,6 +475,12 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        <div className={styles.uniSectionFooter}>
+          <Link href="/courses" className={styles.uniViewAllBtn}>
+            View All Programs <ArrowRight size={18} />
+          </Link>
+        </div>
       </section>
 
       {/* ===== Testimonials Section ===== */}
@@ -532,13 +538,13 @@ export default function Home() {
         <div className={styles.premiumBlogGrid}>
           {blogs.map((post, i) => (
             <Link href={`/blogs/${post._id}`} key={post._id} className={styles.premiumBlogCard}>
-              <Image 
-                src={post.image || '/images/blog-placeholder.png'} 
-                alt={post.title} 
-                fill 
+              <Image
+                src={post.image || '/images/blog-placeholder.png'}
+                alt={post.title}
+                fill
                 sizes="(max-width: 768px) 100vw, 25vw"
-                style={{ objectFit: 'cover' }} 
-                unoptimized={true} 
+                style={{ objectFit: 'cover' }}
+                unoptimized={true}
               />
               <div className={styles.premiumBlogOverlay}>
                 <span className={styles.premiumBlogDate}>
@@ -553,6 +559,12 @@ export default function Home() {
               <p>Our educational blog posts are coming soon!</p>
             </div>
           )}
+        </div>
+
+        <div className={styles.uniSectionFooter}>
+          <Link href="/blogs" className={styles.uniViewAllBtn}>
+            View All Blogs <ArrowRight size={18} />
+          </Link>
         </div>
       </section>
 
@@ -600,10 +612,10 @@ export default function Home() {
           </h2>
           <div className={styles.seoGrid}>
             <div className={styles.seoImageWrapper}>
-              <Image 
-                src="https://timseducation.com/wp-content/uploads/2025/11/A-beautiful-girl-student-smiling-holding-a-book-photography-_-Premium-AI-generated-image.webp" 
-                alt="Student smiling" 
-                fill 
+              <Image
+                src="https://timseducation.com/wp-content/uploads/2025/11/A-beautiful-girl-student-smiling-holding-a-book-photography-_-Premium-AI-generated-image.webp"
+                alt="Student smiling"
+                fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: 'contain' }}
                 unoptimized={true}
@@ -619,6 +631,11 @@ export default function Home() {
               <p>
                 With experienced mentors and reliable university tie-ups, we continue to be the <strong>best distance education centre in Kerala</strong> for learners who want steady progress. If you&apos;re planning your next step, you&apos;ll understand why so many consider us the <strong>best distance education centre in Kerala</strong>.
               </p>
+              <div style={{ marginTop: '2rem' }}>
+                <Link href="/services" className={styles.uniViewAllBtn}>
+                  Explore Our Services <ArrowRight size={18} />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
