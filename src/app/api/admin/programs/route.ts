@@ -4,6 +4,8 @@ import connectDB from '@/lib/db';
 import Program from '@/models/Program';
 import University from '@/models/University';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request) {
   try {
     await connectDB();

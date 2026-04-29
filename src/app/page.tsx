@@ -39,6 +39,7 @@ const UNI_PLACEHOLDER = '/images/university-success.png';
 interface University {
   _id: string;
   name: string;
+  description?: string;
   image?: string;
   logo?: string;
   status: string;
@@ -340,7 +341,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Partner Universities Section ===== */}
+      {/* ===== Partner Universities Section (Redesigned) ===== */}
       <section className={styles.uniSection}>
         <div className={styles.uniSectionHeader}>
           <span className={styles.uniSectionTag}>Global Network</span>
@@ -352,28 +353,33 @@ export default function Home() {
           </p>
         </div>
 
-        <div className={styles.uniGrid}>
+        <div className={styles.premiumUniGrid}>
           {universities.map((uni, i) => (
-            <div key={uni._id} className={styles.uniCard} style={{ '--i': i } as React.CSSProperties}>
-              <div className={styles.uniCardImgWrapper}>
+            <div key={uni._id} className={styles.premiumUniCard}>
+              <div className={styles.premiumUniImg}>
                 <Image
                   src={uni.image || UNI_PLACEHOLDER}
                   alt={uni.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   style={{ objectFit: 'cover' }}
                   onError={(e) => { e.currentTarget.srcset = ''; e.currentTarget.src = UNI_PLACEHOLDER; }}
                 />
                 {uni.logo && (
-                  <div style={{ position: 'absolute', top: '15px', left: '15px', width: '45px', height: '45px', borderRadius: '8px', overflow: 'hidden', border: '2px solid white', background: 'white', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', zIndex: 10 }}>
-                    <img src={uni.logo} alt={`${uni.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(uni.name)}&background=random&size=128`; }} />
+                  <div className={styles.premiumUniLogo}>
+                    <img src={uni.logo} alt={`${uni.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   </div>
                 )}
               </div>
-              <div className={styles.uniCardBody}>
-                <h3 className={styles.uniCardName}>{uni.name}</h3>
-                <Link href={`/universities/${uni._id}`} className={styles.uniCardBtn}>
-                  View Details <ArrowRight size={14} />
+              <div className={styles.premiumUniContent}>
+                <h3>{uni.name}</h3>
+                {uni.description && (
+                  <p className={styles.premiumUniDesc}>
+                    {uni.description.length > 100 ? uni.description.substring(0, 100) + '...' : uni.description}
+                  </p>
+                )}
+                <Link href={`/universities/${uni._id}`} className={styles.premiumUniBtn}>
+                  Explore Programs <ArrowRight size={16} />
                 </Link>
               </div>
             </div>
@@ -437,34 +443,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Trending Courses Section ===== */}
-      <section className={styles.coursesSection}>
-        <div className={styles.uniSectionHeader}>
-          <span className={styles.uniSectionTag}>Top Programs</span>
-          <h2 className={styles.uniSectionTitle}>Trending Courses</h2>
-          <p className={styles.uniSectionSub}>
-            Discover our most sought-after programs designed to fast-track your career in management and technology.
-          </p>
+      {/* ===== Trending Courses Section (Redesigned) ===== */}
+      <section className={styles.premiumCourseSection}>
+        <div className={styles.premiumCourseHeader}>
+          <h2>Trending Programs</h2>
+          <p>Discover our most sought-after programs designed to fast-track your career in management and technology.</p>
         </div>
 
-        <div className={styles.coursesGrid}>
+        <div className={styles.premiumCourseGrid}>
           {courses.map((course, i) => (
-            <div key={course._id} className={styles.courseMiniCard} style={{ '--i': i } as React.CSSProperties}>
-              <div className={styles.courseMiniImg}>
-                <Image src={course.image || 'https://images.unsplash.com/photo-1523240715639-99f84db47d0e?q=80&w=800'} alt={course.name} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} unoptimized={true} />
-                <span className={styles.courseTag}>{course.level}</span>
+            <div key={course._id} className={styles.premiumCourseCard}>
+              <div className={styles.premiumCourseImgWrapper}>
+                <Image src={course.image || 'https://images.unsplash.com/photo-1523240715639-99f84db47d0e?q=80&w=800'} alt={course.name} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: 'cover' }} unoptimized={true} />
+                <div className={styles.premiumCourseOverlay} />
+                <span className={styles.premiumCourseTag}>{course.level}</span>
               </div>
-              <div className={styles.courseMiniBody}>
+              <div className={styles.premiumCourseBody}>
                 <h3>{course.name}</h3>
-                <p>{course.duration} • Full-time</p>
-                <Link href={`/courses/${course._id}`} className={styles.courseLink}>
-                  Explore Program <ArrowRight size={14} />
+                <div className={styles.premiumCourseMeta}>
+                  <span>{course.duration}</span> • <span>Full-time</span>
+                </div>
+                <Link href={`/courses/${course._id}`} className={styles.premiumCourseBtn}>
+                  View details <ArrowRight size={16} />
                 </Link>
               </div>
             </div>
           ))}
           {courses.length === 0 && !loading && (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
               <p>New academic programs are being added. Check back soon!</p>
             </div>
           )}
@@ -516,98 +522,105 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Blog Section ===== */}
-      <section className={styles.blogSection}>
+      {/* ===== Blog Section (Redesigned) ===== */}
+      <section className={styles.premiumBlogSection}>
         <div className={styles.uniSectionHeader}>
           <span className={styles.uniSectionTag}>Expert Insights</span>
           <h2 className={styles.uniSectionTitle}>From Our Blog</h2>
-          <p className={styles.uniSectionSub}>
-            Stay ahead with the latest trends in global education, career tips, and institutional updates.
-          </p>
         </div>
 
-        <div className={styles.blogGrid}>
+        <div className={styles.premiumBlogGrid}>
           {blogs.map((post, i) => (
-            <div key={post._id} className={styles.blogMiniCard} style={{ '--i': i } as React.CSSProperties}>
-              <div className={styles.blogMiniImg}>
-                <Image 
-                  src={post.image || '/images/blog-placeholder.png'} 
-                  alt={post.title} 
-                  fill 
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  style={{ objectFit: 'cover' }} 
-                  unoptimized={true} 
-                />
-              </div>
-              <div className={styles.blogMiniBody}>
-                <span className={styles.blogDate}>
+            <Link href={`/blogs/${post._id}`} key={post._id} className={styles.premiumBlogCard}>
+              <Image 
+                src={post.image || '/images/blog-placeholder.png'} 
+                alt={post.title} 
+                fill 
+                sizes="(max-width: 768px) 100vw, 25vw"
+                style={{ objectFit: 'cover' }} 
+                unoptimized={true} 
+              />
+              <div className={styles.premiumBlogOverlay}>
+                <span className={styles.premiumBlogDate}>
                   {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                 </span>
                 <h3>{post.title}</h3>
-                <Link href={`/blogs/${post._id}`} className={styles.blogLink}>
-                  Read More <ArrowRight size={14} />
-                </Link>
               </div>
-            </div>
+            </Link>
           ))}
           {blogs.length === 0 && !loading && (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b' }}>
               <p>Our educational blog posts are coming soon!</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* ===== Latest News Section ===== */}
-      <section className={styles.newsSection}>
-        <div className={styles.newsHeader} style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 5rem' }}>
-          <span className={styles.uniSectionTag}>Stay Informed</span>
-          <h2 className={styles.uniSectionTitle}>
-            <span style={{ color: '#ef233c' }}>Latest</span> News
-          </h2>
-          <p className={styles.uniSectionSub}>
-            Stay informed with the latest updates, announcements, and insights from TIMS.
-          </p>
+      {/* ===== Latest News Section (Redesigned) ===== */}
+      <section className={styles.premiumNewsSection}>
+        <div className={styles.premiumNewsHeader}>
+          <h2>Latest News & Updates</h2>
         </div>
 
-        <div className={styles.newsGrid}>
+        <div className={styles.premiumNewsGrid}>
           {newsItems.map((item, i) => (
-            <div key={item._id} className={styles.newsCard} style={{ '--i': i } as React.CSSProperties}>
-              <div className={styles.newsCardImgWrapper}>
-                <Image
-                  src={item.image || NEWS_PLACEHOLDER}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  style={{ objectFit: 'cover' }}
-                />
-                {item.category && (
-                  <span className={styles.newsCardCategory}>{item.category}</span>
-                )}
+            <Link href={`/news/${item._id}`} key={item._id} className={styles.premiumNewsItem}>
+              <div className={styles.premiumNewsDateBox}>
+                <span className={styles.newsDay}>{new Date(item.publishedAt).getDate()}</span>
+                <span className={styles.newsMonth}>{new Date(item.publishedAt).toLocaleString('en-US', { month: 'short' })}</span>
               </div>
-              <div className={styles.newsCardBody}>
-                <p className={styles.newsCardDate}>
-                  {new Date(item.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                </p>
-                <h3 className={styles.newsCardTitle}>{item.title}</h3>
-                <p className={styles.newsCardExcerpt}>{item.excerpt}</p>
-                <Link href={`/news/${item._id}`} className={styles.newsCardBtn}>
-                  Read More <ArrowRight size={14} />
-                </Link>
+              <div className={styles.premiumNewsContent}>
+                {item.category && <span className={styles.premiumNewsCategory}>{item.category}</span>}
+                <h3>{item.title}</h3>
+                <p>{item.excerpt}</p>
               </div>
-            </div>
+              <div className={styles.premiumNewsIcon}>
+                <ArrowRight size={24} />
+              </div>
+            </Link>
           ))}
           {newsItems.length === 0 && !loading && (
-             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#64748b', background: '#f1f5f9', borderRadius: '16px' }}>
-                <p>New updates and announcements are on their way!</p>
-             </div>
+            <div style={{ textAlign: 'center', padding: '3rem', color: '#64748b' }}>
+              <p>No recent news available.</p>
+            </div>
           )}
         </div>
-
         <div className={styles.uniSectionFooter}>
           <Link href="/news" className={styles.uniViewAllBtn}>
             View All News <ArrowRight size={18} />
           </Link>
+        </div>
+      </section>
+
+      {/* ===== SEO Section: Best Distance Education Centre ===== */}
+      <section className={styles.seoSection}>
+        <div className={styles.seoContainer}>
+          <h2 className={styles.seoTitle}>
+            Best Distance Education Centre in Kerala – Building Futures with Flexible Learning
+          </h2>
+          <div className={styles.seoGrid}>
+            <div className={styles.seoImageWrapper}>
+              <Image 
+                src="https://timseducation.com/wp-content/uploads/2025/11/A-beautiful-girl-student-smiling-holding-a-book-photography-_-Premium-AI-generated-image.webp" 
+                alt="Student smiling" 
+                fill 
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'contain' }}
+                unoptimized={true}
+              />
+            </div>
+            <div className={styles.seoContent}>
+              <p>
+                TIMS Education has grown by helping students and working professionals complete their studies without disturbing their daily routine. Over the years, many learners have trusted us because they feel comfortable learning at their own pace with the right guidance beside them. That&apos;s one of the reasons people often call us the <strong>best distance education centre in Kerala</strong>.
+              </p>
+              <p>
+                We focus on simple admission procedures, clear support, and courses that genuinely help in building a career. We try to make the process as easy as possible for people who want to finish a degree they dropped years ago or get a better job by getting a higher level of education. Many who studied with us say they chose TIMS because it felt like the <strong>best distance education centre in Kerala</strong> for their needs.
+              </p>
+              <p>
+                With experienced mentors and reliable university tie-ups, we continue to be the <strong>best distance education centre in Kerala</strong> for learners who want steady progress. If you&apos;re planning your next step, you&apos;ll understand why so many consider us the <strong>best distance education centre in Kerala</strong>.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
