@@ -3,14 +3,15 @@
 
 import styles from './about.module.css';
 import Link from 'next/link';
-import { 
-  GraduationCap, 
-  Globe, 
-  Users, 
-  Award, 
-  CheckCircle2, 
-  Target, 
-  Eye, 
+import Image from 'next/image';
+import {
+  GraduationCap,
+  Globe,
+  Users,
+  Award,
+  CheckCircle2,
+  Target,
+  Eye,
   Quote,
   ArrowRight,
   ShieldCheck,
@@ -65,6 +66,51 @@ export default function About() {
         ))}
       </section>
 
+      {/* ===== Get To Know Us Section ===== */}
+      <section className={styles.getKnowSection}>
+        <div className={styles.getKnowGrid}>
+          <div className={styles.getKnowImageCol}>
+            <Image
+              src="/images/tims poster.jpg"
+              alt="Honored with Excellence"
+              width={600}
+              height={500}
+              className={styles.getKnowImage}
+            />
+          </div>
+          <div className={styles.getKnowContentCol}>
+            <span className={styles.getKnowSub}>GET TO KNOW US</span>
+            <h2 className={styles.getKnowTitle}>Learning Anytime,<br />Anywhere for Success</h2>
+            <p className={styles.getKnowText}>
+              Providing accessible, high-quality education and guidance, Tirur Institute of Management Studies fosters academic excellence, professional growth, and societal impact for every learner.
+            </p>
+            <ul className={styles.getKnowList}>
+              <li>
+                <span className={styles.checkIcon}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span className={styles.listItemText}>Accredited Attestation and Certification Services</span>
+              </li>
+              <li>
+                <span className={styles.checkIcon}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span className={styles.listItemText}>Flexible Online and Credit Transfer Options</span>
+              </li>
+              <li>
+                <span className={styles.checkIcon}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </span>
+                <span className={styles.listItemText}>Comprehensive Course and Degree Programs</span>
+              </li>
+            </ul>
+            <Link href="/contact" className={styles.getKnowBtn}>
+              Discover More
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ===== Premium Content Section ===== */}
       <section className={styles.aboutSection}>
         <div className={styles.aboutGrid}>
@@ -91,13 +137,6 @@ export default function About() {
                 </div>
               ))}
             </div>
-          </div>
-          <div className={styles.aboutImageCol}>
-             <img 
-              src="/images/about-students.png" 
-              alt="Collaboration" 
-              style={{ width: '100%', borderRadius: '40px', boxShadow: '0 20px 40px rgba(0,32,96,0.1)' }}
-            />
           </div>
         </div>
       </section>

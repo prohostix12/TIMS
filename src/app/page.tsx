@@ -21,6 +21,7 @@ import {
   Users,
   Search
 } from 'lucide-react';
+import OnlineCoursesSection from '@/components/OnlineCoursesSection';
 
 const NEWS_PLACEHOLDER = '/images/news-hero-bg.png';
 
@@ -242,28 +243,25 @@ export default function Home() {
               />
             </div>
 
-            {/* Floating checkmark badge */}
-            <div className={styles.heroCheckBadge}>
+            {/* Floating Stats - 18+ Years — top right */}
+            <div className={styles.heroStatBadge} style={{ top: '12%', right: '2%', animationDelay: '0s' }}>
+              <span className={styles.statBadgeBold}>18+ years</span>&nbsp;experience
+            </div>
+
+            {/* Floating Stats - 20000+ Alumni with Checkmark — left middle */}
+            <div className={styles.heroStatBadge} style={{ top: '42%', left: '-4%', display: 'flex', alignItems: 'center', gap: '10px', animationDelay: '0.4s' }}>
               <div className={styles.checkBadgeCircle}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
               </div>
+              <div><span className={styles.statBadgeBold}>20000+</span>&nbsp;Alumni</div>
             </div>
 
-            {/* Floating accredited card — top right */}
-            <div className={styles.heroFloatingBadge}>
-              <div className={styles.floatingBadgeIcon}>
-                <Award size={18} />
-              </div>
-              <div>
-                <p className={styles.floatingBadgeTitle}>Accredited</p>
-                <p className={styles.floatingBadgeSub}>UGC & AICTE</p>
-              </div>
+            {/* Floating Stats - 60+ universities — bottom left of image */}
+            <div className={styles.heroStatBadge} style={{ bottom: '32%', left: '8%', animationDelay: '0.8s' }}>
+              <span className={styles.statBadgeBold}>60+</span>&nbsp;universities
             </div>
 
-            {/* Small floating dot */}
-            <div className={styles.heroDot} />
-
-            {/* Floating card — bottom left */}
+            {/* Floating card — bottom right */}
             <div className={styles.heroFloatingCard}>
               <p className={styles.floatingCardLabel}>Study in</p>
               <p className={styles.floatingCardValue}>Top Universities</p>
@@ -273,73 +271,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Floating Stats Section ===== */}
-      <section className={styles.statsSection}>
-        <h2 className={styles.srOnly}>Our Impact in Numbers</h2>
-        <div className={styles.statsGrid}>
-          <div className={styles.statCard}>
-            <span className={styles.statNumber}>15K+</span>
-            <span className={styles.statLabel}>Global Alumni</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statNumber}>13+</span>
-            <span className={styles.statLabel}>Partner Universities</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statNumber}>98%</span>
-            <span className={styles.statLabel}>Success Rate</span>
-          </div>
-          <div className={styles.statCard}>
-            <span className={styles.statNumber}>100%</span>
-            <span className={styles.statLabel}>Accreditation</span>
-          </div>
-        </div>
-      </section>
 
-      {/* ===== Get To Know Us Section ===== */}
-      <section className={styles.getKnowSection}>
-        <div className={styles.getKnowGrid}>
-          <div className={styles.getKnowImageCol}>
-            <Image
-              src="/images/tims poster.jpg"
-              alt="Honored with Excellence"
-              width={600}
-              height={500}
-              className={styles.getKnowImage}
-            />
-          </div>
-          <div className={styles.getKnowContentCol}>
-            <span className={styles.getKnowSub}>GET TO KNOW US</span>
-            <h2 className={styles.getKnowTitle}>Learning Anytime,<br />Anywhere for Success</h2>
-            <p className={styles.getKnowText}>
-              Providing accessible, high-quality education and guidance, Tirur Institute of Management Studies fosters academic excellence, professional growth, and societal impact for every learner.
-            </p>
-            <ul className={styles.getKnowList}>
-              <li>
-                <span className={styles.checkIcon}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </span>
-                <span className={styles.listItemText}>Accredited Attestation and Certification Services</span>
-              </li>
-              <li>
-                <span className={styles.checkIcon}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </span>
-                <span className={styles.listItemText}>Flexible Online and Credit Transfer Options</span>
-              </li>
-              <li>
-                <span className={styles.checkIcon}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </span>
-                <span className={styles.listItemText}>Comprehensive Course and Degree Programs</span>
-              </li>
-            </ul>
-            <Link href="/about" className={styles.getKnowBtn}>
-              Discover More
-            </Link>
-          </div>
-        </div>
-      </section>
+
+      {/* ===== Online Courses Section (Tabbed) ===== */}
+      <OnlineCoursesSection />
 
       {/* ===== Partner Universities Section (Redesigned) ===== */}
       <section className={styles.uniSection}>
@@ -440,46 +375,6 @@ export default function Home() {
               <p className={styles.dreamCardDesc}>{item.desc}</p>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* ===== Trending Courses Section (Redesigned) ===== */}
-      <section className={styles.premiumCourseSection}>
-        <div className={styles.premiumCourseHeader}>
-          <h2>Trending Programs</h2>
-          <p>Discover our most sought-after programs designed to fast-track your career in management and technology.</p>
-        </div>
-
-        <div className={styles.premiumCourseGrid}>
-          {courses.map((course, i) => (
-            <div key={course._id} className={styles.premiumCourseCard}>
-              <div className={styles.premiumCourseImgWrapper}>
-                <Image src={course.image || 'https://images.unsplash.com/photo-1523240715639-99f84db47d0e?q=80&w=800'} alt={course.name} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: 'cover' }} unoptimized={true} />
-                <div className={styles.premiumCourseOverlay} />
-                <span className={styles.premiumCourseTag}>{course.level}</span>
-              </div>
-              <div className={styles.premiumCourseBody}>
-                <h3>{course.name}</h3>
-                <div className={styles.premiumCourseMeta}>
-                  <span>{course.duration}</span> • <span>Full-time</span>
-                </div>
-                <Link href={`/courses/${course._id}`} className={styles.premiumCourseBtn}>
-                  View details <ArrowRight size={16} />
-                </Link>
-              </div>
-            </div>
-          ))}
-          {courses.length === 0 && !loading && (
-            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
-              <p>New academic programs are being added. Check back soon!</p>
-            </div>
-          )}
-        </div>
-
-        <div className={styles.uniSectionFooter}>
-          <Link href="/courses" className={styles.uniViewAllBtn}>
-            View All Programs <ArrowRight size={18} />
-          </Link>
         </div>
       </section>
 

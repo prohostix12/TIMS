@@ -1,0 +1,173 @@
+'use client';
+
+import { useState } from 'react';
+import {
+  GraduationCap, Monitor, BarChart2, FlaskConical, BookOpen, Cpu,
+  Briefcase, Database, Landmark, Globe, Music, Layers, PenTool, Package, Stethoscope,
+} from 'lucide-react';
+import styles from './OnlineCoursesSection.module.css';
+
+const courseData: Record<string, { name: string; icon: React.ReactNode }[]> = {
+  'Online PG': [
+    { name: 'MBA',    icon: <GraduationCap size={32} /> },
+    { name: 'MCA',    icon: <Monitor size={32} /> },
+    { name: 'M.Com',  icon: <BarChart2 size={32} /> },
+    { name: 'M.Sc',   icon: <FlaskConical size={32} /> },
+    { name: 'MA',     icon: <BookOpen size={32} /> },
+    { name: 'M.Tech', icon: <Cpu size={32} /> },
+  ],
+  'Online UG': [
+    { name: 'BBA',   icon: <Briefcase size={32} /> },
+    { name: 'BCA',   icon: <Database size={32} /> },
+    { name: 'B.Com', icon: <Landmark size={32} /> },
+    { name: 'B.Sc',  icon: <FlaskConical size={32} /> },
+    { name: 'BA',    icon: <Globe size={32} /> },
+    { name: 'B.Ed',  icon: <BookOpen size={32} /> },
+  ],
+  'Diploma': [
+    { name: 'Data Science',   icon: <BarChart2 size={32} /> },
+    { name: 'Cyber Security', icon: <Cpu size={32} /> },
+    { name: 'Fashion Design', icon: <PenTool size={32} /> },
+    { name: 'Supply Chain',   icon: <Package size={32} /> },
+    { name: 'Nutrition',      icon: <Stethoscope size={32} /> },
+    { name: 'Music',          icon: <Music size={32} /> },
+    { name: 'IT',             icon: <Layers size={32} /> },
+  ],
+};
+
+const tabs = Object.keys(courseData);
+
+interface FormState { name: string; email: string; phone: string; }
+
+export default function OnlineCoursesSection() {
+  const [activeTab, setActiveTab] = useState('Online PG');
+  const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
+  const [form, setForm] = useState<FormState>({ name: '', email: '', phone: '' });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  const openModal = (courseName: string) => {
+    setSelectedCourse(courseName);
+    setSubmitted(false);
+    setError('');
+    setForm({ name: '', email: '', phone: '' });
+  };
+
+  const closeModal = () => setSelectedCourse(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setError('');
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...form,
+          interest: selectedCourse,
+          source: 'Course Card – Get Details',
+          description: `Interested in ${selectedCourse}`,
+        }),
+      });
+      if (!res.ok) throw new Error('Submission failed');
+      setSubmitted(true);
+    } catch {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <>
+      <section className={styles.section}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>20+ Online Courses</h2>
+          <div className={styles.tabs}>
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                className={`${styles.tabBtn} ${activeTab === tab ? styles.tabBtnActive : ''}`}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.grid}>
+          {courseData[activeTab].map((course) => (
+            <div key={course.name} className={styles.card} onClick={() => openModal(course.name)}>
+              <div className={styles.cardTop}>
+                <div className={styles.cardIcon}>{course.icon}</div>
+                <p className={styles.cardName}>{course.name}</p>
+              </div>
+              <div className={styles.cardBottom}>
+                <span className={styles.cardCta}>Get Details</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ===== Lead Form Modal ===== */}
+      {selectedCourse && (
+        <div className={styles.modalOverlay} onClick={(e) => { if (e.target === e.currentTarget) closeModal(); }}>
+          <div className={styles.modal}>
+            <button className={styles.modalClose} onClick={closeModal}>✕</button>
+
+            {submitted ? (
+              <div className={styles.successMsg}>
+                <div className={styles.successIcon}>✅</div>
+                <h3>Thank You!</h3>
+                <p>Our team will contact you shortly with details about <strong>{selectedCourse}</strong>.</p>
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.modalTitle}>Get Course Details</h2>
+                <p className={styles.modalSubtitle}>Fill in your details and we'll reach out to you.</p>
+                <span className={styles.courseBadge}>{selectedCourse}</span>
+
+                <form onSubmit={handleSubmit}>
+                  <div className={styles.formGroup}>
+                    <input
+                      className={styles.input}
+                      type="text"
+                      placeholder="Full Name *"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      required
+                    />
+                    <input
+                      className={styles.input}
+                      type="email"
+                      placeholder="Email Address *"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      required
+                    />
+                    <input
+                      className={styles.input}
+                      type="tel"
+                      placeholder="Phone Number *"
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      required
+                    />
+                  </div>
+                  {error && <p style={{ color: '#ef233c', fontSize: '0.9rem', marginBottom: '1rem' }}>{error}</p>}
+                  <button className={styles.submitBtn} type="submit" disabled={submitting}>
+                    {submitting ? 'Submitting...' : 'Get Details Now'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
