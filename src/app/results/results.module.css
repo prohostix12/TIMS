@@ -1,0 +1,235 @@
+.container {
+  min-height: 100vh;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.pageGlow {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(239, 35, 60, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Hero Section */
+.heroWrapper {
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  padding: 8rem 5% 4rem;
+  background: linear-gradient(135deg, #e0f2fe 0%, #fee2e2 100%);
+  position: relative;
+}
+
+.heroOverlay {
+  display: none;
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  color: #00122e;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.heroRight {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.heroImg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,32,96,0.1);
+  border: 4px solid #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .heroLeft {
+    align-items: center;
+    text-align: center;
+  }
+  .heroRight {
+    justify-content: center;
+  }
+}
+
+.heroBreadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 35, 60, 0.08);
+  color: #ef233c;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
+  color: #00122e;
+  margin-bottom: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.heroTitleAccent {
+  color: #ef233c;
+}
+
+.heroDesc {
+  font-size: 1.2rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+}
+
+/* Results List Section */
+.resultsListSection {
+  padding: 6rem 5%;
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
+}
+
+.resultsListContainer {
+  max-width: 1200px;
+  margin: -6rem auto 0;
+  position: relative;
+  z-index: 10;
+}
+
+.universitySection {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  margin-bottom: 3rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.uniTitle {
+  font-size: 1.8rem;
+  color: #00122e;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.uniTitle i {
+  color: #ef233c;
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.resultItem {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.resultItem:hover {
+  background: #ffffff;
+  border-color: #ef233c;
+  box-shadow: 0 10px 20px rgba(239, 35, 60, 0.05);
+  transform: translateY(-4px);
+}
+
+.courseLink {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #00122e;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s ease;
+}
+
+.resultItem:hover .courseLink {
+  color: #ef233c;
+}
+
+.semesterTag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  background: #e2e8f0;
+  padding: 4px 10px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.loadingWrapper {
+  text-align: center;
+  padding: 5rem;
+  color: #64748b;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 5rem;
+  background: #f8fafc;
+  border-radius: 24px;
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .universitySection {
+    padding: 1.5rem;
+  }
+  
+  .resultsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .resultsListContainer {
+    margin-top: -2rem;
+  }
+}

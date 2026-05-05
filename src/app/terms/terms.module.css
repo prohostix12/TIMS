@@ -1,0 +1,125 @@
+.container {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* ===== Cinematic Hero ===== */
+.hero {
+  width: 100%;
+  height: 60vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: 
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%),
+    url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  padding-top: 100px;
+}
+
+.heroContent {
+  text-align: center;
+  max-width: 800px;
+  padding: 0 5%;
+}
+
+.heroTag {
+  display: inline-block;
+  background: rgba(239, 35, 60, 0.1);
+  border: 1px solid rgba(239, 35, 60, 0.2);
+  color: #ef233c;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #002060;
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+/* ===== Content Section ===== */
+.contentSection {
+  padding: 8rem 5%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.lastUpdated {
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 4rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legalGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.legalBlock h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #002060;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.legalBlock h2::before {
+  content: '';
+  width: 30px;
+  height: 4px;
+  background: #ef233c;
+  border-radius: 2px;
+}
+
+.legalBlock p {
+  font-size: 1.1rem;
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.legalBlock ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.legalBlock li {
+  font-size: 1.05rem;
+  color: #475569;
+  padding-left: 2rem;
+  position: relative;
+}
+
+.legalBlock li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #ef233c;
+  font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .contentSection { padding: 4rem 5%; }
+  .legalBlock h2 { font-size: 1.5rem; }
+}

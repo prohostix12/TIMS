@@ -1,0 +1,229 @@
+.footer {
+  background: #041433; /* Dark blue background from screenshot */
+  color: #a0aec0;
+  padding: 5rem 10% 3rem;
+  border-top: none;
+  font-family: var(--font-geist-sans), sans-serif;
+  position: relative;
+  /* subtle city background pattern if needed could go here */
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr 1.1fr 1.1fr 1.2fr;
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.footerCol h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  /* Removed uppercase to match screenshot */
+  letter-spacing: 0.5px;
+}
+
+.footerCol p {
+  color: #a0aec0;
+  line-height: 1.8;
+  font-size: 0.9rem;
+}
+
+.readMore {
+  color: #ef233c;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.readMore:hover {
+  color: #ffffff;
+}
+
+.footerLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footerLink {
+  color: #a0aec0;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.footerLink:hover {
+  color: #ffffff;
+  padding-left: 4px;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.contactItem a {
+  color: #a0aec0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contactItem a:hover {
+  color: #ffffff;
+}
+
+.iconMargin {
+  margin-right: 0.25rem;
+  margin-top: 2px;
+}
+
+.footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footerBottom p {
+  color: #a0aec0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Footer brand name text */
+.footerBrandName {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ef233c;
+  margin: 0.25rem 0 0;
+  letter-spacing: 0.5px;
+}
+
+/* Social media icons */
+.socialIcons {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: #a0aec0;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.socialIcon:hover {
+  background: #ef233c;
+  color: #ffffff;
+  border-color: #ef233c;
+  transform: translateY(-3px);
+}
+
+/* Newsletter form */
+.newsletterForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.newsletterInput {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.newsletterInput::placeholder {
+  color: #64748b;
+}
+
+.newsletterInput:focus {
+  border-color: #ef233c;
+}
+
+.newsletterBtn {
+  background: #ef233c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease;
+}
+
+.newsletterBtn:hover {
+  background: #d01a2e;
+}
+
+/* Recognition badges */
+.recognitionBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.recBadge {
+  padding: 5px 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #a0aec0;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.recBadge:hover {
+  border-color: #ef233c;
+  color: #ef233c;
+}
+
+@media (max-width: 1200px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footerGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footerGrid {
+    grid-template-columns: 1fr;
+  }
+}

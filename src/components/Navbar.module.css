@@ -1,0 +1,641 @@
+/* ================================================
+   NAVBAR — Fully Responsive, Desktop + Mobile
+   ================================================ */
+
+/* ---- Wrapper ---- */
+.navWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.scrolled {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ---- Inner nav bar ---- */
+.navbar {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.scrolled .navbar {
+  padding: 0 2rem;
+}
+
+/* ---- Logo ---- */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+  line-height: 0;
+  margin-top: 0;
+}
+
+.logoBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.logoNameWrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logoNameTop {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #002060;
+  letter-spacing: 0.5px;
+}
+
+.logoNameBottom {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ef233c;
+  letter-spacing: -0.5px;
+}
+
+.scrolled .logoBadge {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.logoImage {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ---- Desktop nav links ---- */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  justify-content: center;
+}
+
+/* ---- Nav item ---- */
+.navItem {
+  position: relative;
+  padding: 0.75rem 0;
+}
+
+.navLink {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #002060;
+  text-decoration: none;
+  padding: 0.5rem 0.8rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: #ef233c;
+}
+
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #ef233c;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Non-navigable label (Services, Students) */
+.navLinkLabel {
+  cursor: default;
+}
+
+.activeLink {
+  color: #ef233c !important;
+  background: rgba(239, 35, 60, 0.08);
+}
+
+.chevron {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.navItem:hover .chevron {
+  transform: rotate(180deg);
+}
+
+/* ---- Desktop dropdown ---- */
+.dropdown {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 0.6rem;
+  min-width: 220px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  z-index: 200;
+}
+
+.hasDropdown:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---- Dropdown items ---- */
+.dropdownItemWrapper {
+  position: relative;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 9px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.dropdownItem:hover {
+  background: #f8fafc;
+  color: #ef233c;
+  transform: translateX(4px);
+}
+
+.subChevron {
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  flex-shrink: 0;
+}
+
+.dropdownItem:hover .subChevron {
+  opacity: 1;
+}
+
+.hasSubDropdown {
+  cursor: default;
+}
+
+.subArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.dropdownItemWrapper:hover .subArrow {
+  transform: rotate(-90deg);
+}
+
+/* ---- Sub-dropdown (nested) ---- */
+.subDropdown {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.5rem;
+  min-width: 190px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s;
+  z-index: 201;
+}
+
+.dropdownItemWrapper:hover .subDropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* ---- Desktop action buttons ---- */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(239, 35, 60, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 35, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 35, 60, 0); }
+}
+
+.secondaryAction {
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  border: 2px solid #ef233c;
+  background: rgba(239, 35, 60, 0.05);
+  color: #ef233c;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  animation: pulseGlow 2s infinite;
+}
+
+.secondaryAction:hover {
+  background: #ef233c;
+  color: #ffffff;
+}
+
+.primaryAction {
+  padding: 0.6rem 1.8rem;
+  border-radius: 4px;
+  background: #ef233c;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  border: 1px solid #ef233c;
+}
+
+.primaryAction:hover {
+  background: #ffffff;
+  color: #ef233c;
+}
+
+/* ---- Hamburger button ---- */
+.menuToggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #002060;
+  transition: all 0.2s ease;
+}
+
+.menuToggle:hover {
+  background: rgba(239, 35, 60, 0.08);
+  color: #ef233c;
+}
+
+/* ==============================================
+   MOBILE OVERLAY
+   ============================================== */
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 18, 46, 0.45);
+  z-index: 1099;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(3px);
+  pointer-events: none;
+}
+
+.mobileOverlayOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==============================================
+   MOBILE DRAWER
+   ============================================== */
+.mobileDrawer {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(360px, 92vw);
+  height: 100dvh;
+  background: #ffffff;
+  z-index: 1100;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.mobileDrawerOpen {
+  transform: translateX(0);
+}
+
+/* Drawer header */
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid #f1f5f9;
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  z-index: 1;
+}
+
+.drawerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  color: #002060;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.drawerClose:hover {
+  background: #ef233c;
+  color: #ffffff;
+}
+
+/* Drawer nav list */
+.drawerNav {
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.drawerItem {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Top-level drawer link / button */
+.drawerLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #002060;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+  text-align: left;
+}
+
+.drawerLink:hover {
+  background: #f8fafc;
+  color: #ef233c;
+}
+
+.drawerLinkActive {
+  color: #ef233c;
+  background: rgba(239, 35, 60, 0.06);
+}
+
+.drawerChevron {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+  color: #64748b;
+}
+
+.drawerChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Accordion sub-menu */
+.drawerSub {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: all 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  height: 0;
+  min-height: 0;
+}
+
+.drawerSubOpen {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+.drawerSub > * {
+  overflow: hidden;
+}
+
+.drawerSubItem {
+  padding: 0 0 0.25rem 0.75rem;
+}
+
+.drawerSubLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+  text-align: left;
+}
+
+.drawerSubLink:hover {
+  background: #f1f5f9;
+  color: #ef233c;
+}
+
+/* Nested (level 3) */
+.drawerNested {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: all 0.3s ease;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  padding-left: 1rem;
+  height: 0;
+  min-height: 0;
+}
+ 
+ .drawerNestedOpen {
+   grid-template-rows: 1fr;
+   visibility: visible;
+   opacity: 1;
+   height: auto;
+ }
+
+.drawerNested > * {
+  overflow: hidden;
+}
+
+.drawerNestedLink {
+  display: block;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 7px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.drawerNestedLink:hover {
+  background: #f8fafc;
+  color: #ef233c;
+}
+
+/* Drawer footer */
+.drawerActions {
+  padding: 1rem 1.2rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  bottom: 0;
+  background: #ffffff;
+  margin-top: auto;
+}
+
+.drawerActionSecondary {
+  padding: 0.85rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid #ef233c;
+  background: rgba(239, 35, 60, 0.05);
+  color: #ef233c;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-align: center;
+  animation: pulseGlow 2s infinite;
+}
+
+.drawerActionSecondary:hover {
+  background: #ef233c;
+  color: #ffffff;
+}
+
+.drawerActionPrimary {
+  display: block;
+  padding: 0.9rem 1.5rem;
+  border-radius: 50px;
+  background: #002060;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s ease;
+}
+
+.drawerActionPrimary:hover {
+  background: #ef233c;
+}
+
+/* ==============================================
+   RESPONSIVE — Show hamburger + drawer on mobile
+   ============================================== */
+@media (max-width: 1024px) {
+  .navLinks {
+    display: none;
+  }
+
+  .secondaryAction {
+    display: none;
+  }
+
+  .primaryAction {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileDrawer {
+    display: flex;
+  }
+}
+
+/* Slightly smaller logo on very small screens */
+@media (max-width: 480px) {
+  .logo {
+    margin-top: 0;
+    align-self: center;
+  }
+
+  .logoImage {
+    height: 32px;
+  }
+
+  .logoNameTop { font-size: 0.75rem; }
+  .logoNameBottom { font-size: 0.95rem; }
+
+  .navbar {
+    padding: 0 4%;
+  }
+}

@@ -1,0 +1,243 @@
+.container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+/* ===== Cinematic Contact Hero ===== */
+.heroHeader {
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #e0f2fe 0%, #fee2e2 100%);
+  padding-top: 100px;
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 1200px;
+  position: relative;
+  z-index: 10;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.heroRight {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.heroImg {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,32,96,0.1);
+  border: 4px solid #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .heroContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .heroLeft {
+    align-items: center;
+    text-align: center;
+  }
+  .heroRight {
+    justify-content: center;
+  }
+}
+
+.heroTag {
+  display: inline-block;
+  background: rgba(239, 35, 60, 0.1);
+  border: 1px solid rgba(239, 35, 60, 0.2);
+  color: #ef233c;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0.5rem 1.5rem;
+  border-radius: 100px;
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  color: #002060;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.heroSub {
+  font-size: 1.15rem;
+  color: #475569;
+  line-height: 1.8;
+  margin: 1.5rem 0 0;
+  max-width: 600px;
+  font-weight: 400;
+}
+
+.heroCrumb {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.heroCrumb a {
+  color: #002060;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.heroCrumb a:hover {
+  color: #ef233c;
+}
+
+/* ===== Contact Layout ===== */
+.contactSplit {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 8rem 5%;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 6rem;
+  position: relative;
+  z-index: 10;
+  background-image: 
+    linear-gradient(rgba(248, 250, 252, 0.95), rgba(248, 250, 252, 0.95)),
+    url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* ===== Form Card ===== */
+.formCard {
+  background: white;
+  padding: 3rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #00122e;
+}
+
+.formInput {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 15px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  outline: none;
+  background: #f8fafc;
+  transition: border-color 0.3s ease;
+}
+
+.formInput:focus {
+  border-color: var(--accent);
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 1rem;
+  background: #ef233c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+}
+
+.submitBtn:hover {
+  background: #c81a2e;
+  transform: translateY(-2px);
+}
+
+/* ===== Info Section ===== */
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  justify-content: center;
+  padding-left: 2rem;
+}
+
+.infoItem {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.iconBox {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+  box-shadow: 0 15px 30px rgba(0, 18, 46, 0.05);
+}
+
+.infoText h3 {
+  font-size: 1.25rem;
+  color: #00122e;
+  margin-bottom: 0.5rem;
+  font-weight: 800;
+}
+
+.infoText p {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .contactSplit {
+    grid-template-columns: 1fr;
+  }
+  .infoCard {
+    padding-left: 0;
+  }
+}

@@ -1,0 +1,254 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import styles from './universities.module.css';
+import Link from 'next/link';
+import Image from 'next/image';
+import { MapPin, ArrowRight, GraduationCap, Loader2, Search, Info, Globe } from 'lucide-react';
+import EnquiryModal from '@/components/EnquiryModal';
+
+export default function UniversitiesPage() {
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [visible, setVisible] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [searchTerm, setSearchTerm] = useState('');
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedInterest, setSelectedInterest] = useState('');
+
+  useEffect(() => {
+    fetchUniversities();
+  }, []);
+
+  const fetchUniversities = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/admin/universities', { cache: 'no-store' });
+      const data = await res.json();
+      if (Array.isArray(data)) setUniversities(data);
+    } catch (err) {
+      console.error('Failed to fetch universities', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEnquire = (interest: string) => {
+    setSelectedInterest(interest);
+    setIsModalOpen(true);
+  };
+
+  const filtered = universities.filter(u => {
+    const matchesFilter = activeFilter === 'All' || (u.type && u.type.toLowerCase() === activeFilter.toLowerCase());
+    const matchesSearch = (u.name || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (u.location || '').toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (gridRef.current) observer.observe(gridRef.current);
+    return () => observer.disconnect();
+  }, [loading]);
+
+  useEffect(() => {
+    setVisible(false);
+    setVisibleCount(6);
+    const t = setTimeout(() => setVisible(true), 50);
+    return () => clearTimeout(t);
+  }, [activeFilter, searchTerm]);
+
+  return (
+    <main className={styles.container}>
+      {/* ===== Skillhub Inspired Hero - Universities ===== */}
+      <section className={styles.heroWrapper}>
+        <div className={styles.heroContent}>
+          
+          <div className={styles.heroLeft}>
+            <nav className={styles.heroBreadcrumb}>
+              <Link href="/">Home</Link> <span>/</span> <span>Universities</span>
+            </nav>
+            
+            <h1 className={styles.heroTitle}>
+              Global <br />
+              <span className={styles.heroTitleAccent}>Academic Partners</span>
+            </h1>
+            
+            <p className={styles.heroSubtext}>
+              TIMS Education connects you with the world's most prestigious universities. Explore our network of top-ranked institutions across India and abroad, each handpicked for their academic excellence, global accreditation, and career placement records.
+            </p>
+
+            <div className={styles.heroSearch}>
+              <div className={styles.searchIconWrapper}>
+                <Search size={20} />
+              </div>
+              <input 
+                type="text" 
+                placeholder="Search university or city..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button onClick={() => {
+                const grid = document.getElementById('university-grid');
+                if(grid) grid.scrollIntoView({behavior: 'smooth'});
+              }}>Search</button>
+            </div>
+          </div>
+
+          <div className={styles.heroRight}>
+            <div className={styles.imageWrapper}>
+              <img src="/images/hero-campus.png" alt="University Campus" className={styles.campusImg} />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ===== Filter & Search Bar ===== */}
+      <section className={styles.filterBar}>
+        <div className={styles.filterInner}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1 }}>
+            <span className={styles.filterLabel}><GraduationCap size={16} /> Filter</span>
+            <div className={styles.filterBtns}>
+              {['All', 'Private', 'Public', 'Deemed', 'State'].map(f => (
+                <button
+                  key={f}
+                  className={`${styles.filterBtn} ${activeFilter === f ? styles.filterBtnActive : ''}`}
+                  onClick={() => setActiveFilter(f)}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={styles.searchBox}>
+            <Search size={18} />
+            <input 
+              type="text" 
+              placeholder="Search university or city..." 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ===== University Grid ===== */}
+      <section className={styles.gridSection} id="university-grid">
+        {loading ? (
+          <div style={{ minHeight: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', color: '#64748b' }}>
+            <Loader2 className="animate-spin" size={48} />
+            <p style={{ fontWeight: 600 }}>Discovering opportunities...</p>
+          </div>
+        ) : (
+          <>
+            {filtered.length > 0 ? (
+              <>
+                <div className={styles.gridWrap} ref={gridRef}>
+                {filtered.slice(0, visibleCount).map((uni, i) => (
+                  <div
+                    key={uni._id || i}
+                    className={`${styles.card} ${visible ? styles.cardVisible : ''}`}
+                    style={{ '--ci': i } as React.CSSProperties}
+                  >
+                    <div className={styles.cardImg}>
+                      <Image
+                        src={uni.image || 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=600&auto=format&fit=crop'}
+                        alt={uni.name}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <span className={styles.cardRegion}>{uni.type || 'Institutional'}</span>
+                      {uni.logo && (
+                        <div style={{ position: 'absolute', top: '15px', left: '15px', width: '45px', height: '45px', borderRadius: '8px', overflow: 'hidden', border: '2px solid white', background: 'white', boxShadow: '0 4px 10px rgba(0,0,0,0.15)', zIndex: 10 }}>
+                          <img src={uni.logo} alt={`${uni.name} logo`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} onError={(e) => { e.currentTarget.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(uni.name)}&background=random&size=128`; }} />
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.cardBody}>
+                      <p className={styles.cardLocation}>
+                        <MapPin size={13} /> {uni.location}
+                      </p>
+                      <h3 className={styles.cardName}>{uni.name}</h3>
+                      <p className={styles.cardDesc}>{uni.description || ''}</p>
+                      <div className={styles.cardTags}>
+                        {uni.accreditations ? uni.accreditations.split(',').slice(0, 3).map((f: string, fi: number) => (
+                          <span key={fi} className={styles.cardTag}>{f.trim()}</span>
+                        )) : (
+                          <>
+                            <span className={styles.cardTag}>UGC Approved</span>
+                            <span className={styles.cardTag}>Top Ranked</span>
+                          </>
+                        )}
+                      </div>
+                      
+                      <div className={styles.cardActions}>
+                        <Link href={`/universities/${uni._id || i}`} className={styles.detailsBtn}>
+                          View Details
+                        </Link>
+                        <button 
+                          onClick={() => handleEnquire(uni.name)}
+                          className={styles.enquiryBtn}
+                        >
+                          Enquire <ArrowRight size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {filtered.length > visibleCount && (
+                <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+                  <button 
+                    onClick={() => setVisibleCount(prev => prev + 6)}
+                    style={{ background: '#ef233c', color: 'white', border: 'none', padding: '1.25rem 3rem', borderRadius: '8px', fontWeight: 800, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '2px', transition: 'all 0.3s ease' }}
+                  >
+                    View More Universities
+                  </button>
+                </div>
+              )}
+              </>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '5rem 2rem', background: '#f8fafc', borderRadius: '24px', border: '1px dashed #cbd5e1' }}>
+                <Info size={48} style={{ color: '#94a3b8', marginBottom: '1rem' }} />
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#002060', margin: '0 0 0.5rem' }}>No Universities Found</h3>
+                <p style={{ color: '#64748b', maxWidth: '400px', margin: '0 auto' }}>We couldn't find any universities matching your current filters. Try resetting them or searching for something else.</p>
+                <button onClick={() => { setActiveFilter('All'); setSearchTerm(''); }} style={{ marginTop: '1.5rem', background: '#002060', color: 'white', border: 'none', padding: '0.8rem 2rem', borderRadius: '8px', fontWeight: 700, cursor: 'pointer' }}>Reset All Filters</button>
+              </div>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* ===== CTA ===== */}
+      <section className={styles.ctaBanner}>
+        <div className={styles.ctaInner}>
+          <h2 className={styles.ctaTitle}>Can't find the right university?</h2>
+          <p className={styles.ctaSub}>Our counselors will match you with the perfect institution based on your profile, budget, and career goals.</p>
+          <button 
+            onClick={() => handleEnquire('General University Guidance')}
+            className={styles.ctaBtn}
+            style={{ border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Get Free Counseling <ArrowRight size={18} />
+          </button>
+        </div>
+      </section>
+
+      <EnquiryModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title={`Enquire about ${selectedInterest}`}
+        interest={selectedInterest}
+        source="Universities Page"
+      />
+    </main>
+  );
+}

@@ -1,0 +1,475 @@
+.container {
+  min-height: 100vh;
+  background: var(--bg-light);
+}
+
+/* ===== Clean Highlight Hero - Universities ===== */
+.heroWrapper {
+  position: relative;
+  width: 100%;
+  padding: 0 5%;
+  background: #ffffff;
+  overflow: hidden;
+  height: 90vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-right: 2rem;
+}
+
+.heroBreadcrumb {
+  display: none; /* Hidden to match clean image */
+}
+
+.heroTitle {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: #1f2937;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.heroTitleAccent {
+  color: #ef233c; /* Brand Red */
+  position: relative;
+  display: inline-block;
+}
+
+/* Marker highlight effect */
+.heroTitleAccent::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: -2%;
+  width: 104%;
+  height: 12px;
+  background: rgba(239, 35, 60, 0.15);
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.heroSubtext {
+  font-size: 1.1rem;
+  color: #9ca3af;
+  line-height: 1.8;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+/* Integrated Search Bar Styled to match */
+.heroSearch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: transparent;
+  max-width: 500px;
+}
+
+.searchIconWrapper {
+  display: none; /* Hide icon for cleaner look like image */
+}
+
+.heroSearch input {
+  flex: 1;
+  border: 1px solid #e5e7eb;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-size: 1rem;
+  color: #1a1a1a;
+  outline: none;
+  background: #ffffff;
+}
+
+.heroSearch button {
+  background: #002060; /* Brand Dark Blue */
+  color: #ffffff;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.heroSearch button:hover {
+  background: #ef233c; /* Brand Red on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(239, 35, 60, 0.3);
+}
+
+/* Right Side - Image */
+.heroRight {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.campusImg {
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 4/3;
+  display: block;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 32, 96, 0.15);
+  border: 4px solid #ffffff;
+}
+
+@media (max-width: 1024px) {
+  .heroContent { grid-template-columns: 1fr; text-align: center; gap: 4rem; }
+  .heroLeft { align-items: center; padding-right: 0; }
+  .heroSearch { margin: 0 auto; width: 100%; justify-content: center; }
+  .imageWrapper { justify-content: center; }
+}
+
+/* ===== Filter Bar ===== */
+.filterBar {
+  background: #ffffff;
+  border-bottom: 2px solid #ef233c;
+  padding: 2rem 5%;
+  position: sticky;
+  top: 80px;
+  z-index: 50;
+  box-shadow: 0 10px 40px rgba(239, 35, 60, 0.05);
+}
+
+.filterInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  border-bottom: 2px solid #f1f5f9;
+  padding: 0.6rem 1.25rem;
+  flex: 1;
+  max-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.searchBox:focus-within {
+  border-color: #ef233c;
+}
+
+.searchBox svg {
+  color: #ef233c;
+}
+
+.searchBox input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: 700;
+  outline: none;
+  color: #002060;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filterBtns {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #f1f5f9;
+  background: #ffffff;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterBtn:hover {
+  border-color: #ef233c;
+  color: #ef233c;
+}
+
+.filterBtnActive {
+  background: #ef233c;
+  color: white;
+  border-color: #ef233c;
+  box-shadow: 0 8px 20px rgba(239, 35, 60, 0.2);
+}
+
+/* ===== Grid ===== */
+.gridSection {
+  padding: 5rem 5% 10rem;
+  background: #ffffff;
+}
+
+.gridWrap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+  border-color: #ef233c;
+}
+
+.cardImg {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cardImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .cardImg img {
+  transform: scale(1.1);
+}
+
+.cardRegion {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ef233c;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  z-index: 2;
+}
+
+.cardBody {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardLocation {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #ef233c;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.cardName {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #002060;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.cardDesc {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardTag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  background: #f1f5f9;
+  color: #002060;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cardActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.detailsBtn {
+  flex: 1;
+  background: #ffffff;
+  color: #ef233c;
+  padding: 0.8rem;
+  border: 2px solid #ef233c;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.detailsBtn:hover {
+  background: #ef233c;
+  color: #ffffff;
+}
+
+.enquiryBtn {
+  flex: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: #ef233c;
+  color: #ffffff;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.enquiryBtn:hover {
+  background: rgba(0, 18, 46, 0.05);
+  color: #002060;
+  box-shadow: inset 0 0 0 2px #002060;
+}
+
+/* ===== CTA Banner ===== */
+.ctaBanner {
+  background: #000000;
+  padding: 8rem 5%;
+  position: relative;
+  overflow: hidden;
+}
+
+.ctaInner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.ctaTitle {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 1rem;
+  letter-spacing: -2px;
+  line-height: 1.1;
+}
+
+.ctaSub {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0 auto 3rem;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ef233c;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1.1rem;
+  padding: 1.25rem 3rem;
+  border-radius: 6px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+.ctaBtn:hover {
+  background: #ffffff;
+  color: #000000;
+  transform: translateY(-5px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .gridWrap { grid-template-columns: repeat(2, 1fr); }
+  .filterInner { gap: 1.5rem; }
+}
+
+@media (max-width: 600px) {
+  .gridWrap { grid-template-columns: 1fr; }
+  .filterInner { flex-direction: column; align-items: flex-start; }
+}
